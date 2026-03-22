@@ -32,7 +32,7 @@ const fetchCoordinates = async (locations) => {
 
     // 2. Fetch from Geoapify (Batch if possible, but free tier simpler with loop)
     // Geoapify doesn't support batch well in free tier usually, parallel requests ok.
-    const apiKey = process.env.VITE_GEOAPIFY_KEY || "10e2d3a2a3784cea80f54b3c404adfe4"; // Use env or fallback
+    const apiKey = process.env.GEOAPIFY_KEY || "10e2d3a2a3784cea80f54b3c404adfe4"; // Use env or fallback
 
     await Promise.all(toFetch.map(async (loc) => {
         try {

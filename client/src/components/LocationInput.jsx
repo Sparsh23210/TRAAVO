@@ -83,7 +83,7 @@ const LocationInput = ({ label, type, value, onSelect, error, placeholder }) => 
         if (!query || query.length < 2) return;
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:5000/api/places/search?query=${encodeURIComponent(query)}`);
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/places/search?query=${encodeURIComponent(query)}`);
             const data = await res.json();
             if (data.success) {
                 setResults(data.results);

@@ -42,10 +42,11 @@ const Explore = () => {
     useEffect(() => {
         const fetchFilters = async () => {
             try {
+                const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
                 const [cityRes, catRes, stateRes] = await Promise.all([
-                    fetch('http://localhost:5000/api/explore/cities'),
-                    fetch('http://localhost:5000/api/explore/categories'),
-                    fetch('http://localhost:5000/api/explore/states')
+                    fetch(`${baseURL}/api/explore/cities`),
+                    fetch(`${baseURL}/api/explore/categories`),
+                    fetch(`${baseURL}/api/explore/states`)
                 ]);
 
                 const cityData = await cityRes.json();
@@ -85,7 +86,7 @@ const Explore = () => {
 
         try {
             const token = await currentUser.getIdToken();
-            const response = await fetch('http://localhost:5000/api/explore/search', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/explore/search`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

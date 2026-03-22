@@ -67,7 +67,7 @@ const SubscriptionModal = ({ isOpen, onClose }) => {
             // Note: In development, usually proxied or localhost. Assuming localhost:5000 or relative if proxy setup.
             // But vite config might not proxy api. Let's assume relative /api if proxy exists, or absolute.
             // I'll use logic to use local if not set.
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
             const response = await fetch(`${apiUrl}/api/payment/create-order`, {
                 method: 'POST',
