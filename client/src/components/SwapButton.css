@@ -1,0 +1,26 @@
+.swap-button {
+    background: #f0f2f5;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    transition: all 0.2s;
+    margin: 0 auto;
+    align-self: center;
+    /* Center if in flex column */
+}
+
+.swap-button:hover {
+    background: #e4e6eb;
+    transform: rotate(180deg);
+}
+
+.swap-button:active {
+    background: #d8dadf;
+}
