@@ -10,6 +10,9 @@ const { getCityCoords } = require('./utils/cityCoords');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Health check route for Render
+app.get('/health', (req, res) => res.status(200).send('Server is healthy'));
+
 const allowedOrigins = [
     'https://traavo.vercel.app', 
     'http://localhost:5173', 
