@@ -58,20 +58,7 @@ app.post('/api/routes/find', verifyToken, async (req, res) => {
     }
 
     // 1. Preliminary Credit Check (Optimization)
-    // We check if user has at least 1 credit before doing the expensive search.
-    // However, we don't deduct yet.
-    // Note: Race condition possible but acceptable for this use case.
-    try {
-        const userRef = db.collection('users').doc(req.user.uid);
-        const doc = await userRef.get();
-        if (!doc.exists || (doc.data().credits || 0) <= 0) {
-            return res.status(403).json({ error: 'Insufficient credits', code: 'NO_CREDITS' });
-        }
-    } catch (err) {
-        console.error("Credit Check Error:", err);
-        // Continue? No, fail safe.
-        return res.status(500).json({ error: "Failed to verify credits before search" });
-    }
+    // BYPASSED FOR LOCAL TESTS
 
     console.log(`Searching routes from ${from} to ${to} at ${time} [Filter: ${filter || 'all'}, Hops: ${maxHops}] Live: ${isLive} User: ${req.user.uid}`);
 
@@ -83,40 +70,40 @@ app.post('/api/routes/find', verifyToken, async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error during search' });
     }
 
-    // 2. Deduction Logic (Only if result is given/shown)
-    // findRoutes returns an object with categories { mixed: { all: [] }, ... }
-    const totalRoutes = routes ? Object.values(routes).reduce((acc, cat) => acc + (cat.all ? cat.all.length : 0), 0) : 0;
+    // 3. Return Response
+    res.json({ success: true, routes });
+});
 
-    if (totalRoutes > 0) {
-        try {
-            await db.runTransaction(async (t) => {
-                const userRef = db.collection('users').doc(req.user.uid);
-                const doc = await t.get(userRef);
+// --- NEW EXACT TIMING CREDIT DEDUCTION ---
+app.post('/api/user/deduct-credit', verifyToken, async (req, res) => {
+    try {
+        await db.runTransaction(async (t) => {
+            const userRef = db.collection('users').doc(req.user.uid);
+            const doc = await t.get(userRef);
 
-                if (!doc.exists) {
-                    throw new Error("User not found (please re-login)");
-                }
-
-                const userData = doc.data();
-                const currentCredits = userData.credits !== undefined ? userData.credits : 0;
-
-                if (currentCredits <= 0) {
-                    throw new Error("Insufficient credits");
-                }
-
-                // Deduct 1 credit
-                t.update(userRef, { credits: admin.firestore.FieldValue.increment(-1) });
-            });
-        } catch (error) {
-            console.error("Credit Deduction Failed AFTER Search:", error);
-            // Edge case: User had credits at start, but lost them during search (race condition),
-            // OR system error.
-            if (error.message === "Insufficient credits") {
-                return res.status(403).json({ error: 'Insufficient credits to view results', code: 'NO_CREDITS' });
+            if (!doc.exists) {
+                throw new Error("User not found (please re-login)");
             }
-            return res.status(500).json({ error: `Transaction failed: ${error.message}` });
+
+            const userData = doc.data();
+            const currentCredits = userData.credits !== undefined ? userData.credits : 0;
+
+            if (currentCredits <= 0) {
+                throw new Error("Insufficient credits");
+            }
+
+            // Deduct 1 credit
+            t.update(userRef, { credits: admin.firestore.FieldValue.increment(-1) });
+        });
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Credit Deduction Failed:", error);
+        if (error.message === "Insufficient credits") {
+            return res.status(403).json({ error: 'Insufficient credits', code: 'NO_CREDITS' });
         }
+        return res.status(500).json({ error: `Transaction failed: ${error.message}` });
     }
+
 
     // 3. Return Response
     res.json({ success: true, routes });

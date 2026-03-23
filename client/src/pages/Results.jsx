@@ -10,9 +10,10 @@ import { useAuth } from '../context/AuthContext';
 const Results = () => {
     const location = useLocation();
     // Expecting fromData/toData { lat, lon, name }
-    const { from, to, day, time, maxHops: initialMaxHops, mode: initialMode, fromData, toData } = location.state || {};
+    const { from, to, day, time, maxHops: initialMaxHops, mode: initialMode, fromData, toData, costCredit } = location.state || {};
     const { currentUser } = useAuth();
     const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
+    const hasSentCreditReq = React.useRef(false);
 
     const handleUpgrade = () => {
         setIsSubscriptionOpen(true);
@@ -33,37 +34,9 @@ const Results = () => {
     const [maxHops, setMaxHops] = useState(initialMaxHops || 1);
     const [filterDay, setFilterDay] = useState(day || 'ALL');
     const [filterTime, setFilterTime] = useState(time || 'All Time');
-    const [filterMode, setFilterMode] = useState(initialMode || 'All');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [visibleCount, setVisibleCount] = useState(10);
-
-    // Sync Tabs with Mode Filter
-    useEffect(() => {
-        const modeMap = {
-            'All': 'mixed',
-            'Only Bus': 'only_bus',
-            'Only Train': 'only_train',
-            'Bus + Train': 'bus_train',
-            'Train + Bus': 'train_bus'
-        };
-        if (modeMap[filterMode] && activeTab !== modeMap[filterMode]) {
-            setActiveTab(modeMap[filterMode]);
-        }
-    }, [filterMode]);
-    
-    useEffect(() => {
-        const tabMap = {
-            'mixed': 'All',
-            'only_bus': 'Only Bus',
-            'only_train': 'Only Train',
-            'bus_train': 'Bus + Train',
-            'train_bus': 'Train + Bus'
-        };
-        if (tabMap[activeTab] && filterMode !== tabMap[activeTab]) {
-            setFilterMode(tabMap[activeTab]);
-        }
-    }, [activeTab]);
+    const [visibleCount, setVisibleCount] = useState(6);
 
     // Map Modal State
     const [isMapOpen, setIsMapOpen] = useState(false);
@@ -72,20 +45,31 @@ const Results = () => {
     // --- FETCH DATA ---
     useEffect(() => {
         if (!from || !to) return;
+        
+        const cacheKey = `routes_v2_${from}_${to}_${filterDay}_${filterTime}_${maxHops}`;
 
         const fetchRoutes = async () => {
             try {
                 setLoading(true);
                 setError(null);
+                
+                const cached = sessionStorage.getItem(cacheKey);
+                if (cached) {
+                    setRawCategories(JSON.parse(cached));
+                    setLoading(false);
+                    return;
+                }
 
                 // We request maxHops based on user selection to save data, and pass mode/day/time
+                const isInitialSearch = Boolean(costCredit) && !hasSentCreditReq.current;
                 const requestBody = {
                     from: from,
                     to: to,
                     time: filterTime,
                     day: filterDay,
-                    mode: filterMode,
-                    hops: maxHops
+                    mode: 'All',
+                    hops: maxHops,
+                    deductCredit: isInitialSearch
                 };
 
                 const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/routes/find`, {
@@ -102,7 +86,27 @@ const Results = () => {
                     throw new Error(errData.error || 'Failed to fetch routes.');
                 }
                 const data = await response.json();
+                try {
+                    // Chrome caps sessionStorage at 5MB. 5000+ deep JSON multi-hop nested routes can easily exceed this.
+                    sessionStorage.clear(); // Ensure we clear out old keys to make room for this new massive state.
+                    sessionStorage.setItem(cacheKey, JSON.stringify(data.routes));
+                } catch (storageErr) {
+                    console.warn("Payload size exceeded DOM quota. Skipping local cache for this heavy search matrix.", storageErr);
+                }
+                // ALWAYS bind the data to React State, regardless of caching success
                 setRawCategories(data.routes);
+                const returnedRoutesCount = data.routes ? Object.values(data.routes).reduce((acc, cat) => acc + (cat.all ? cat.all.length : 0), 0) : 0;
+                if (isInitialSearch && returnedRoutesCount > 0) {
+                    hasSentCreditReq.current = true;
+                    // Fetch to deduct credit now that results are received and ready to display
+                    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/user/deduct-credit`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...(currentUser && { 'Authorization': `Bearer ${await currentUser.getIdToken()}` })
+                        }
+                    }).catch(err => console.error("Failed to deduct credit:", err));
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -111,7 +115,7 @@ const Results = () => {
         };
 
         fetchRoutes();
-    }, [from, to, filterTime, filterDay, maxHops, filterMode]);
+    }, [from, to, filterTime, filterDay, maxHops, currentUser]);
 
     // --- FILTER & PROCESS ---
     const processedData = useMemo(() => {
@@ -124,18 +128,6 @@ const Results = () => {
         // Let backend handle max hops, but ensure filter locally just in case
         let filtered = filterRoutesByHops(targetList, maxHops);
 
-        // 2. Strict Mode Filtering applied locally (if backend doesn't fully prune)
-        if (filterMode && filterMode !== 'All') {
-            filtered = filtered.filter(route => {
-                const type = route.type; // e.g., 'Bus', 'Train', 'Bus + Train'
-                if (filterMode === 'Only Bus') return type === 'Bus' || type === 'Bus + Transfer' || type === 'Transfer + Bus' || type.indexOf('Train') === -1;
-                if (filterMode === 'Only Train') return type === 'Train' || type === 'Train + Transfer' || type === 'Transfer + Train' || type.indexOf('Bus') === -1;
-                if (filterMode === 'Train + Bus') return route.steps.some((s, idx) => s.mode === 'Train' && route.steps.slice(idx+1).some(n => n.mode === 'Bus'));
-                if (filterMode === 'Bus + Train') return route.steps.some((s, idx) => s.mode === 'Bus' && route.steps.slice(idx+1).some(n => n.mode === 'Train'));
-                return true;
-            });
-        }
-
         // 3. Grouping
         let grouped = groupRoutes(filtered);
 
@@ -144,7 +136,7 @@ const Results = () => {
 
         // 5. Final Visual Grouping (Via City)
         return groupRoutesByVia(sorted);
-    }, [rawCategories, activeTab, maxHops, filterMode]);
+    }, [rawCategories, activeTab, maxHops]);
 
     // --- HANDLERS ---
     const handleLoadMore = () => setVisibleCount(prev => prev + 10);
@@ -215,7 +207,7 @@ const Results = () => {
                             {from} <span style={{ color: '#94a3b8' }}>→</span> {to}
                         </div>
                         <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '500' }}>
-                            {time} • {maxHops} Hop{maxHops > 1 && 's'} Strict
+                            {time} • Max {maxHops} Hop{maxHops > 1 && 's'}
                         </div>
                     </div>
                     <div style={{ width: '24px' }}></div> {/* Spacer */}
@@ -224,7 +216,7 @@ const Results = () => {
 
                 {/* Main Navbar Top Filter */}
                 <div style={{ padding: '0.5rem 1rem', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
                         <select value={filterDay} onChange={e => setFilterDay(e.target.value)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.8rem' }}>
                             <option value="ALL">All Days</option>
                             <option value="MON">Mon</option>
@@ -250,14 +242,6 @@ const Results = () => {
                             <option value={1}>1 Hop</option>
                             <option value={2}>2 Hops</option>
                             <option value={3}>3 Hops</option>
-                            <option value={4}>4 Hops</option>
-                        </select>
-                        <select value={filterMode} onChange={e => setFilterMode(e.target.value)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.8rem' }}>
-                            <option value="All">All Modes</option>
-                            <option value="Only Bus">Only Bus</option>
-                            <option value="Only Train">Only Train</option>
-                            <option value="Bus + Train">Bus + Train</option>
-                            <option value="Train + Bus">Train + Bus</option>
                         </select>
                     </div>
                 </div>
@@ -367,7 +351,13 @@ const ErrorState = ({ error }) => (
     <div style={{ background: '#fef2f2', padding: '2rem', borderRadius: '16px', textAlign: 'center', margin: '2rem 0' }}>
         <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚠️</div>
         <h3 style={{ color: '#991b1b', margin: 0 }}>Connection Error</h3>
-        <p style={{ color: '#ef4444' }}>{error}</p>
+        <p style={{ color: '#ef4444', marginBottom: '1.5rem' }}>{error}</p>
+        <button 
+            onClick={() => window.location.reload()}
+            style={{ padding: '0.75rem 1.5rem', background: '#dc2626', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', display: 'inline-block' }}
+        >
+            Try Again
+        </button>
     </div>
 );
 

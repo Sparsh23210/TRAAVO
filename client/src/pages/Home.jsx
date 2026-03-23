@@ -28,7 +28,6 @@ const Home = () => {
     const [day, setDay] = useState(location.state?.day || 'ALL');
     const [time, setTime] = useState(location.state?.time || 'All Time');
     const [maxHops, setMaxHops] = useState(location.state?.maxHops || 1);
-    const [mode, setMode] = useState(location.state?.mode || 'All');
 
     const [error, setError] = useState('');
     const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -96,9 +95,10 @@ const Home = () => {
                     day,
                     time,
                     maxHops,
-                    mode,
+                    mode: 'All',
                     fromData, // Pass coordinates
-                    toData    // Pass coordinates
+                    toData,    // Pass coordinates
+                    costCredit: true // Deduct on first valid search
                 }
             });
         }
@@ -118,9 +118,10 @@ const Home = () => {
                     day,
                     time,
                     maxHops,
-                    mode,
+                    mode: 'All',
                     fromData,
-                    toData
+                    toData,
+                    costCredit: true
                 }
             });
         }
@@ -176,7 +177,7 @@ const Home = () => {
                             />
                         </div>
 
-                        <div className="filter-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                        <div className="filter-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
                             <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label>Day</label>
                                 <select value={day} onChange={e => setDay(e.target.value)}>
@@ -210,17 +211,6 @@ const Home = () => {
                                     <option value={1}>1</option>
                                     <option value={2}>2</option>
                                     <option value={3}>3</option>
-                                    <option value={4}>4</option>
-                                </select>
-                            </div>
-                            <div className="form-group" style={{ marginBottom: 0 }}>
-                                <label>Mode</label>
-                                <select value={mode} onChange={e => setMode(e.target.value)}>
-                                    <option value="All">All Modes</option>
-                                    <option value="Only Bus">Only Bus</option>
-                                    <option value="Only Train">Only Train</option>
-                                    <option value="Bus + Train">Bus + Train</option>
-                                    <option value="Train + Bus">Train + Bus</option>
                                 </select>
                             </div>
                         </div>

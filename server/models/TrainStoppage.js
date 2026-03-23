@@ -21,6 +21,10 @@ const TrainStoppageSchema = new mongoose.Schema({
         uppercase: true,
         trim: true
     },
+    station_name_normalized: {
+        type: String,
+        default: ''
+    },
     station_code: {
         type: String,
         required: true,

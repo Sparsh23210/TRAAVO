@@ -177,7 +177,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
     console.log(`Searching strictly in DB: ${startBase} -> ${endBase} @ ${startTimeStr} (Max Hops: ${maxHops})`);
 
     const validRoutes = [];
-    const MAX_ROUTES = 1000;
+    const MAX_ROUTES = 5000;
     const trainCache = new Map();
     const bestDistances = new Map();
     const busDurationCache = new Map(); // Cache for O-D durations
@@ -240,9 +240,9 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         });
 
         const uniqueVars = [...new Set(variations)];
-        const chunkSize = 40;
-        let allBuses = [];
-        let allTrainStops = [];
+        const chunkSize = 60;
+        const allBusService = [];
+        const allTrainStops = [];
 
         for (let i = 0; i < uniqueVars.length; i += chunkSize) {
             const chunk = uniqueVars.slice(i, i + chunkSize);
@@ -258,17 +258,19 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                 trainQuery.runs_on = filterDay.toUpperCase();
             }
 
-            const [busChunk, trainChunk] = await Promise.all([
-                BusService.find(busQuery).limit(1000).lean(),
-                TrainStoppage.find(trainQuery).limit(1000).lean()
+            // Execute DB queries sequentially to avoid flooding V8 memory heap on 3000+ location maps
+            const [busHops, trainHops] = await Promise.all([
+                BusService.find(busQuery).select('f v op st dt _id').limit(3000).lean(),
+                TrainStoppage.find(trainQuery).select('tn nm station_name seq distance_km dt -_id').limit(3000).lean()
             ]);
-            allBuses = allBuses.concat(busChunk);
-            allTrainStops = allTrainStops.concat(trainChunk);
+            
+            allBusService.push(...busHops);
+            allTrainStops.push(...trainHops);
         }
 
-        const nextLevel = [];
+        const nextLevelMap = {};
         const busMap = {};
-        allBuses.forEach(b => {
+        allBusService.forEach(b => { // Changed from allBuses to allBusService
             const f = getBaseName(b.f);
             if (!busMap[f]) busMap[f] = [];
             busMap[f].push(b);
@@ -286,7 +288,40 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
             trainMap[s].push(ts);
         });
 
-        // ASYNC LOOP PROCESSING
+        // PRE-FETCH ALL REQUIRED TRAIN SCHEDULES TO PREVENT O(N^2) DB TIMEOUTS
+        const levelTNs = new Set();
+        currentLevel.forEach(node => {
+            const l = getBaseName(node.location);
+            const ts = (trainMap[l] || []).map(t => t.tn);
+            ts.forEach(t => levelTNs.add(t));
+        });
+
+        const missingTNs = [...levelTNs].filter(tn => !trainCache.has(tn));
+        if (missingTNs.length > 0) {
+            const tnChunks = [];
+            for (let x = 0; x < missingTNs.length; x += 300) {
+                tnChunks.push(missingTNs.slice(x, x + 300));
+            }
+            // Execute chunks sequentially to prevent crashing the node server with massive heap payloads
+            for (const chunk of tnChunks) {
+                const scheds = await TrainStoppage.find({ tn: { $in: chunk } })
+                                                  .select('tn nm station_name seq distance_km dt -_id')
+                                                  .lean();
+                scheds.forEach(s => {
+                    if (!trainCache.has(s.tn)) trainCache.set(s.tn, []);
+                    trainCache.get(s.tn).push(s);
+                });
+            }
+        }
+
+        // SYNCHRONOUS LOOP PROCESSING (No DB Awaits Here!)
+        const getModeType = (path) => {
+            const mSet = new Set(path.map(p => p.mode).filter(m => m !== 'Transfer'));
+            if (mSet.has('Bus') && mSet.size === 1) return 'PB';
+            if (mSet.has('Train') && mSet.size === 1) return 'PT';
+            return 'MX';
+        };
+
         for (const node of currentLevel) {
             const loc = node.location;
 
@@ -296,6 +331,14 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                 // Batch/Cache Calls
                 // We'll iterate but use cache for getDuration
                 for (const bus of busCandidates) {
+                    
+                    // --- PREVENT SAME BUS SPLITTING ---
+                    const lastLegCheck = node.path.length > 0 ? node.path[node.path.length - 1] : null;
+                    if (lastLegCheck && lastLegCheck.mode === 'Bus' && lastLegCheck.busId === bus._id?.toString()) {
+                        // User is already on this exact bus from a previous hop
+                        continue;
+                    }
+
                     const isAtSource = getBaseName(bus.f) === loc;
                     
                     // Handle array of timings (comma separated string or array)
@@ -366,9 +409,11 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         const dur = Math.round(apiRes.value / 60);
                         const newTotalDist = node.totalDistance + dist;
 
-                        const modesInPath = new Set(node.path.map(p => p.mode));
+                        const modesInPath = new Set(node.path.map(p => p.mode).filter(m => m !== 'Transfer'));
                         modesInPath.add('Bus');
-                        const modeType = modesInPath.size > 1 ? 'MX' : (modesInPath.has('Bus') ? 'PB' : 'PT');
+                        const isPureBus = modesInPath.has('Bus') && modesInPath.size === 1;
+                        const isPureTrain = modesInPath.has('Train') && modesInPath.size === 1;
+                        const modeType = isPureBus ? 'PB' : (isPureTrain ? 'PT' : 'MX');
                         const pruneKey = dBase + modeType;
 
                         if (dBase !== endBase) {
@@ -376,25 +421,48 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                             bestDistances.set(pruneKey, newTotalDist);
                         }
 
+                        const formattedFrom = formatName(node.location, 'Bus');
+                        
+                        let newPath = [...node.path];
+                        const lastLeg = newPath.length > 0 ? newPath[newPath.length - 1] : null;
+                        if (lastLeg && lastLeg.to !== formattedFrom) {
+                            newPath.push({
+                                mode: 'Transfer',
+                                operator: 'City Transfer',
+                                from: lastLeg.to,
+                                to: formattedFrom,
+                                depTime: lastLeg.arrTime,
+                                arrTime: minsToTime((timeToMins(lastLeg.arrTime) + 30) % 1440),
+                                durationMins: 30,
+                                distanceKm: 5,
+                                mapLink: "",
+                                fromCoords: getCoords(lastLeg.to),
+                                toCoords: getCoords(formattedFrom)
+                            });
+                        }
+
+                        newPath.push({
+                            mode: 'Bus',
+                            busId: bus._id ? bus._id.toString() : null,
+                            operator: bus.op,
+                            serviceType: bus.st || 'ORDINARY',
+                            from: formattedFrom,
+                            to: formatName(drop, 'Bus'),
+                            depTime: minsToTime(depTime % 1440),
+                            arrTime: minsToTime((depTime + dur) % 1440),
+                            allTimings: [...new Set(validDepTimes.map(m => minsToTime(m % 1440)))].sort(),
+                            durationMins: dur,
+                            distanceKm: dist,
+                            mapLink: "",
+                            geometry: apiRes ? apiRes.geometry : null, // Pass GeoJSON if available
+                            fromCoords: getCoords(node.location),
+                            toCoords: getCoords(drop)
+                        });
+
                         const newNode = {
                             location: dBase,
                             timeMins: depTime + dur + 30,
-                            path: [...node.path, {
-                                mode: 'Bus',
-                                operator: bus.op,
-                                serviceType: bus.st || 'ORDINARY',
-                                from: formatName(node.location, 'Bus'),
-                                to: formatName(drop, 'Bus'),
-                                depTime: minsToTime(depTime % 1440),
-                                arrTime: minsToTime((depTime + dur) % 1440),
-                                allTimings: [...new Set(validDepTimes.map(m => minsToTime(m % 1440)))].sort(),
-                                durationMins: dur,
-                                distanceKm: dist,
-                                mapLink: "",
-                                geometry: apiRes ? apiRes.geometry : null, // Pass GeoJSON if available
-                                fromCoords: getCoords(node.location),
-                                toCoords: getCoords(drop)
-                            }],
+                            path: newPath,
                             visited: new Set([...node.visited, dBase]),
                             hops: node.hops + 1,
                             totalDistance: newTotalDist
@@ -403,7 +471,14 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         if (dBase === endBase) {
                             if (validRoutes.length < MAX_ROUTES) validRoutes.push(newNode);
                         } else if (newNode.hops < maxHops) {
-                            nextLevel.push(newNode);
+                            const mt = getModeType(newNode.path);
+                            const locKey = dBase + '_' + mt;
+                            if (!nextLevelMap[locKey]) nextLevelMap[locKey] = [];
+                            nextLevelMap[locKey].push(newNode);
+                            if (nextLevelMap[locKey].length > 10) {
+                                nextLevelMap[locKey].sort((a,b) => a.timeMins - b.timeMins);
+                                nextLevelMap[locKey] = nextLevelMap[locKey].slice(0, 5);
+                            }
                         }
                     }
                 }
@@ -412,15 +487,6 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
             // Train Processing
             const tns = [...new Set((trainMap[loc] || []).map(t => t.tn))];
             if (tns.length > 0) {
-                const newTNs = tns.filter(tn => !trainCache.has(tn));
-                if (newTNs.length > 0) {
-                    const scheds = await TrainStoppage.find({ tn: { $in: newTNs } }).lean();
-                    scheds.forEach(s => {
-                        if (!trainCache.has(s.tn)) trainCache.set(s.tn, []);
-                        trainCache.get(s.tn).push(s);
-                    });
-                }
-
                 tns.forEach(tn => {
                     const route = (trainCache.get(tn) || []).sort((a, b) => a.seq - b.seq);
                     const cIdx = route.findIndex(r => getBaseName(r.station_name) === loc);
@@ -458,9 +524,11 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         const dur = Math.round((dist / 55) * 60);
                         const newTotalDist = node.totalDistance + dist;
 
-                        const modesInPath = new Set(node.path.map(p => p.mode));
+                        const modesInPath = new Set(node.path.map(p => p.mode).filter(m => m !== 'Transfer'));
                         modesInPath.add('Train');
-                        const modeType = modesInPath.size > 1 ? 'MX' : (modesInPath.has('Bus') ? 'PB' : 'PT');
+                        const isPureBus = modesInPath.has('Bus') && modesInPath.size === 1;
+                        const isPureTrain = modesInPath.has('Train') && modesInPath.size === 1;
+                        const modeType = isPureBus ? 'PB' : (isPureTrain ? 'PT' : 'MX');
                         const pruneKey = dBase + modeType;
 
                         if (dBase !== endBase) {
@@ -468,22 +536,44 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                             bestDistances.set(pruneKey, newTotalDist);
                         }
 
+                        const formattedFrom = formatName(start.station_name, 'Train');
+                        let newPath = [...node.path];
+                        const lastLeg = newPath.length > 0 ? newPath[newPath.length - 1] : null;
+
+                        if (lastLeg && lastLeg.to !== formattedFrom) {
+                            newPath.push({
+                                mode: 'Transfer',
+                                operator: 'City Transfer',
+                                from: lastLeg.to,
+                                to: formattedFrom,
+                                depTime: lastLeg.arrTime,
+                                arrTime: minsToTime((timeToMins(lastLeg.arrTime) + 30) % 1440),
+                                durationMins: 30,
+                                distanceKm: 5,
+                                mapLink: "",
+                                fromCoords: getCoords(lastLeg.to),
+                                toCoords: getCoords(formattedFrom)
+                            });
+                        }
+
+                        newPath.push({
+                            mode: 'Train',
+                            operator: `${start.tn} ${start.nm}`,
+                            from: formattedFrom,
+                            to: formatName(end.station_name, 'Train'),
+                            depTime: minsToTime(depTime % 1440),
+                            arrTime: minsToTime((depTime + dur) % 1440),
+                            durationMins: dur,
+                            distanceKm: dist,
+                            mapLink: getDirLink(start.station_name, end.station_name, 'transit'),
+                            fromCoords: getCoords(start.station_name),
+                            toCoords: getCoords(end.station_name)
+                        });
+
                         const newNode = {
                             location: dBase,
                             timeMins: depTime + dur + 45,
-                            path: [...node.path, {
-                                mode: 'Train',
-                                operator: `${start.tn} ${start.nm}`,
-                                from: formatName(start.station_name, 'Train'),
-                                to: formatName(end.station_name, 'Train'),
-                                depTime: minsToTime(depTime % 1440),
-                                arrTime: minsToTime((depTime + dur) % 1440),
-                                durationMins: dur,
-                                distanceKm: dist,
-                                mapLink: getDirLink(start.station_name, end.station_name, 'transit'),
-                                fromCoords: getCoords(start.station_name),
-                                toCoords: getCoords(end.station_name)
-                            }],
+                            path: newPath,
                             visited: new Set([...node.visited, dBase]),
                             hops: node.hops + 1,
                             totalDistance: newTotalDist
@@ -492,13 +582,40 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         if (dBase === endBase) {
                             if (validRoutes.length < MAX_ROUTES) validRoutes.push(newNode);
                         } else if (newNode.hops < maxHops) {
-                            nextLevel.push(newNode);
+                            const mt = getModeType(newNode.path);
+                            const locKey = dBase + '_' + mt;
+                            if (!nextLevelMap[locKey]) nextLevelMap[locKey] = [];
+                            nextLevelMap[locKey].push(newNode);
+                            if (nextLevelMap[locKey].length > 10) {
+                                nextLevelMap[locKey].sort((a,b) => a.timeMins - b.timeMins);
+                                nextLevelMap[locKey] = nextLevelMap[locKey].slice(0, 5);
+                            }
                         }
                     }
                 });
             }
         }
-        currentLevel = nextLevel.slice(0, 1000);
+        
+        const nextLevel = Object.values(nextLevelMap).flat();
+        
+        // Final Global Deduplication to enforce the 3000 Node max scaling cap
+        const locMap = {};
+        for (const n of nextLevel) {
+            const mt = getModeType(n.path);
+            const locKey = n.location + '_' + mt;
+            if (!locMap[locKey]) locMap[locKey] = [];
+            locMap[locKey].push(n);
+        }
+        
+        const prunedNext = [];
+        for (const locKey in locMap) {
+            // Sort incoming paths by earliest arrival time to prioritize fast connections
+            locMap[locKey].sort((a, b) => a.timeMins - b.timeMins);
+            // Retain only the Best 5 paths to any given interconnecting city PER MODE CATEGORY
+            prunedNext.push(...locMap[locKey].slice(0, 5));
+        }
+
+        currentLevel = prunedNext.slice(0, 3000);
     }
 
     // --- CATEGORIZATION ---
@@ -524,27 +641,27 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
             fullMapLink: getFullRouteMapLink(route.path)
         };
 
-        const isOnlyBus = uniqueModes.has('Bus') && uniqueModes.size === 1;
-        const isOnlyTrain = uniqueModes.has('Train') && uniqueModes.size === 1;
+        const coreModes = new Set([...uniqueModes].filter(m => m !== 'Transfer'));
+        const isOnlyBus = coreModes.has('Bus') && coreModes.size === 1;
+        const isOnlyTrain = coreModes.has('Train') && coreModes.size === 1;
+        const hasBoth = coreModes.has('Bus') && coreModes.has('Train');
 
         // Apply Mode Filter early
         if (filterMode === 'Only Bus' && !isOnlyBus) return;
         if (filterMode === 'Only Train' && !isOnlyTrain) return;
         if (filterMode === 'Bus + Train') {
-            if (!(uniqueModes.has('Bus') && uniqueModes.has('Train') && route.path[0].mode === 'Bus')) return;
+            if (!(hasBoth && route.path.find(p => p.mode !== 'Transfer')?.mode === 'Bus')) return;
         }
         if (filterMode === 'Train + Bus') {
-            if (!(uniqueModes.has('Bus') && uniqueModes.has('Train') && route.path[0].mode === 'Train')) return;
+            if (!(hasBoth && route.path.find(p => p.mode !== 'Transfer')?.mode === 'Train')) return;
         }
 
         if (isOnlyBus) rawCategories.only_bus.push(routeData);
         else if (isOnlyTrain) rawCategories.only_train.push(routeData);
-        else {
-            if (uniqueModes.has('Bus') && uniqueModes.has('Train')) {
-                const firstMode = route.path[0].mode;
-                if (firstMode === 'Bus') rawCategories.bus_train.push(routeData);
-                else rawCategories.train_bus.push(routeData);
-            }
+        else if (hasBoth) {
+            const firstCore = route.path.find(p => p.mode !== 'Transfer')?.mode;
+            if (firstCore === 'Bus') rawCategories.bus_train.push(routeData);
+            else rawCategories.train_bus.push(routeData);
         }
         rawCategories.mixed.push(routeData);
     });

@@ -6,12 +6,10 @@
  */
 export const filterRoutesByHops = (routes, hops) => {
     if (!routes || !Array.isArray(routes)) return [];
+    const numHops = Number(hops);
     return routes.filter(route => {
-        // Strict equality check. No fallback.
-        // Assuming route.hops is the property. If it's calculated from steps, use steps.length.
-        // Usually steps.length = hops (if hops means segments) or steps.length = hops + 1 (if hops means transfers)
-        // Based on previous code: route.hops seems to be provided by backend.
-        return route.hops === hops;
+        // Show all routes up to the selected max hops.
+        return route.hops <= numHops && route.hops > 0;
     });
 };
 

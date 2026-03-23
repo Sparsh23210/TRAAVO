@@ -25,10 +25,18 @@ const BusServiceSchema = new mongoose.Schema({
         uppercase: true,
         trim: true
     },
+    f_normalized: {
+        type: String,
+        default: ''
+    },
     v: {
         type: [String], // Via (Intermediate stops)
         default: [],
         set: v => v.map(s => s.toUpperCase().trim())
+    },
+    v_normalized: {
+        type: [String],
+        default: []
     },
     t: {
         type: String, // To (Destination)
@@ -36,8 +44,12 @@ const BusServiceSchema = new mongoose.Schema({
         uppercase: true,
         trim: true
     },
+    t_normalized: {
+        type: String,
+        default: ''
+    },
     dt: {
-        type: String, // Departure Time (HH:mm)
+        type: mongoose.Schema.Types.Mixed, // Departure Time (HH:mm) String or Array
         required: true
     },
     src: {
