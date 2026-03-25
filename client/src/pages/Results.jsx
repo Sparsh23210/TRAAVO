@@ -238,10 +238,17 @@ const Results = () => {
                                 ];
                             })}
                         </select>
-                        <select value={maxHops} onChange={e => setMaxHops(Number(e.target.value))} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.8rem' }}>
+                        <select value={maxHops} onChange={e => {
+                            const val = Number(e.target.value);
+                            if (val === 3 && currentUser?.plan !== 'premium' && currentUser?.plan !== 'pro_premium' && currentUser?.plan !== 'ultra_premium') {
+                                setIsSubscriptionOpen(true);
+                            } else {
+                                setMaxHops(val);
+                            }
+                        }} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.8rem' }}>
                             <option value={1}>1 Hop</option>
                             <option value={2}>2 Hops</option>
-                            <option value={3}>3 Hops</option>
+                            <option value={3} style={{ color: '#b8860b', textShadow: '0px 0px 5px rgba(218, 165, 32, 0.8)', fontWeight: 'bold' }}>3 Hops ⭐ Premium</option>
                         </select>
                     </div>
                 </div>

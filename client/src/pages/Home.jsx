@@ -207,10 +207,17 @@ const Home = () => {
                             </div>
                             <div className="form-group" style={{ marginBottom: 0 }}>
                                 <label>Max Hops</label>
-                                <select value={maxHops} onChange={e => setMaxHops(Number(e.target.value))}>
-                                    <option value={1}>1</option>
-                                    <option value={2}>2</option>
-                                    <option value={3}>3</option>
+                                <select value={maxHops} onChange={e => {
+                                    const val = Number(e.target.value);
+                                    if (val === 3 && currentUser?.plan !== 'premium' && currentUser?.plan !== 'pro_premium' && currentUser?.plan !== 'ultra_premium') {
+                                        setIsSubscriptionOpen(true);
+                                    } else {
+                                        setMaxHops(val);
+                                    }
+                                }}>
+                                    <option value={1}>1 Hop</option>
+                                    <option value={2}>2 Hops</option>
+                                    <option value={3} style={{ color: '#b8860b', textShadow: '0px 0px 5px rgba(218, 165, 32, 0.8)', fontWeight: 'bold' }}>3 Hops ⭐ Premium</option>
                                 </select>
                             </div>
                         </div>

@@ -28,12 +28,20 @@ export const DesktopNavbar = ({
                 {currentUser && (
                     <div className="navbar-right" ref={dropdownRef}>
                         {currentUser.credits !== undefined && currentUser.credits !== null && (
-                            <div 
-                                className={`credit-pill ${currentUser.credits <= 0 ? 'red' : currentUser.credits <= 3 ? 'yellow' : ''}`}
-                                onClick={() => setIsSubscriptionOpen(true)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <span>🪙</span> Credits: {currentUser.credits}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                                <div 
+                                    className={`credit-pill ${currentUser.credits <= 0 ? 'red' : currentUser.credits <= 3 ? 'yellow' : ''}`}
+                                    onClick={() => setIsSubscriptionOpen(true)}
+                                    style={{ cursor: 'pointer', marginRight: 0 }}
+                                >
+                                    <span>🪙</span> Credits: {currentUser.credits}
+                                </div>
+                                <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#64748b' }}>
+                                    {currentUser.plan === 'ultra_premium' ? 'Ultra Premium' 
+                                     : currentUser.plan === 'pro_premium' ? 'Pro Premium' 
+                                     : currentUser.plan === 'premium' ? 'Premium' 
+                                     : 'Free Trial'}
+                                </div>
                             </div>
                         )}
                         <div className="profile-trigger" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
@@ -75,12 +83,20 @@ export const MobileTopNavbar = ({
                 {currentUser && (
                     <div className="navbar-right mobile-navbar-right" ref={dropdownRef}>
                         {currentUser.credits !== undefined && currentUser.credits !== null && (
-                            <div 
-                                className={`credit-pill ${currentUser.credits <= 0 ? 'red' : currentUser.credits <= 3 ? 'yellow' : ''}`}
-                                onClick={() => setIsSubscriptionOpen(true)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <span>🪙</span> {currentUser.credits}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                                <div 
+                                    className={`credit-pill ${currentUser.credits <= 0 ? 'red' : currentUser.credits <= 3 ? 'yellow' : ''}`}
+                                    onClick={() => setIsSubscriptionOpen(true)}
+                                    style={{ cursor: 'pointer', marginRight: 0 }}
+                                >
+                                    <span>🪙</span> {currentUser.credits}
+                                </div>
+                                <div style={{ fontSize: '0.7rem', fontWeight: 'bold', color: '#64748b' }}>
+                                    {currentUser.plan === 'ultra_premium' ? 'Ultra Premium' 
+                                     : currentUser.plan === 'pro_premium' ? 'Pro Premium' 
+                                     : currentUser.plan === 'premium' ? 'Premium' 
+                                     : 'Free Trial'}
+                                </div>
                             </div>
                         )}
                         <div className="profile-trigger" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>

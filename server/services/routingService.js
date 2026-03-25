@@ -234,34 +234,30 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         if (currentLevel.length === 0 || validRoutes.length >= MAX_ROUTES) break;
 
         const locs = [...new Set(currentLevel.map(n => n.location))];
-        const variations = [];
-        locs.forEach(l => {
-            variations.push(l, `NEW ${l}`, `ISBT ${l}`, `${l} STAND`, `${l} JN`, `${l} CENTRAL`);
-        });
-
-        const uniqueVars = [...new Set(variations)];
-        const chunkSize = 60;
+        
+        // Optimize: Use exact match on normalized base names instead of regex
+        const uniqueVars = locs;
+        const chunkSize = 300; // Increased chunk size for fast exact matches
         const allBusService = [];
         const allTrainStops = [];
 
         for (let i = 0; i < uniqueVars.length; i += chunkSize) {
             const chunk = uniqueVars.slice(i, i + chunkSize);
-            const batchRegex = new RegExp('^(' + chunk.map(v => escapeRegex(v)).join('|') + ')', 'i');
 
-            let busQuery = { $or: [{ f: batchRegex }, { v: batchRegex }] };
+            let busQuery = { $or: [{ f_normalized: { $in: chunk } }, { v_normalized: { $in: chunk } }] };
             if (filterDay !== 'ALL') {
                 busQuery.sd = { $in: ['ALL DAYS', filterDay.toUpperCase()] };
             }
 
-            let trainQuery = { station_name: batchRegex };
+            let trainQuery = { station_name_normalized: { $in: chunk } };
             if (filterDay !== 'ALL') {
                 trainQuery.runs_on = filterDay.toUpperCase();
             }
 
-            // Execute DB queries sequentially to avoid flooding V8 memory heap on 3000+ location maps
+            // Execute DB queries sequentially to avoid flooding V8 memory heap
             const [busHops, trainHops] = await Promise.all([
-                BusService.find(busQuery).select('f v op st dt _id').limit(3000).lean(),
-                TrainStoppage.find(trainQuery).select('tn nm station_name seq distance_km dt -_id').limit(3000).lean()
+                BusService.find(busQuery).select('f v op st dt _id f_normalized v_normalized t_normalized').limit(10000).lean(),
+                TrainStoppage.find(trainQuery).select('tn nm station_name seq distance_km dt -_id station_name_normalized').limit(10000).lean()
             ]);
             
             allBusService.push(...busHops);
@@ -270,12 +266,13 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
         const nextLevelMap = {};
         const busMap = {};
-        allBusService.forEach(b => { // Changed from allBuses to allBusService
-            const f = getBaseName(b.f);
+        allBusService.forEach(b => { // Fallback to getBaseName if missing
+            const f = b.f_normalized || getBaseName(b.f);
             if (!busMap[f]) busMap[f] = [];
             busMap[f].push(b);
-            (b.v || []).forEach(v => {
-                const vb = getBaseName(v);
+            
+            const vArrNorm = b.v_normalized && b.v_normalized.length > 0 ? b.v_normalized : (b.v || []).map(getBaseName);
+            vArrNorm.forEach(vb => {
                 if (!busMap[vb]) busMap[vb] = [];
                 busMap[vb].push(b);
             });
@@ -283,7 +280,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
         const trainMap = {};
         allTrainStops.forEach(ts => {
-            const s = getBaseName(ts.station_name);
+            const s = ts.station_name_normalized || getBaseName(ts.station_name);
             if (!trainMap[s]) trainMap[s] = [];
             trainMap[s].push(ts);
         });
@@ -305,7 +302,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
             // Execute chunks sequentially to prevent crashing the node server with massive heap payloads
             for (const chunk of tnChunks) {
                 const scheds = await TrainStoppage.find({ tn: { $in: chunk } })
-                                                  .select('tn nm station_name seq distance_km dt -_id')
+                                                  .select('tn nm station_name seq distance_km dt -_id station_name_normalized')
                                                   .lean();
                 scheds.forEach(s => {
                     if (!trainCache.has(s.tn)) trainCache.set(s.tn, []);
@@ -327,7 +324,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
             // Bus Processing with Map API
             const busCandidates = busMap[loc] || [];
-            if (busCandidates.length > 0) {
+            if (busCandidates.length > 0 && filterMode !== 'Only Train') {
                 // Batch/Cache Calls
                 // We'll iterate but use cache for getDuration
                 for (const bus of busCandidates) {
@@ -339,7 +336,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         continue;
                     }
 
-                    const isAtSource = getBaseName(bus.f) === loc;
+                    const isAtSource = (bus.f_normalized || getBaseName(bus.f)) === loc;
                     
                     // Handle array of timings (comma separated string or array)
                     let busTimings = [];
@@ -376,8 +373,10 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
                     let possibleDrops = isAtSource ? [...(bus.v || []), bus.t] : [];
                     if (!isAtSource) {
-                        const idx = (bus.v || []).findIndex(v => getBaseName(v) === loc);
-                        if (idx !== -1) possibleDrops = [...bus.v.slice(idx + 1), bus.t];
+                        const vArrNames = bus.v || [];
+                        const vArrNorm = bus.v_normalized && bus.v_normalized.length > 0 ? bus.v_normalized : vArrNames.map(getBaseName);
+                        const idx = vArrNorm.indexOf(loc);
+                        if (idx !== -1) possibleDrops = [...vArrNames.slice(idx + 1), bus.t];
                     }
 
                     for (const drop of possibleDrops) {
@@ -486,10 +485,10 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
             // Train Processing
             const tns = [...new Set((trainMap[loc] || []).map(t => t.tn))];
-            if (tns.length > 0) {
+            if (tns.length > 0 && filterMode !== 'Only Bus') {
                 tns.forEach(tn => {
                     const route = (trainCache.get(tn) || []).sort((a, b) => a.seq - b.seq);
-                    const cIdx = route.findIndex(r => getBaseName(r.station_name) === loc);
+                    const cIdx = route.findIndex(r => (r.station_name_normalized || getBaseName(r.station_name)) === loc);
                     if (cIdx === -1) return;
 
                     const start = route[cIdx];
@@ -517,7 +516,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                     // Process all downstream stations continuously (no artificial limit)
                     for (let i = cIdx + 1; i < route.length; i++) {
                         const end = route[i];
-                        const dBase = getBaseName(end.station_name);
+                        const dBase = end.station_name_normalized || getBaseName(end.station_name);
                         if (node.visited.has(dBase)) continue;
 
                         const dist = Math.abs(end.distance_km - (start.distance_km || 0)) || 120;
@@ -611,11 +610,11 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         for (const locKey in locMap) {
             // Sort incoming paths by earliest arrival time to prioritize fast connections
             locMap[locKey].sort((a, b) => a.timeMins - b.timeMins);
-            // Retain only the Best 5 paths to any given interconnecting city PER MODE CATEGORY
-            prunedNext.push(...locMap[locKey].slice(0, 5));
+            // Relax pruning to allow more combinations
+            prunedNext.push(...locMap[locKey].slice(0, 15));
         }
 
-        currentLevel = prunedNext.slice(0, 3000);
+        currentLevel = prunedNext.slice(0, 8000);
     }
 
     // --- CATEGORIZATION ---
