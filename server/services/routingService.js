@@ -180,7 +180,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
     const MAX_ROUTES = 5000;
     const trainCache = new Map();
     const bestDistances = new Map();
-    const busDurationCache = new Map(); // Cache for O-D durations
+    if (!global.busDurationCache) global.busDurationCache = new Map(); // Global Cache for O-D durations
 
     let currentLevel = [{
         location: startBase,
@@ -425,8 +425,8 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         // REAL MAP CALL WITH CACHE
                         const cacheKey = `${loc}-${drop}`;
                         let apiRes;
-                        if (busDurationCache.has(cacheKey)) {
-                            apiRes = busDurationCache.get(cacheKey);
+                        if (global.busDurationCache.has(cacheKey)) {
+                            apiRes = global.busDurationCache.get(cacheKey);
                         } else {
                             try {
                                 const fromC = getCoords(loc);
@@ -437,7 +437,7 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                                 const destStr = `${toC.lat},${toC.lng}`;
 
                                 apiRes = estimateDurationOffline(originStr, destStr, 'driving'); // Heuristic!
-                                busDurationCache.set(cacheKey, apiRes);
+                                global.busDurationCache.set(cacheKey, apiRes);
                             } catch (e) {
                                 apiRes = { value: 3600, distance: "0 km" }; // Fallback
                             }
@@ -650,11 +650,12 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         for (const locKey in locMap) {
             // Sort incoming paths by earliest arrival time to prioritize fast connections
             locMap[locKey].sort((a, b) => a.timeMins - b.timeMins);
-            // Relax pruning to allow more combinations
-            prunedNext.push(...locMap[locKey].slice(0, 15));
+            // Drastically reduce redundancy: only keep top 3 paths to the exact same city per mode
+            prunedNext.push(...locMap[locKey].slice(0, 3));
         }
 
-        currentLevel = prunedNext.slice(0, 8000);
+        // Drastically cut exponential expansion: cap active graph nodes to 600 per hop level
+        currentLevel = prunedNext.slice(0, 600);
     }
 
     // --- CATEGORIZATION ---
