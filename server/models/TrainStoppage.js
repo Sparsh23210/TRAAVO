@@ -43,6 +43,10 @@ const TrainStoppageSchema = new mongoose.Schema({
         type: String, // Departure Time (HH:mm)
         default: null
     },
+    dt_mins: {
+        type: Number,
+        default: null
+    },
     day_offset: {
         type: Number, // Day offset from start (0, 1, 2...)
         default: 0
@@ -66,6 +70,7 @@ const TrainStoppageSchema = new mongoose.Schema({
 // Compound index for finding a specific train's connectivity
 // Start from a station
 TrainStoppageSchema.index({ station_name: 1 });
+TrainStoppageSchema.index({ dt_mins: 1 });
 // Ensure uniqueness of train+station? Maybe not, schedules change. 
 // But (tn, station_code) should technically be unique for a run.
 TrainStoppageSchema.index({ tn: 1, seq: 1 });

@@ -52,6 +52,10 @@ const BusServiceSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Mixed, // Departure Time (HH:mm) String or Array
         required: true
     },
+    dt_mins: {
+        type: [Number],
+        default: []
+    },
     src: {
         type: String,
         default: 'manual'
@@ -64,5 +68,6 @@ const BusServiceSchema = new mongoose.Schema({
 BusServiceSchema.index({ f: 1 });
 BusServiceSchema.index({ t: 1 });
 BusServiceSchema.index({ v: 1 });
+BusServiceSchema.index({ dt_mins: 1 });
 
 module.exports = mongoose.model('BusService', BusServiceSchema, 'bus_services');

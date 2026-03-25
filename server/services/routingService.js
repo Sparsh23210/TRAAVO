@@ -241,24 +241,41 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         const allBusService = [];
         const allTrainStops = [];
 
+        // In-Memory Global Caches for BFS nodes (speeds up Deep Hops)
+        if (!global.busQueryCache) global.busQueryCache = new Map();
+        if (!global.trainQueryCache) global.trainQueryCache = new Map();
+
         for (let i = 0; i < uniqueVars.length; i += chunkSize) {
             const chunk = uniqueVars.slice(i, i + chunkSize);
+            const cacheKeyBus = chunk.join(',') + '_' + filterDay;
+            const cacheKeyTrain = chunk.join(',') + '_' + filterDay;
 
-            let busQuery = { $or: [{ f_normalized: { $in: chunk } }, { v_normalized: { $in: chunk } }] };
-            if (filterDay !== 'ALL') {
-                busQuery.sd = { $in: ['ALL DAYS', filterDay.toUpperCase()] };
+            let busHops = [];
+            let trainHops = [];
+
+            if (global.busQueryCache.has(cacheKeyBus)) {
+                busHops = global.busQueryCache.get(cacheKeyBus);
+            } else {
+                let busQuery = { $or: [{ f_normalized: { $in: chunk } }, { v_normalized: { $in: chunk } }] };
+                if (filterDay !== 'ALL') {
+                    busQuery.sd = { $in: ['ALL DAYS', filterDay.toUpperCase()] };
+                }
+                const selectFields = 'f v t op st dt dt_mins _id f_normalized v_normalized t_normalized';
+                busHops = await BusService.find(busQuery).select(selectFields).limit(10000).lean();
+                global.busQueryCache.set(cacheKeyBus, busHops);
             }
 
-            let trainQuery = { station_name_normalized: { $in: chunk } };
-            if (filterDay !== 'ALL') {
-                trainQuery.runs_on = filterDay.toUpperCase();
+            if (global.trainQueryCache.has(cacheKeyTrain)) {
+                trainHops = global.trainQueryCache.get(cacheKeyTrain);
+            } else {
+                let trainQuery = { station_name_normalized: { $in: chunk } };
+                if (filterDay !== 'ALL') {
+                    trainQuery.runs_on = filterDay.toUpperCase();
+                }
+                const selectFieldsTrain = 'tn nm station_name seq distance_km dt dt_mins station_name_normalized -_id';
+                trainHops = await TrainStoppage.find(trainQuery).select(selectFieldsTrain).limit(10000).lean();
+                global.trainQueryCache.set(cacheKeyTrain, trainHops);
             }
-
-            // Execute DB queries sequentially to avoid flooding V8 memory heap
-            const [busHops, trainHops] = await Promise.all([
-                BusService.find(busQuery).select('f v op st dt _id f_normalized v_normalized t_normalized').limit(10000).lean(),
-                TrainStoppage.find(trainQuery).select('tn nm station_name seq distance_km dt -_id station_name_normalized').limit(10000).lean()
-            ]);
             
             allBusService.push(...busHops);
             allTrainStops.push(...trainHops);
@@ -300,10 +317,19 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                 tnChunks.push(missingTNs.slice(x, x + 300));
             }
             // Execute chunks sequentially to prevent crashing the node server with massive heap payloads
+            if (!global.trainScheduleCache) global.trainScheduleCache = new Map();
+
             for (const chunk of tnChunks) {
-                const scheds = await TrainStoppage.find({ tn: { $in: chunk } })
-                                                  .select('tn nm station_name seq distance_km dt -_id station_name_normalized')
+                const chunkKey = chunk.join(',');
+                let scheds;
+                if (global.trainScheduleCache.has(chunkKey)) {
+                    scheds = global.trainScheduleCache.get(chunkKey);
+                } else {
+                    scheds = await TrainStoppage.find({ tn: { $in: chunk } })
+                                                  .select('tn nm station_name seq distance_km dt dt_mins station_name_normalized -_id')
                                                   .lean();
+                    global.trainScheduleCache.set(chunkKey, scheds);
+                }
                 scheds.forEach(s => {
                     if (!trainCache.has(s.tn)) trainCache.set(s.tn, []);
                     trainCache.get(s.tn).push(s);
@@ -338,30 +364,43 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
 
                     const isAtSource = (bus.f_normalized || getBaseName(bus.f)) === loc;
                     
-                    // Handle array of timings (comma separated string or array)
-                    let busTimings = [];
-                    if (isAtSource && typeof bus.dt === 'string') {
-                        busTimings = bus.dt.split(',').map(s => s.trim()).filter(s => s);
-                    } else if (isAtSource && Array.isArray(bus.dt)) {
-                        busTimings = bus.dt;
-                    } else if (isAtSource) {
-                        busTimings = [bus.dt];
-                    }
-
-                    // Filter bus Timings
+                    // Handle array of timings using Integer Minutes (dt_mins) if available
                     let validDepTimes = [];
                     if (isAtSource) {
-                        for (let tStr of busTimings) {
-                            let dtMins = timeToMins(tStr);
-                            while (dtMins < node.timeMins) dtMins += 1440;
-                            // Time Filter
-                            if (startTimeStr !== 'All Time' && node.timeMins === startTimeMins) {
-                                const filterMins = timeToMins(startTimeStr);
-                                if ((dtMins % 1440) < filterMins) {
-                                    continue; // Skip timing if it's strictly before selected time today
+                        if (bus.dt_mins && Array.isArray(bus.dt_mins) && bus.dt_mins.length > 0) {
+                            for (let m of bus.dt_mins) {
+                                let dtMins = m;
+                                while (dtMins < node.timeMins) dtMins += 1440;
+                                // Time Filter
+                                if (startTimeStr !== 'All Time' && node.timeMins === startTimeMins) {
+                                    const filterMins = timeToMins(startTimeStr);
+                                    if ((dtMins % 1440) < filterMins) {
+                                        continue;
+                                    }
                                 }
+                                validDepTimes.push(dtMins);
                             }
-                            validDepTimes.push(dtMins);
+                        } else {
+                            // Fallback to string processing
+                            let busTimings = [];
+                            if (typeof bus.dt === 'string') {
+                                busTimings = bus.dt.split(',').map(s => s.trim()).filter(s => s);
+                            } else if (Array.isArray(bus.dt)) {
+                                busTimings = bus.dt;
+                            } else {
+                                busTimings = [bus.dt];
+                            }
+                            for (let tStr of busTimings) {
+                                let dtMins = timeToMins(tStr);
+                                while (dtMins < node.timeMins) dtMins += 1440;
+                                if (startTimeStr !== 'All Time' && node.timeMins === startTimeMins) {
+                                    const filterMins = timeToMins(startTimeStr);
+                                    if ((dtMins % 1440) < filterMins) {
+                                        continue;
+                                    }
+                                }
+                                validDepTimes.push(dtMins);
+                            }
                         }
                     } else {
                         let depTime = node.timeMins + 60;
@@ -502,7 +541,8 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
                         return; 
                     }
 
-                    let depTime = timeToMins(start.dt || '00:00');
+                    // Use dt_mins for train departure if available
+                    let depTime = start.dt_mins !== undefined && start.dt_mins !== null ? start.dt_mins : timeToMins(start.dt || '00:00');
                     while (depTime < node.timeMins) depTime += 1440;
 
                     // Apply Time filter for Train 

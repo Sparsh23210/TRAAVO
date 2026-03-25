@@ -169,7 +169,8 @@ const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [recentSearches, setRecentSearches] = useState([]);
     const [isRecentOpen, setIsRecentOpen] = useState(true);
-    const dropdownRef = useRef(null);
+    const desktopDropdownRef = useRef(null);
+    const mobileDropdownRef = useRef(null);
 
     useEffect(() => {
         if (isDropdownOpen && currentUser?.uid) {
@@ -191,7 +192,10 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            const clickedOutsideDesktop = desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target);
+            const clickedOutsideMobile = mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target);
+            
+            if (clickedOutsideDesktop && clickedOutsideMobile) {
                 setIsDropdownOpen(false);
             }
         };
@@ -205,18 +209,18 @@ const Navbar = () => {
     };
 
     const sharedProps = {
-        logoImage, currentUser, dropdownRef, isDropdownOpen, setIsDropdownOpen,
+        logoImage, currentUser, isDropdownOpen, setIsDropdownOpen,
         isRecentOpen, setIsRecentOpen, recentSearches, handleLogoutClick, setIsSubscriptionOpen
     };
 
     return (
         <>
             <div className="desktop-only">
-                <DesktopNavbar {...sharedProps} />
+                <DesktopNavbar {...sharedProps} dropdownRef={desktopDropdownRef} />
             </div>
 
             <div className="mobile-only">
-                <MobileTopNavbar {...sharedProps} />
+                <MobileTopNavbar {...sharedProps} dropdownRef={mobileDropdownRef} />
                 <MobileBottomNavbar />
             </div>
 
