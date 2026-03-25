@@ -28,37 +28,12 @@ const fetchCoordinates = async (locations) => {
 
     if (toFetch.length === 0) return results;
 
-    console.log(`[GEO] Fetching coordinates for ${toFetch.length} locations:`, toFetch);
-
-    // 2. Fetch from Geoapify (Batch if possible, but free tier simpler with loop)
-    // Geoapify doesn't support batch well in free tier usually, parallel requests ok.
-    const apiKey = process.env.GEOAPIFY_KEY || "10e2d3a2a3784cea80f54b3c404adfe4"; // Use env or fallback
-
-    await Promise.all(toFetch.map(async (loc) => {
-        try {
-            const url = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(loc + ", India")}&apiKey=${apiKey}&limit=1`;
-            const res = await axios.get(url, { timeout: 3000 }); // 3s timeout
-
-            if (res.data && res.data.features && res.data.features.length > 0) {
-                const props = res.data.features[0].properties;
-                const coords = { lat: props.lat, lon: props.lon };
-
-                GEO_CACHE[loc] = coords;
-                results[loc] = coords;
-            } else {
-                console.warn(`[GEO] No results for ${loc}`);
-                // Fallback to cityCoords logic (randomish) to prevent nulls
-                const fallback = getCityCoords(loc);
-                GEO_CACHE[loc] = fallback;
-                results[loc] = fallback;
-            }
-        } catch (err) {
-            console.error(`[GEO] Error fetching ${loc}:`, err.message);
-            // Fallback
-            const fallback = getCityCoords(loc);
-            results[loc] = fallback;
-        }
-    }));
+    // 2. IMMEDIATELY resolve from static fallback instead of blocking the thread for 60 seconds hitting an external API limit
+    toFetch.forEach(loc => {
+        const fallback = getCityCoords(loc);
+        GEO_CACHE[loc] = fallback;
+        results[loc] = fallback;
+    });
 
     // Merge cache hits back
     uniqueLocs.forEach(loc => {
