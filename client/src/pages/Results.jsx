@@ -73,7 +73,7 @@ const Results = () => {
     // --- FETCH DATA ---
     useEffect(() => {
         if (!from || !to) return;
-        
+
         const controller = new AbortController();
         const { signal } = controller;
 
@@ -95,7 +95,7 @@ const Results = () => {
                 for (let h = 1; h <= totalHopsToSearch; h++) {
                     if (signal.aborted) return;
                     setCurrentSearchHop(h);
-                    
+
                     const cacheKey = `routes_hop_v3_${from}_${to}_${filterDay}_${filterTime}_${h}`;
                     const cached = sessionStorage.getItem(cacheKey);
 
@@ -141,7 +141,7 @@ const Results = () => {
 
                     const data = await response.json();
                     if (signal.aborted) return;
-                    
+
                     if (isInitialSearch && h === 1 && !hasSentCreditReq.current) {
                         const returnedCount = data.routes ? Object.values(data.routes).reduce((acc, cat) => acc + (cat.all ? cat.all.length : 0), 0) : 0;
                         if (returnedCount > 0) {
@@ -158,7 +158,7 @@ const Results = () => {
 
                     // Update state and merge
                     setRawCategories(prev => mergeData(prev, data.routes));
-                    
+
                     // Cache the results for this particular hop
                     try {
                         sessionStorage.setItem(cacheKey, JSON.stringify(data.routes));
@@ -293,7 +293,7 @@ const Results = () => {
                         </select>
                         <select value={filterTime} onChange={e => setFilterTime(e.target.value)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.8rem' }}>
                             <option value="All Time">All Time</option>
-                            {Array.from({length: 24}).flatMap((_, i) => {
+                            {Array.from({ length: 24 }).flatMap((_, i) => {
                                 const h = i % 12 || 12;
                                 const ampm = i < 12 ? 'AM' : 'PM';
                                 return [
@@ -437,7 +437,7 @@ const ErrorState = ({ error }) => (
         <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚠️</div>
         <h3 style={{ color: '#991b1b', margin: 0 }}>Connection Error</h3>
         <p style={{ color: '#ef4444', marginBottom: '1.5rem' }}>{error}</p>
-        <button 
+        <button
             onClick={() => window.location.reload()}
             style={{ padding: '0.75rem 1.5rem', background: '#dc2626', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', display: 'inline-block' }}
         >
@@ -450,12 +450,12 @@ const EmptyState = ({ hop, isSearching }) => (
     <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
         <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>📭</div>
         <h3 style={{ color: '#1e293b', fontWeight: '800', marginBottom: '0.5rem', lineHeight: '1.4' }}>
-            {isSearching && hop > 1 
-                ? `No Direct Routes...Searching For ${hop} hops` 
+            {isSearching && hop > 1
+                ? `No Direct Routes?...Searching For ${hop} hops`
                 : (hop === 1 ? 'No direct routes found (1 hop)' : `No routes found for ${hop} hops`)}
         </h3>
         <p style={{ color: '#64748b', maxWidth: '280px', margin: '0 auto', fontSize: '0.9rem' }}>
-            {isSearching 
+            {isSearching
                 ? 'Please wait while we check deeper connections.'
                 : (hop < 4
                     ? 'Try increasing the hop filter to see more connections.'
