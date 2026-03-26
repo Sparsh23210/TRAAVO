@@ -42,79 +42,143 @@ const Results = () => {
     const [isMapOpen, setIsMapOpen] = useState(false);
     const [selectedMapRoute, setSelectedMapRoute] = useState(null);
 
+    // Progressive Search State
+    const [isBackgroundLoading, setIsBackgroundLoading] = useState(false);
+    const [currentSearchHop, setCurrentSearchHop] = useState(0);
+
+    // --- MERGE HELPER ---
+    const mergeData = (existing, newData) => {
+        const merged = { ...existing };
+        Object.keys(newData).forEach(cat => {
+            if (!merged[cat]) {
+                merged[cat] = { best: [], all: [] };
+            }
+            // Combine and de-duplicate by ID/Path
+            const combine = (listA, listB) => {
+                const combined = [...listA, ...listB];
+                const seen = new Set();
+                return combined.filter(r => {
+                    const signature = r.id || (r.steps && r.steps.map(s => `${s.from}-${s.to}-${s.depTime}`).join('|'));
+                    if (seen.has(signature)) return false;
+                    seen.add(signature);
+                    return true;
+                });
+            };
+            merged[cat].best = combine(merged[cat].best || [], newData[cat].best || []);
+            merged[cat].all = combine(merged[cat].all || [], newData[cat].all || []);
+        });
+        return merged;
+    };
+
     // --- FETCH DATA ---
     useEffect(() => {
         if (!from || !to) return;
         
-        const cacheKey = `routes_v2_${from}_${to}_${filterDay}_${filterTime}_${maxHops}`;
+        const controller = new AbortController();
+        const { signal } = controller;
 
-        const fetchRoutes = async () => {
+        const fetchHopsSequentially = async () => {
             try {
                 setLoading(true);
                 setError(null);
-                
-                const cached = sessionStorage.getItem(cacheKey);
-                if (cached) {
-                    setRawCategories(JSON.parse(cached));
-                    setLoading(false);
-                    return;
-                }
-
-                // We request maxHops based on user selection to save data, and pass mode/day/time
-                const isInitialSearch = Boolean(costCredit) && !hasSentCreditReq.current;
-                const requestBody = {
-                    from: from,
-                    to: to,
-                    time: filterTime,
-                    day: filterDay,
-                    mode: 'All',
-                    hops: maxHops,
-                    deductCredit: isInitialSearch
-                };
-
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/routes/find`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...(currentUser && { 'Authorization': `Bearer ${await currentUser.getIdToken()}` })
-                    },
-                    body: JSON.stringify(requestBody)
+                setRawCategories({
+                    mixed: { best: [], all: [] },
+                    bus_train: { best: [], all: [] },
+                    train_bus: { best: [], all: [] },
+                    only_bus: { best: [], all: [] },
+                    only_train: { best: [], all: [] }
                 });
 
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'Failed to fetch routes.');
-                }
-                const data = await response.json();
-                try {
-                    // Chrome caps sessionStorage at 5MB. 5000+ deep JSON multi-hop nested routes can easily exceed this.
-                    sessionStorage.clear(); // Ensure we clear out old keys to make room for this new massive state.
-                    sessionStorage.setItem(cacheKey, JSON.stringify(data.routes));
-                } catch (storageErr) {
-                    console.warn("Payload size exceeded DOM quota. Skipping local cache for this heavy search matrix.", storageErr);
-                }
-                // ALWAYS bind the data to React State, regardless of caching success
-                setRawCategories(data.routes);
-                const returnedRoutesCount = data.routes ? Object.values(data.routes).reduce((acc, cat) => acc + (cat.all ? cat.all.length : 0), 0) : 0;
-                if (isInitialSearch && returnedRoutesCount > 0) {
-                    hasSentCreditReq.current = true;
-                    // Fetch to deduct credit now that results are received and ready to display
-                    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/user/deduct-credit`, {
+                const totalHopsToSearch = Number(maxHops);
+                const isInitialSearch = Boolean(costCredit) && !hasSentCreditReq.current;
+
+                for (let h = 1; h <= totalHopsToSearch; h++) {
+                    if (signal.aborted) return;
+                    setCurrentSearchHop(h);
+                    
+                    const cacheKey = `routes_hop_v3_${from}_${to}_${filterDay}_${filterTime}_${h}`;
+                    const cached = sessionStorage.getItem(cacheKey);
+
+                    if (cached) {
+                        try {
+                            const parsed = JSON.parse(cached);
+                            setRawCategories(prev => mergeData(prev, parsed));
+                            setLoading(false);
+                            continue; // Skip API call for this hop if cached
+                        } catch (e) {
+                            console.warn("Malformed cache for hop", h, e);
+                        }
+                    }
+
+                    if (h > 1) setIsBackgroundLoading(true);
+
+                    const requestBody = {
+                        from, to,
+                        time: filterTime,
+                        day: filterDay,
+                        mode: 'All',
+                        hops: h,
+                        deductCredit: isInitialSearch && h === 1
+                    };
+
+                    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/routes/find`, {
                         method: 'POST',
+                        signal,
                         headers: {
                             'Content-Type': 'application/json',
                             ...(currentUser && { 'Authorization': `Bearer ${await currentUser.getIdToken()}` })
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (!response.ok) {
+                        if (h === 1) {
+                            const errData = await response.json();
+                            throw new Error(errData.error || 'Failed to fetch initial routes.');
                         }
-                    }).catch(err => console.error("Failed to deduct credit:", err));
+                        continue;
+                    }
+
+                    const data = await response.json();
+                    if (signal.aborted) return;
+                    
+                    if (isInitialSearch && h === 1 && !hasSentCreditReq.current) {
+                        const returnedCount = data.routes ? Object.values(data.routes).reduce((acc, cat) => acc + (cat.all ? cat.all.length : 0), 0) : 0;
+                        if (returnedCount > 0) {
+                            hasSentCreditReq.current = true;
+                            fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/user/deduct-credit`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    ...(currentUser && { 'Authorization': `Bearer ${await currentUser.getIdToken()}` })
+                                }
+                            }).catch(err => console.error("Failed to deduct credit background:", err));
+                        }
+                    }
+
+                    // Update state and merge
+                    setRawCategories(prev => mergeData(prev, data.routes));
+                    
+                    // Cache the results for this particular hop
+                    try {
+                        sessionStorage.setItem(cacheKey, JSON.stringify(data.routes));
+                    } catch (storageErr) {
+                        console.warn("Storage quota exceeded, skipping cache for hop", h);
+                    }
+
+                    setLoading(false);
                 }
             } catch (err) {
+                if (err.name === 'AbortError') return;
                 setError(err.message);
-            } finally {
                 setLoading(false);
+            } finally {
+                if (!signal.aborted) setIsBackgroundLoading(false);
             }
         };
 
-        fetchRoutes();
+        fetchHopsSequentially();
+        return () => controller.abort();
     }, [from, to, filterTime, filterDay, maxHops, currentUser]);
 
     // --- FILTER & PROCESS ---
@@ -285,6 +349,13 @@ const Results = () => {
                 </div>
             </div>
 
+            {isBackgroundLoading && (
+                <div className="background-search-indicator">
+                    <div className="search-pulse-dot"></div>
+                    <span>Discovering {currentSearchHop}-hop connections...</span>
+                </div>
+            )}
+
             {/* MAIN CONTENT */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', paddingBottom: '5rem' }}>
                 {loading ? (
@@ -310,7 +381,7 @@ const Results = () => {
                         )}
                     </>
                 ) : (
-                    <EmptyState hop={maxHops} />
+                    <EmptyState hop={maxHops} isSearching={isBackgroundLoading} />
                 )}
             </div>
 
@@ -375,16 +446,20 @@ const ErrorState = ({ error }) => (
     </div>
 );
 
-const EmptyState = ({ hop }) => (
+const EmptyState = ({ hop, isSearching }) => (
     <div style={{ textAlign: 'center', padding: '4rem 1rem' }}>
         <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.5 }}>📭</div>
-        <h3 style={{ color: '#1e293b', fontWeight: '800', marginBottom: '0.5rem' }}>
-            {hop === 1 ? 'No direct routes found (1 hop)' : `No routes found for ${hop} hops`}
+        <h3 style={{ color: '#1e293b', fontWeight: '800', marginBottom: '0.5rem', lineHeight: '1.4' }}>
+            {isSearching && hop > 1 
+                ? `No Direct Routes...Searching For ${hop} hops` 
+                : (hop === 1 ? 'No direct routes found (1 hop)' : `No routes found for ${hop} hops`)}
         </h3>
-        <p style={{ color: '#64748b', maxWidth: '280px', margin: '0 auto' }}>
-            {hop < 4
-                ? 'Try increasing the hop filter to see more connections.'
-                : 'We couldn\'t find a route even with maximum connections.'}
+        <p style={{ color: '#64748b', maxWidth: '280px', margin: '0 auto', fontSize: '0.9rem' }}>
+            {isSearching 
+                ? 'Please wait while we check deeper connections.'
+                : (hop < 4
+                    ? 'Try increasing the hop filter to see more connections.'
+                    : 'We couldn\'t find a route even with maximum connections.')}
         </p>
     </div>
 );

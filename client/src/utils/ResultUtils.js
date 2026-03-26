@@ -8,8 +8,8 @@ export const filterRoutesByHops = (routes, hops) => {
     if (!routes || !Array.isArray(routes)) return [];
     const numHops = Number(hops);
     return routes.filter(route => {
-        // Show all routes up to the selected max hops.
-        return route.hops <= numHops && route.hops > 0;
+        // STRICT FILTERING: Show only routes that match the selected hop count exactly.
+        return Number(route.hops) === numHops;
     });
 };
 
