@@ -15,6 +15,8 @@ app.get('/health', (req, res) => res.status(200).send('Server is healthy'));
 
 const allowedOrigins = [
     'https://traavo.vercel.app', 
+    'https://traavo.site',
+    'https://www.traavo.site',
     'http://localhost:5173', 
     'http://localhost:3000'
 ];
