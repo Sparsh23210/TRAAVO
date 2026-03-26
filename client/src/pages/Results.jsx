@@ -278,6 +278,13 @@ const Results = () => {
                 </div>
             </div>
 
+            <div className="results-dev-banner-container">
+                <div className="results-dev-banner">
+                    <span style={{ fontSize: '0.9rem' }}>⚠️</span>
+                    Distance and Map under development!!
+                </div>
+            </div>
+
             {/* MAIN CONTENT */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '1rem', paddingBottom: '5rem' }}>
                 {loading ? (

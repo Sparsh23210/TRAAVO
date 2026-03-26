@@ -162,6 +162,15 @@ const ProfileDropdown = ({ isRecentOpen, setIsRecentOpen, recentSearches, handle
     </div>
 );
 
+const DevBanner = () => (
+    <div className="dev-banner-wrapper">
+        <div className="dev-banner-box">
+            <span className="dev-banner-icon">⚠️</span>
+            <span className="dev-banner-text">Distance and Map may not be correct, under development!!</span>
+        </div>
+    </div>
+);
+
 const Navbar = () => {
     const { currentUser } = useAuth();
     const [isLogoutOpen, setIsLogoutOpen] = useState(false);
