@@ -28,6 +28,105 @@ const SEO_CONTENT = {
                 <p>While direct trains are convenient, they are often booked months in advance. Traavo helps you find "hidden" routes that combine different modes of transport to save you time and money.</p>
             </>
         )
+    },
+    'diwali-holi-emergency-travel': {
+        title: "Diwali & Holi Emergency Travel Guide",
+        subtitle: "Find hidden routes to your hometown when all direct tickets are sold out.",
+        content: (
+            <>
+                <p>Festival seasons in India mean overcrowded trains and skyrocketing flight prices. If you haven't booked months in advance, you're not alone.</p>
+                <h3>How to Find "Hidden" Routes</h3>
+                <p>Instead of searching for a direct train to your home city, try searching for major hubs nearby. Traavo can help you find a train to a hub and a local bus for the last leg of your journey.</p>
+            </>
+        )
+    },
+    'best-transit-hubs-switch-train-bus': {
+        title: "Top Transit Hubs for Smart Transitions",
+        subtitle: "The best places in India to switch between trains and buses for a seamless journey.",
+        content: (
+            <>
+                <p>A smart traveler knows that sometimes the best route isn't a straight line. Switching at the right transit hub can save you hours of wait-time.</p>
+                <h3>Major Connectivity Hubs</h3>
+                <p>Cities like Nagpur, Itarsi, and Vijayawada are critical junctions where you can easily find alternative bus services if your connecting train is delayed.</p>
+            </>
+        )
+    },
+    'delhi-to-patna-plan-b-travel-guide': {
+        title: "Delhi to Patna: The Ultimate Plan B Guide",
+        subtitle: "Stuck with a waitlisted ticket? Here are 3 alternative ways to reach Patna.",
+        content: (
+            <>
+                <p>The Delhi-Patna route is one of the busiest in India. When the Rajdhani is full, don't lose hope.</p>
+                <h3>Option A: The Hub-and-Spoke Method</h3>
+                <p>Take a train to Varanasi or Mughalsarai and use a state transport bus for the remaining distance. Traavo identifies these connections automatically.</p>
+            </>
+        )
+    },
+    'urgent-travel-medical-emergencies': {
+        title: "Medical Emergency Travel: Reaching Care Faster",
+        subtitle: "Reliable pathfinding when time is critical and direct routes are unavailable.",
+        content: (
+            <>
+                <p>In a medical emergency, every second counts. If you need to reach a specialist hospital in another city and direct tickets are unavailable, Traavo provides the redundancy you need.</p>
+                <h3>Emergency Route Finder</h3>
+                <p>Our algorithm prioritizes speed and reliability, showing you the fastest possible way to reach major medical hubs like Delhi, Mumbai, or Chennai using any available mode of transport.</p>
+            </>
+        )
+    },
+    'explore-state-under-budget': {
+        title: "Explore India on a Budget: State-wise Guides",
+        subtitle: "Discover heritage sites and spiritual centers without breaking the bank.",
+        content: (
+            <>
+                <p>You don't need a fortune to see the beauty of India. With Traavo's budget explorer, you can filter destinations by your maximum spend.</p>
+                <h3>Traveling Smart</h3>
+                <p>Use our state-wise filters to find affordable gems in Rajasthan, Kerala, or Himachal Pradesh. Our tool calculates estimated budgets for 1 to 5-day trips automatically.</p>
+            </>
+        )
+    },
+    'why-indirect-route-is-faster': {
+        title: "The Logic of Indirect Routes: Why 'Plan B' is Better",
+        subtitle: "Understanding why a connecting path is often faster than a waitlisted direct train.",
+        content: (
+            <>
+                <p>It sounds counter-intuitive: why would taking two buses and a train be better than one direct train? The answer is availability.</p>
+                <h3>Beating the Waitlist</h3>
+                <p>A "Confirmed" indirect seat is always better than a "Waitlisted" direct one. Traavo helps you bypass the uncertainty of Indian Railways during peak times.</p>
+            </>
+        )
+    },
+    'hidden-adventure-spots-accessible-by-bus': {
+        title: "Adrenaline on a Bus: Hidden Adventure Spots",
+        subtitle: "Trekking, rafting, and camping sites you can reach via state transport.",
+        content: (
+            <>
+                <p>You don't need a private cab to reach the best adventure spots. Many of India's most stunning treks and rafting sites are well-connected by local buses.</p>
+                <h3>Eco-friendly Adventure</h3>
+                <p>Discover spots in Uttarakhand and Himachal that are accessible via affordable public transit, helping you save money for the actual adventure.</p>
+            </>
+        )
+    },
+    'weekend-getaways-students-pune': {
+        title: "Student Weekend Getaways from Pune",
+        subtitle: "Affordable, high-energy trips for your next break from college.",
+        content: (
+            <>
+                <p>Being a student in Pune means you're surrounded by amazing getaways. From the forts of the Sahyadris to the beaches of Konkan, there's always a bus ready to take you there.</p>
+                <h3>Travel on a Student Budget</h3>
+                <p>Use Traavo's 'Student' budget toggle to find trips that fit your allowance. We prioritize low-cost transit and entry-free destinations.</p>
+            </>
+        )
+    },
+    'backup-routes-cancelled-train-bus': {
+        title: "Train Cancelled? Your Backup Route Directory",
+        subtitle: "What to do when weather or technical issues disrupt your primary travel plan.",
+        content: (
+            <>
+                <p>Cancellations due to fog or maintenance are common. Don't get stuck at the station.</p>
+                <h3>Real-time Redundancy</h3>
+                <p>Traavo acts as your backup planner. If your train is cancelled, immediately search for the next available bus connection or an alternative rail route via a different junction.</p>
+            </>
+        )
     }
 };
 
