@@ -250,7 +250,7 @@ const PlaceCard = ({ place, userLocation, currentUser, selectedDays }) => {
         window.open(url, '_blank');
     };
 
-    const wikiLink = `https://en.wikipedia.org/wiki/${place.name.replace(/ /g, '_')}`;
+    const infoLink = `https://www.google.com/search?q=${encodeURIComponent(place.name + ' ' + place.city + ' tourism')}`;
 
     return (
         <div className="place-card">
@@ -282,8 +282,8 @@ const PlaceCard = ({ place, userLocation, currentUser, selectedDays }) => {
                     </div>
                 </div>
 
-                <a href={wikiLink} target="_blank" rel="noreferrer" className="wiki-link">
-                    📖 Read full description on Wikipedia
+                <a href={infoLink} target="_blank" rel="noreferrer" className="wiki-link">
+                    📖 Read More
                 </a>
 
                 {/* Map Section */}
