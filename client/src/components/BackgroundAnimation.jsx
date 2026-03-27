@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const BackgroundAnimation = () => {
+const BackgroundAnimation = ({ dark = false }) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const BackgroundAnimation = () => {
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(15, 23, 42, 0.3)'; // Dark slate, low opacity
+                ctx.fillStyle = dark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(15, 23, 42, 0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -66,7 +66,9 @@ const BackgroundAnimation = () => {
 
                     if (distance < 120) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.15 - distance / 800})`; // Blue-ish connection
+                        ctx.strokeStyle = dark 
+                            ? `rgba(96, 165, 250, ${0.12 - distance / 1000})`
+                            : `rgba(59, 130, 246, ${0.15 - distance / 800})`;
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -84,7 +86,7 @@ const BackgroundAnimation = () => {
             window.removeEventListener('resize', resizeCanvas);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [dark]);
 
     return (
         <canvas
@@ -94,7 +96,9 @@ const BackgroundAnimation = () => {
                 top: 0,
                 left: 0,
                 zIndex: 0, // Behind content
-                background: 'linear-gradient(to bottom right, #f8fafc, #e2e8f0)', // Subtle gradient base
+                background: dark 
+                    ? 'radial-gradient(circle at top left, #1e1b4b, #0f172a 50%, #1e1b4b)'
+                    : 'linear-gradient(to bottom right, #f8fafc, #e2e8f0)',
                 width: '100%',
                 height: '100%'
             }}

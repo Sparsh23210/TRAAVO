@@ -139,7 +139,7 @@ const SEOPage = ({ slug }) => {
 
     return (
         <div className="seo-page-container">
-            <BackgroundAnimation />
+            <BackgroundAnimation dark={true} />
             <div className="seo-header">
                 <h1>{data.title}</h1>
                 <p className="seo-subtitle">{data.subtitle}</p>

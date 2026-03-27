@@ -57,23 +57,25 @@
 }
 
 .seo-header h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    font-weight: 1000; /* Max boldness */
     margin-bottom: 1.5rem;
     line-height: 1.1;
-    background: linear-gradient(135deg, #fff 30%, #93c5fd 60%, #c084fc);
+    background: linear-gradient(135deg, #fff 20%, #bfdbfe 50%, #ddd6fe 80%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Add depth */
 }
 
 .seo-subtitle {
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    color: #94a3b8;
-    max-width: 700px;
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    color: #f1f5f9; /* Lighter color */
+    max-width: 800px;
     margin: 0 auto;
-    font-weight: 500;
+    font-weight: 700; /* Bold subtitle */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .seo-content-card {
@@ -99,29 +101,31 @@
 }
 
 .seo-content-card h3 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #f8fafc;
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
+    text-shadow: 0 2px 40px rgba(59, 130, 246, 0.4);
 }
 
 .seo-content-card h3::before {
     content: '';
-    width: 6px;
-    height: 28px;
-    background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
-    margin-right: 18px;
+    width: 8px;
+    height: 32px;
+    background: linear-gradient(to bottom, #60a5fa, #a855f7);
+    margin-right: 20px;
     border-radius: 10px;
 }
 
 .seo-content-card p {
-    font-size: 1.15rem;
+    font-size: 1.3rem;
     line-height: 1.85;
-    color: #cbd5e1;
-    margin-bottom: 1.75rem;
+    color: #f1f5f9;
+    font-weight: 600; /* Make paragraphs bolder */
+    margin-bottom: 2rem;
 }
 
 .seo-cta {
