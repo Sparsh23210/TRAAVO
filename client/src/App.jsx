@@ -9,6 +9,7 @@ import Contact from './pages/Contact';
 import Explore from './pages/Explore'; // [NEW]
 import SEOPage from './pages/SEOPage';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 import { AuthProvider } from './context/AuthContext';
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/weekend-getaways-students-pune" element={<SEOPage slug="weekend-getaways-students-pune" />} />
             <Route path="/backup-routes-cancelled-train-bus" element={<SEOPage slug="backup-routes-cancelled-train-bus" />} />
           </Routes>
+          <Footer />
         </div>
       </BrowserRouter>
     </AuthProvider>
