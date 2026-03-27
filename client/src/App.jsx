@@ -7,6 +7,7 @@ import TrainRoutes from './pages/TrainRoutes';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Explore from './pages/Explore'; // [NEW]
+import SEOPage from './pages/SEOPage';
 import Navbar from './components/Navbar';
 
 import { AuthProvider } from './context/AuthContext';
@@ -25,6 +26,8 @@ function App() {
             <Route path="/train-routes" element={<TrainRoutes />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/missed-train-what-to-do" element={<SEOPage slug="missed-train-what-to-do" />} />
+            <Route path="/how-to-travel-from-city-a-to-city-b" element={<SEOPage slug="how-to-travel-from-city-a-to-city-b" />} />
           </Routes>
         </div>
       </BrowserRouter>
