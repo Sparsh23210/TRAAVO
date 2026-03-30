@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 /**
  * SEO_CONTENT object contains high-detail data for all 11 SEO slugs.
@@ -6,7 +6,6 @@
  * - title, subtitle, description (for meta tags)
  * - statistics (array of {label, value})
  * - practicalInfo (array of {title, details})
- * - testimonials (array of {text, author, location})
  * - faqSchema (array of {question, answer} for JSON-LD)
  * - content (JSX section for the main body)
  */
