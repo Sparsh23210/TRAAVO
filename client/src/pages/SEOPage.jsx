@@ -70,19 +70,7 @@ const SEOPage = ({ slug }) => {
                         </section>
                     )}
 
-                    {data.testimonials && (
-                        <section className="seo-testimonials-section">
-                            <h2>User Experiences</h2>
-                            <div className="testimonials-list">
-                                {data.testimonials.map((t, i) => (
-                                    <blockquote key={i} className="testimonial-item">
-                                        <p>"{t.text}"</p>
-                                        <cite>— {t.author}, {t.location}</cite>
-                                    </blockquote>
-                                ))}
-                            </div>
-                        </section>
-                    )}
+
 
                     {data.faqSchema && data.faqSchema.length > 0 && (
                         <section className="seo-faq-section">

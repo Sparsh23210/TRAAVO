@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 /**
  * SEO_CONTENT object contains high-detail data for all 11 SEO slugs.
@@ -26,10 +26,7 @@ export const SEO_CONTENT = {
             { title: "Nearby Hubs", details: "Check major junctions like DDU, Itarsi, or Nagpur for higher connectivity if your direct path is lost." },
             { title: "Sleeper Backup", details: "Private sleeper buses often have 100% availability even when 'Late Night' trains are full." }
         ],
-        testimonials: [
-            { text: "I missed the Rajdhani by 5 minutes. Traavo suggested a bus to Kanpur and then another train. I reached Bihar only 3 hours late!", author: "Amit S.", location: "Delhi" },
-            { text: "The TDR guide was a lifesaver. I got 50% of my money back and found a great AC bus alternative immediately.", author: "Neha K.", location: "Mumbai" }
-        ],
+
         faqSchema: [
             { question: "Can I get a refund if I miss my train?", answer: "Yes, you can file a TDR (Ticket Deposit Receipt) within 1-2 hours of the train's departure to claim a partial refund." },
             { question: "How can I find alternative routes quickly?", answer: "Use Traavo's smart search to find combinations of buses and connecting trains that can get you to your destination faster than waiting for the next direct train." },
@@ -44,7 +41,7 @@ export const SEO_CONTENT = {
                     <p>The first thing you should do if you've missed your train is to secure your refund. If you were traveling on an e-ticket, you can file a <strong>Ticket Deposit Receipt (TDR)</strong> online through the IRCTC website. Generally, if you file within 1 to 2 hours of the train's actual departure from your boarding station, you are eligible for a partial refund. Note that the exact percentage depends on the reason for missing the train and the time elapsed.</p>
 
                     <h2>Step 2: Leveraging the "Hub-and-Spoke" Model</h2>
-                    <p>Instead of searching for another direct train—which is likely fully booked—look for major transit hubs nearby. For instance, if you missed a train from Delhi to Patna, don't just search for "Delhi to Patna" again. Search for "Delhi to Varanasi" or "Delhi to Mughalsarai." These hubs offer significantly more connectivity.</p>
+                    <p>Instead of searching for another direct trainâ€”which is likely fully bookedâ€”look for major transit hubs nearby. For instance, if you missed a train from Delhi to Patna, don't just search for "Delhi to Patna" again. Search for "Delhi to Varanasi" or "Delhi to Mughalsarai." These hubs offer significantly more connectivity.</p>
 
                     <h3>Comparison of Alternative Modes</h3>
                     <table className="seo-data-table">
@@ -101,10 +98,6 @@ export const SEO_CONTENT = {
             { title: "Peak Hours", details: "Avoid booking 1-hop routes during 8 PM - 10 PM to bypass heavy server load on booking portals." },
             { title: "Indirect Savings", details: "Booking two 400km legs is often easier and cheaper than one 800km direct leg during peak season." },
             { title: "Transfer Buffer", details: "Always allow 60-90 minutes for transferring between a train station and a bus stand." }
-        ],
-        testimonials: [
-            { text: "I never thought taking a bus to Nagpur and then a train would be faster, but it worked perfectly during the holidays.", author: "Rajesh P.", location: "Hyderabad" },
-            { text: "Smart routing is the future of Indian travel. No more getting stuck because of one full train.", author: "Sonia M.", location: "Bangalore" }
         ],
         faqSchema: [
             { question: "Is it always faster to take a direct train?", answer: "Not always. If the direct train is delayed or waitlisted, an indirect route with a bus connection can often get you there earlier." },
@@ -169,16 +162,12 @@ export const SEO_CONTENT = {
             { label: "Festival Surge", value: "400%" },
             { label: "WL Clearing Prob", value: "< 5%" },
             { label: "Plan B Match", value: "85%" },
-            { label: "Avg. Cost Δ", value: "+15%" }
+            { label: "Avg. Cost Î”", value: "+15%" }
         ],
         practicalInfo: [
             { title: "Tatkal Window", details: "If Tatkal fails at 10:01 AM, jump to Traavo immediately for multi-modal paths before they also fill up." },
             { title: "State Specials", details: "Look for 'Festival Special' buses from UPSRTC, MSRTC, and BSRTC which operate during these peaks." },
             { title: "Luggage Tips", details: "Keep it light; transfers between train and bus are faster when you are mobile." }
-        ],
-        testimonials: [
-            { text: "No train from Bangalore to Patna had seats for Holi. Traavo found a route via Raipur and Varanasi. I reached just in time for the colors!", author: "Vicky R.", location: "Patna" },
-            { text: "Every app said 'Sold Out'. Traavo said 'Switch at Nagpur'. It worked flawlessly.", author: "Priyanka S.", location: "Bhopal" }
         ],
         faqSchema: [
             { question: "What is the best way to travel home during Diwali?", answer: "If trains are full, search for 'hub-and-spoke' routes using Traavo, connecting through less-congested cities." },
@@ -187,7 +176,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>Festival seasons in India—especially Diwali and Holi—represent the largest annual migration of people in the world. For many, missing the chance to be with family isn't an option. Yet, with direct train tickets selling out within seconds of opening (120 days in advance), millions of travelers are left stranded every year.</p>
+                    <p>Festival seasons in Indiaâ€”especially Diwali and Holiâ€”represent the largest annual migration of people in the world. For many, missing the chance to be with family isn't an option. Yet, with direct train tickets selling out within seconds of opening (120 days in advance), millions of travelers are left stranded every year.</p>
 
                     <h2>Understanding the Festival Rush</h2>
                     <p>During the Diwali period, the volume of travelers increases by nearly 400% on major inland routes. This leads to massive waitlists that almost never clear. If your PNR status is still WL-50 two days before your trip, it is time to trigger your Emergency Plan B.</p>
@@ -244,10 +233,6 @@ export const SEO_CONTENT = {
             { title: "Cloak Rooms", details: "Major hubs have secure cloak rooms if you have a 4-5 hour layover and want to explore." },
             { title: "Safe Eats", details: "Stick to IRCTC food plazas or high-turnover local canteens like 'Pahli Manzil'." }
         ],
-        testimonials: [
-            { text: "Nagpur was a great switch point. The bus stand is a quick 10-min rickshaw ride from the station.", author: "Karan D.", location: "Nagpur" },
-            { text: "Itarsi station is a bit chaotic but the bus connectivity is unmatched for Central India.", author: "Sunita G.", location: "Itarsi" }
-        ],
         faqSchema: [
             { question: "Which city is the best transit hub in India?", answer: "Cities like Nagpur, Itarsi, and Pune are excellent hubs due to their central location and high connectivity." },
             { question: "How far is the bus stand from the train station in major hubs?", answer: "In most major hubs, the bus stand is within 2-5km of the railway station, easily accessible by auto-rickshaw." }
@@ -290,10 +275,6 @@ export const SEO_CONTENT = {
             { title: "UPSRTC Scania", details: "Look for UPSRTC 'Scania' or 'Volvo' buses from Anand Vihar; they are faster than local trains." },
             { title: "Purvanchal Exp", details: " Road travel via the Purvanchal Expressway has reduced the journey time to Patna by 4 hours." },
             { title: "Chhath Quota", details: "During Chhath, even emergency quotas are full. Multi-modal via Lucknow is your best bet." }
-        ],
-        testimonials: [
-            { text: "I took a train to Lucknow and a private sleeper to Patna. Way better than being stuck on a waitlist.", author: "Rahul B.", location: "Delhi" },
-            { text: "Varanasi to Patna by bus was smooth. Traavo's timings matched the bus departures exactly.", author: "Aditi V.", location: "Patna" }
         ],
         faqSchema: [
             { question: "What is the best alternative to a direct train to Patna?", answer: "Taking a train to Varanasi and then an AC bus to Patna is the most reliable alternative route." },
@@ -359,10 +340,6 @@ export const SEO_CONTENT = {
             { title: "Priority Quotas", details: "Always visit the Chief Reservation Supervisor at major stations for medical HQ quotas." },
             { title: "Route Buffers", details: "We suggest 45-min buffers instead of 90-min for emergency paths to prioritize speed." }
         ],
-        testimonials: [
-            { text: "My father needed to reach AIIMS Delhi. Traavo found a bus-train combo that beat the official direct train ETA by 4 hours.", author: "Dr. Sandeep H.", location: "Kanpur" },
-            { text: "When time is life, Traavo's 'Plan B' is more than just a route—it's a lifeline.", author: "Rajesh L.", location: "Lucknow" }
-        ],
         faqSchema: [
             { question: "Can I get priority booking for medical reasons?", answer: "Yes, Indian Railways has an 'Emergency Quota' (EQ) for medical cases. You need to submit a request to the DRM office with a doctor's certificate." },
             { question: "How can Traavo help in an emergency?", answer: "Traavo finds multi-modal combinations that can get you to your destination faster than waiting for the next available direct train." }
@@ -370,7 +347,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>When a medical emergency strikes, the last thing you want is to be stuck on a waitlist. Traavo is designed to provide 'Path Redundancy'—giving you multiple ways to reach your destination so you can choose the absolute fastest one.</p>
+                    <p>When a medical emergency strikes, the last thing you want is to be stuck on a waitlist. Traavo is designed to provide 'Path Redundancy'â€”giving you multiple ways to reach your destination so you can choose the absolute fastest one.</p>
 
                     <h2>Reaching Medical Hubs: Delhi, Mumbai, Chennai</h2>
                     <p>Most specialized medical care in India is concentrated in a few cities. If you need to reach Vellore from North India, or AIIMS Delhi from the East, Traavo will show you not just direct trains, but also flight+bus or train+train combinations that bypass the usual bottlenecks.</p>
@@ -389,7 +366,7 @@ export const SEO_CONTENT = {
         subtitle: "Travel tips for students and budget-conscious adventurers using Traavo.",
         description: "Discover how to see the best of your state without breaking the bank. Use Traavo's multi-modal search to find the cheapest train and bus combinations.",
         statistics: [
-            { label: "Avg. Daily Spend", value: "< ₹500" },
+            { label: "Avg. Daily Spend", value: "< â‚¹500" },
             { label: "State Bus Reach", value: "Deep Rural" },
             { label: "Student Discount", value: "Applicable" },
             { label: "Hidden Gems", value: "2000+" }
@@ -398,10 +375,6 @@ export const SEO_CONTENT = {
             { title: "State Passes", details: "Look for 'Tourist Bus Passes' offered by states like Himachal and Kerala for unlimited travel." },
             { title: "Dorm Stay", details: "Use Traavo hubs to find cities with verified Zostels or pilgrims' Sarais for ultra-low costs." },
             { title: "Off-Peak Travel", details: "Traveling on Tuesdays or Wednesdays can reduce private bus fares by up to 40%." }
-        ],
-        testimonials: [
-            { text: "As a student, I explored all of Rajasthan using state buses. Traavo mapped the junctions perfectly.", author: "Arya S.", location: "Pune" },
-            { text: "Budget travel is about optimization, and Traavo is the best optimizer for Indian roads.", author: "Liam J.", location: "London" }
         ],
         faqSchema: [
             { question: "How can I travel cheaply in India?", answer: "Use state-run buses (like MSRTC or KSRTC) and unreserved or sleeper class train tickets to keep costs low." },
@@ -443,10 +416,6 @@ export const SEO_CONTENT = {
             { title: "Recovery Points", details: "Indirect paths give you 2-3 cities where you can switch modes if a delay occurs." },
             { title: "Punctuality Data", details: "Buses are 20% more punctual than trains on routes under 500km in India." }
         ],
-        testimonials: [
-            { text: "The direct train was 6 hours late. I took a bus to a nearby junction and a different train. Reached on time!", author: "Suresh P.", location: "Chennai" },
-            { text: "Logic says 'Direct', but math says 'Indirect' is more reliable. Traavo proved it to me.", author: "Monica D.", location: "Delhi" }
-        ],
         faqSchema: [
             { question: "How can a longer route be faster?", answer: "Indirect routes can avoid high-traffic bottlenecks and leverage faster, more frequent transport modes that bypass delays." },
             { question: "Is it more expensive to take an indirect route?", answer: "Not necessarily. Often, the cost of two short-distance tickets is similar to one long-distance ticket, especially if you avoid surge pricing." }
@@ -463,7 +432,7 @@ export const SEO_CONTENT = {
                     <p>Some routes have massive capacity. The Mumbai-Pune or Delhi-Chandigarh corridors have buses every 10 minutes. If you are going from Mumbai to Chandigarh, switching at Delhi and taking a bus can save hours of waiting for the next available direct train seat.</p>
 
                     <h2>The 'Transfer' Advantage</h2>
-                    <p>Traavo's algorithm accounts for 'Buffer Time'. We don't just show you the fastest path; we show you the one that is most likely to succeed. An indirect route via a major hub gives you more 'Recovery Options'—if one bus is full, another will be along in 15 minutes.</p>
+                    <p>Traavo's algorithm accounts for 'Buffer Time'. We don't just show you the fastest path; we show you the one that is most likely to succeed. An indirect route via a major hub gives you more 'Recovery Options'â€”if one bus is full, another will be along in 15 minutes.</p>
                 </section>
             </>
         )
@@ -474,7 +443,7 @@ export const SEO_CONTENT = {
         description: "Explore hidden adventure spots in India that you can reach easily by state-run and private buses using Traavo.",
         statistics: [
             { label: "Secret Spots", value: "250+" },
-            { label: "Transit Cost", value: "< ₹300" },
+            { label: "Transit Cost", value: "< â‚¹300" },
             { label: "Safety Rating", value: "High" },
             { label: "Eco-Impact", value: "Low" }
         ],
@@ -483,10 +452,6 @@ export const SEO_CONTENT = {
             { title: "Side Window", details: "Sit on the left when going uphill in the Himalayas for the most consistent valley views." },
             { title: "Night Stops", details: "Use Traavo to find 'Dhabas' with clean toilets near bus rest stops for long mountain journeys." }
         ],
-        testimonials: [
-            { text: "Reaching Kaza by bus was the adventure of a lifetime. Traavo helped me map the overnight stays.", author: "Tushar B.", location: "Manali" },
-            { text: "Hidden beaches in Gokarna are best visited by local bus. No need for expensive rentals.", author: "Emma S.", location: "London" }
-        ],
         faqSchema: [
             { question: "What are some hidden adventure spots in India?", answer: "Places like Spiti Valley, Gokarna's hidden beaches, and the caves of Meghalaya are best explored via bus." },
             { question: "Is it safe to travel to remote spots by bus?", answer: "Yes, state transport buses are the main lifeline for these areas and are very safe for solo and group travelers." }
@@ -494,7 +459,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>The best adventures aren't found at the end of a runway; they're found at the end of a dusty road. Many of India's most stunning locations—high-altitude meadows, secret beaches, and ancient ruins—are only accessible by bus.</p>
+                    <p>The best adventures aren't found at the end of a runway; they're found at the end of a dusty road. Many of India's most stunning locationsâ€”high-altitude meadows, secret beaches, and ancient ruinsâ€”are only accessible by bus.</p>
 
                     <h2>The Mountains: Beyond Manali and Shimla</h2>
                     <p>While everyone goes to Shimla, the real adventure is in places like Kalpa or Kaza. These are accessible via the incredibly skilled drivers of the HRTC (Himachal Road Transport). Traavo helps you map these long bus journeys from major railheads like Chandigarh or Shimla.</p>
@@ -515,17 +480,13 @@ export const SEO_CONTENT = {
         statistics: [
             { label: "Trek Spots", value: "15+" },
             { label: "Student Reach", value: "100%" },
-            { label: "Avg. Return Cost", value: "₹250" },
+            { label: "Avg. Return Cost", value: "â‚¹250" },
             { label: "Group Travel", value: "Ideal" }
         ],
         practicalInfo: [
             { title: "Shivneri Class", details: "Use 'Shivneri' AC buses from Swargate for extra comfort during exams season trips." },
             { title: "Local Trains", details: "Pune-Lonavala locals run every 30 mins; they are the fastest way to avoid highway traffic." },
             { title: "Fort Passes", details: "Carry your student ID for discounted entry at certain heritage sites and museums." }
-        ],
-        testimonials: [
-            { text: "Lohagad fort is a must-visit. Traavo showed me the exact bus from Lonavala station.", author: "Siddharth J.", location: "Pune" },
-            { text: "Beach trips from Pune are finally affordable with the ST bus routes found on Traavo.", author: "Anjali M.", location: "Pune" }
         ],
         faqSchema: [
             { question: "Where can students go for a weekend trip from Pune?", answer: "Lonavala, Mahabaleshwar, and Matheran are classic choices, while Velas and Harihareshwar offer great coastal escapes." },
@@ -561,11 +522,7 @@ export const SEO_CONTENT = {
         practicalInfo: [
             { title: "Live Status", details: "Always check 'NTES' alongside Traavo for train cancellations; update your search instantly." },
             { title: "Highway Hubs", details: "Cities on the Golden Quadrilateral have 24/7 bus availability if rail lines are blocked." },
-            { title: "Booking Tip", details: "Keep ₹2000 cash for spot-booking state buses as online portals might crash during mass disruptions." }
-        ],
-        testimonials: [
-            { text: "My train to Jaipur was cancelled due to fog. Traavo found a 'Bikaner House' bus immediately.", author: "Manish T.", location: "Delhi" },
-            { text: "Don't wait in the enquiry queue. Just use Traavo and move to the nearest bus stand.", author: "Deepika R.", location: "Mumbai" }
+            { title: "Booking Tip", details: "Keep â‚¹2000 cash for spot-booking state buses as online portals might crash during mass disruptions." }
         ],
         faqSchema: [
             { question: "What should I do if my train is cancelled?", answer: "First, you are entitled to a full refund. Then, use Traavo to find the nearest bus stand or alternative rail hub to continue your journey." },
@@ -601,11 +558,7 @@ export const SEO_CONTENT = {
         practicalInfo: [
             { title: "Bus Types", details: "Choose from AC Sleeper, Semi-Sleeper, and Ordinary buses. Sleeper is recommended for overnight trips over 6 hours." },
             { title: "Booking Buffers", details: "During weekends, book at least 48 hours in advance for popular routes like Mumbai-Goa or Delhi-Jaipur." },
-            { title: "Luggage Policy", details: "Most private operators allow 15-20kg of luggage; extra baggage might incur a small fee (₹50-100)." }
-        ],
-        testimonials: [
-            { text: "The bus connectivity in Traavo is incredible. It found a direct sleeper to a remote village in Himachal that no other app showed.", author: "Sunil T.", location: "Manali" },
-            { text: "Stable, reliable, and covers all state buses. Traavo is my go-to for road travel.", author: "Meera H.", location: "Chennai" }
+            { title: "Luggage Policy", details: "Most private operators allow 15-20kg of luggage; extra baggage might incur a small fee (â‚¹50-100)." }
         ],
         faqSchema: [
             { question: "How can I find the best bus route?", answer: "Use Traavo's search engine to compare state-run and private buses by price, duration, and user ratings." },
@@ -615,7 +568,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>Buses are the literal lifeblood of India's transit system. While railways connect the backbone of the country, it is the millions of buses that reach the extremities—the mountain villages, the coastal hamlets, and the industrial towns. Traavo was built to bring professional-grade pathfinding to this vast and often fragmented network. Whether you're looking for a state-run 'Lal Pari' in Maharashtra or a high-end Scania sleeper in the South, we map it all.</p>
+                    <p>Buses are the literal lifeblood of India's transit system. While railways connect the backbone of the country, it is the millions of buses that reach the extremitiesâ€”the mountain villages, the coastal hamlets, and the industrial towns. Traavo was built to bring professional-grade pathfinding to this vast and often fragmented network. Whether you're looking for a state-run 'Lal Pari' in Maharashtra or a high-end Scania sleeper in the South, we map it all.</p>
 
                     <h2>The Multi-Tiered Bus Ecosystem</h2>
                     <p>India's bus network is divided into two primary sectors: the State Road Transport Corporations (SRTCs) and Private Operators. SRTCs like MSRTC, UPSRTC, and KSRTC provide high frequency and reach the smallest junctions. Private operators focus on the major 'Inter-city' corridors, providing luxury amenities like AC, blankets, and charging ports. Traavo helps you navigate both worlds, often suggesting a private sleeper for the long-haul and a state bus for the 'last-mile' connectivity.</p>
@@ -671,10 +624,6 @@ export const SEO_CONTENT = {
             { title: "Tatkal Timing", details: "AC Tatkal opens at 10 AM, Non-AC at 11 AM. Have your Traavo 'Plan B' ready for when they sell out in seconds." },
             { title: "Station Hubs", details: "Junctions like Varanasi, Itarsi, and Vadodara are the best for switching trains if a direct seat is unavailable." },
             { title: "Catering", details: "Use 'E-Catering' to order food from top restaurants to your seat at any major station on your route." }
-        ],
-        testimonials: [
-            { text: "Traavo found a connecting train via Bhusawal when everything else was booked. Saved my trip!", author: "Vikram R.", location: "Bhopal" },
-            { text: "The detail on junctions and platforms is what makes Traavo indispensable for rail travel.", author: "Anjali P.", location: "Kolkata" }
         ],
         faqSchema: [
             { question: "What is the best way to find train availability?", answer: "Traavo shows real-time availability and waitlist probabilities, helping you decide whether to book or look for a 'Plan B' bus route." },
@@ -745,10 +694,6 @@ export const SEO_CONTENT = {
             { title: "Transparency", details: "Traavo is an information aggregator; we don't sell tickets, we provide the best way to get them." },
             { title: "Community", details: "Our routing logic is constantly improved by user feedback on transfer ease and hub safety." }
         ],
-        testimonials: [
-            { text: "Traavo isn't just an app; it's a safety net for anyone who travels in India.", author: "Sagar M.", location: "Pune" },
-            { text: "The engineering behind 'Plan B' is what the Indian travel market was missing for decades.", author: "Ishita G.", location: "Delhi" }
-        ],
         faqSchema: [
             { question: "What is Traavo?", answer: "Traavo is a smart transit search engine that finds alternative routes using combinations of trains and buses when direct paths are full or cancelled." },
             { question: "How does the 'Plan B' logic work?", answer: "We use graph algorithms to identify transit hubs where you can switch modes efficiently to bypass bottlenecks." }
@@ -762,7 +707,7 @@ export const SEO_CONTENT = {
                     <p>At its core, Traavo is a massive, multi-modal graph. Every railway station and bus stand in India is a 'node', and every transport service is an 'edge'. Our AI-driven engine calculates thousands of possible paths in milliseconds, looking for the perfect balance of speed, cost, and reliability. We don't just show you a route; we show you a resilient travel strategy.</p>
 
                     <h2>Why Multi-Modal Matters</h2>
-                    <p>Most travel apps are siloed—they show either trains, or buses, or flights. But the real world is multi-modal. A traveler might take a train to a hub, a bus to a nearby city, and a taxi to their final destination. Traavo is the first platform in India to treat the entire transit network as a single, unified system. This transparency allows us to find 'Hidden Paths' that conventional travel agents and apps completely miss.</p>
+                    <p>Most travel apps are siloedâ€”they show either trains, or buses, or flights. But the real world is multi-modal. A traveler might take a train to a hub, a bus to a nearby city, and a taxi to their final destination. Traavo is the first platform in India to treat the entire transit network as a single, unified system. This transparency allows us to find 'Hidden Paths' that conventional travel agents and apps completely miss.</p>
 
                     <h2>Our Commitment to Accessibility</h2>
                     <p>We believe that reliable transit information is a fundamental right. That's why Traavo is designed to be lightweight, fast, and accessible even on low-bandwidth connections. Whether you are a student traveling on a budget, a family heading home for Diwali, or a professional on an urgent medical mission, Traavo is your silent partner on the road, ensuring you always reach your destination.</p>
@@ -784,10 +729,6 @@ export const SEO_CONTENT = {
             { title: "Report a Route", details: "Found a better transfer point? Let us know! Our community-driven 'Hub Scouts' keep our data fresh." },
             { title: "Partnerships", details: "For SRTCs and private operators looking to integrate their schedules, please reach out via the 'Business' tag." },
             { title: "Press", details: "Media inquiries regarding transit trends and data-driven travel insights can be sent to our PR desk." }
-        ],
-        testimonials: [
-            { text: "The team responded to my route suggestion within 12 hours. They actually listen to travelers!", author: "Animesh S.", location: "Indore" },
-            { text: "Great support for a great product. Truly solving a real problem.", author: "Lata R.", location: "Mumbai" }
         ],
         faqSchema: [
             { question: "How do I contact Traavo?", answer: "You can reach us via our support email or through the community feedback form on the Contact page." },
@@ -822,10 +763,6 @@ export const SEO_CONTENT = {
             { title: "Cultural Respect", details: "Our 'Hidden Gems' are often in remote areas; please respect local customs and environmental guidelines." },
             { title: "Booking Logic", details: "For peak 'Explore' seasons, use the 120-day rail window but keep a 'Plan B' bus route saved in your Traavo dashboard." }
         ],
-        testimonials: [
-            { text: "Traavo turned my vague 'I want to see the mountains' into a concrete, affordable 3-city itinerary.", author: "Gautam K.", location: "Delhi" },
-            { text: "The 'Explore' mode is like having a professional travel agent in your pocket.", author: "Sarah F.", location: "Sydney" }
-        ],
         faqSchema: [
             { question: "How do I use Explore mode?", answer: "Simply input your interest (Beaches, Mountains, Heritage) and Traavo will show you the most accessible hubs and routes." },
             { question: "Are these guides updated?", answer: "Yes, our destination guides are synced with the latest transit schedules and traveler feedback." }
@@ -833,7 +770,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>India is not a country you 'visit'; it's a country you 'decode'. With its vast geography and diverse cultures, the challenge isn't finding something beautiful—it's figuring out how to get there efficiently. Traavo's 'Explore' module is designed to bridge the gap between inspiration and destination, providing the logistics for your next great adventure.</p>
+                    <p>India is not a country you 'visit'; it's a country you 'decode'. With its vast geography and diverse cultures, the challenge isn't finding something beautifulâ€”it's figuring out how to get there efficiently. Traavo's 'Explore' module is designed to bridge the gap between inspiration and destination, providing the logistics for your next great adventure.</p>
 
                     <h2>From Heritage to High-Altitude</h2>
                     <p>Whether you're chasing the history of the Mughal Empire in Agra, seeking spiritual peace in Rishikesh, or looking for the adrenaline of the Spiti Valley, the journey is half the story. Traavo specializes in mapping the 'Last-Mile' of exploration. We don't just get you to the nearest big city; we show you how to navigate the local ferry, the shared mountain jeep, and the state-run sleeper bus that takes you to the heart of the action.</p>
@@ -858,10 +795,6 @@ export const SEO_CONTENT = {
             { title: "Waitlist Logic", details: "If your train waitlist is > 50, use Traavo now to find a bus backup before the road fills up too." },
             { title: "Multi-Hop", details: "Our engine supports up to 3-hop routes, unlocking millions of combinations other apps miss." },
             { title: "Real-Time Sync", details: "We aggregate data from IRCTC, private operators, and state transport for a truly unified view." }
-        ],
-        testimonials: [
-            { text: "Traavo is the first app I open when I need to travel on short notice in India.", author: "Rohan D.", location: "Mumbai" },
-            { text: "Simple, powerful, and it actually works when the big apps fail.", author: "Arjun K.", location: "Lucknow" }
         ],
         faqSchema: [
             { question: "How is Traavo different from IRCTC?", answer: "IRCTC only shows trains; Traavo shows trains, buses, and smart multi-modal combinations to help you travel when direct trains are full." },
@@ -888,29 +821,25 @@ export const SEO_CONTENT = {
         statistics: [
             { label: "Rule Effective", value: "May 1, 2025" },
             { label: "Auto Refund", value: "100% (E-Tickets)" },
-            { label: "ARP Reduced", value: "120 → 60 Days" },
-            { label: "WL Fine (AC)", value: "Up to ₹440" }
+            { label: "ARP Reduced", value: "120 â†’ 60 Days" },
+            { label: "WL Fine (AC)", value: "Up to â‚¹440" }
         ],
         practicalInfo: [
             { title: "The Hard Rule (Post May 2025)", details: "Fully waitlisted e-ticket holders CANNOT travel in Sleeper, AC-3T, AC-2T, or First AC coaches. This applies to both IRCTC and PRS counter tickets." },
             { title: "Partially Confirmed Exception", details: "If your PNR has multiple passengers and at least ONE is confirmed, ALL passengers on that PNR may board together. The WL passengers just won't have a personal berth." },
             { title: "General Coach Fallback", details: "Waitlisted passengers may still travel in unreserved General (GN) coaches, but these are often extremely crowded. Traavo's bus alternatives are far more comfortable." }
         ],
-        testimonials: [
-            { text: "My WL-8 ticket didn't clear. I used to just negotiate with the TTE but in 2025 the TTEs aren't allowed to ignore it. Traavo found a Volvo sleeper bus within minutes — it was actually a more comfortable ride!", author: "Sunil M.", location: "Gwalior" },
-            { text: "I got the automatic full refund immediately after the chart. Traavo showed me a route via a connecting train I never knew existed. Reached on time without any stress.", author: "Pooja R.", location: "Lucknow" }
-        ],
         faqSchema: [
             { question: "Can I travel with a waitlisted e-ticket after May 2025?", answer: "No. If your e-ticket remains fully waitlisted after chart preparation, it is automatically cancelled. You cannot board Sleeper or AC coaches. You may only use General/unreserved coaches as a last resort." },
-            { question: "What is the fine for boarding a reserved coach with a waitlisted ticket?", answer: "You are treated as a ticketless traveler. Fines are up to ₹250 for Sleeper class and up to ₹440 for AC classes, plus the fare from your boarding point to the next station." },
+            { question: "What is the fine for boarding a reserved coach with a waitlisted ticket?", answer: "You are treated as a ticketless traveler. Fines are up to â‚¹250 for Sleeper class and up to â‚¹440 for AC classes, plus the fare from your boarding point to the next station." },
             { question: "What is the '60-Day ARP' change?", answer: "From 2025, the Advance Reservation Period (ARP) was reduced from 120 days to 60 days. This means you can only book tickets 2 months in advance instead of 4 months." },
-            { question: "I have a partially confirmed PNR — can all of us board?", answer: "Yes! If at least one passenger on your PNR is Confirmed or RAC, all passengers on that PNR can board the reserved coach. Waitlisted co-passengers just won't be allocated their own berth." },
-            { question: "How does Traavo help when my ticket is cancelled?", answer: "Traavo scans thousands of multi-modal combinations — buses, connecting trains, and hubs — to find you a confirmed, available seat within seconds of your status being known." }
+            { question: "I have a partially confirmed PNR â€” can all of us board?", answer: "Yes! If at least one passenger on your PNR is Confirmed or RAC, all passengers on that PNR can board the reserved coach. Waitlisted co-passengers just won't be allocated their own berth." },
+            { question: "How does Traavo help when my ticket is cancelled?", answer: "Traavo scans thousands of multi-modal combinations â€” buses, connecting trains, and hubs â€” to find you a confirmed, available seat within seconds of your status being known." }
         ],
         content: (
             <>
                 <section>
-                    <p>On <strong>May 1, 2025</strong>, Indian Railways enforced a long-standing but poorly implemented rule: passengers holding fully waitlisted tickets are no longer permitted to board reserved coaches (Sleeper, 3-Tier AC, 2-Tier AC, or First AC). This isn't a brand-new law — it existed before — but 2025 marked the beginning of strict, consistent enforcement with Travelling Ticket Examiners (TTEs) now instructed to remove violators at the next station.</p>
+                    <p>On <strong>May 1, 2025</strong>, Indian Railways enforced a long-standing but poorly implemented rule: passengers holding fully waitlisted tickets are no longer permitted to board reserved coaches (Sleeper, 3-Tier AC, 2-Tier AC, or First AC). This isn't a brand-new law â€” it existed before â€” but 2025 marked the beginning of strict, consistent enforcement with Travelling Ticket Examiners (TTEs) now instructed to remove violators at the next station.</p>
 
                     <h2>What Exactly Changed in 2025 vs Before?</h2>
                     <p>Before May 2025, many TTEs would look the other way or collect a small informal fee to allow a waitlisted passenger to find a vacant berth. This was routine on many routes. The new enforcement directive from the Railway Board changed this culture overnight. TTEs are now accountable, and the Railways has made enforcement a measurable part of their operations.</p>
@@ -935,8 +864,8 @@ export const SEO_CONTENT = {
                             <tr>
                                 <td>Fine for WL boarding</td>
                                 <td>Rarely enforced</td>
-                                <td>₹250 (SL) / ₹440 (AC)</td>
-                                <td>₹250 (SL) / ₹440 (AC) + fare (unchanged)</td>
+                                <td>â‚¹250 (SL) / â‚¹440 (AC)</td>
+                                <td>â‚¹250 (SL) / â‚¹440 (AC) + fare (unchanged)</td>
                             </tr>
                             <tr>
                                 <td>Advance Reservation Period</td>
@@ -948,64 +877,64 @@ export const SEO_CONTENT = {
                                 <td>Chart Preparation Time</td>
                                 <td>~4 hours before departure</td>
                                 <td>~4 hours before departure</td>
-                                <td>9–18 hours before departure 🆕</td>
+                                <td>9â€“18 hours before departure ðŸ†•</td>
                             </tr>
                             <tr>
-                                <td>Cancellation: 24–8 hrs before</td>
+                                <td>Cancellation: 24â€“8 hrs before</td>
                                 <td>25% deduction</td>
                                 <td>25% deduction</td>
-                                <td>50% deduction 🆕</td>
+                                <td>50% deduction ðŸ†•</td>
                             </tr>
                             <tr>
                                 <td>Cancellation: within 8 hrs</td>
                                 <td>50% deduction</td>
                                 <td>50% deduction</td>
-                                <td>No refund permitted 🆕</td>
+                                <td>No refund permitted ðŸ†•</td>
                             </tr>
                             <tr>
                                 <td>IRCTC booking authentication</td>
                                 <td>Password-based</td>
                                 <td>OTP-based</td>
-                                <td>Aadhaar-linked OTP mandatory 🆕</td>
+                                <td>Aadhaar-linked OTP mandatory ðŸ†•</td>
                             </tr>
                             <tr>
                                 <td>Boarding station change</td>
                                 <td>Only before chart prep</td>
                                 <td>Only before chart prep</td>
-                                <td>Up to 30 mins before departure 🆕</td>
+                                <td>Up to 30 mins before departure ðŸ†•</td>
                             </tr>
                             <tr>
                                 <td>Unseated passenger (NTA)</td>
                                 <td>TTE discretion</td>
                                 <td>TTE discretion</td>
-                                <td>Digital NTA re-allotment to WL 🆕</td>
+                                <td>Digital NTA re-allotment to WL ðŸ†•</td>
                             </tr>
                             <tr>
                                 <td>Counter cancellation location</td>
                                 <td>Only at issuing station</td>
                                 <td>Any PRS counter</td>
-                                <td>Any counter, simplified 🆕</td>
+                                <td>Any counter, simplified ðŸ†•</td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <h2>🆕 The 2026 Changes — What Travelers Must Know Now</h2>
+                    <h2>ðŸ†• The 2026 Changes â€” What Travelers Must Know Now</h2>
                     <p>While the 2025 rules focused on boarding discipline, <strong>April 2026</strong> brought a wave of financial and operational reforms designed to curb speculative booking and improve seat availability. These are the most important 2026 updates:</p>
 
-                    <h3>1. Early Chart Preparation (9–18 Hours Before Departure)</h3>
-                    <p>Previously, reservation charts were prepared just 4 hours before a train's departure, giving waitlisted passengers very little time to plan. From April 2026, charts are prepared <strong>9 to 18 hours in advance</strong>. This is actually good news for travelers — it gives you more time to react if your WL doesn't clear, meaning you have a wider window to book an alternative route via Traavo before all buses and connecting trains fill up too.</p>
+                    <h3>1. Early Chart Preparation (9â€“18 Hours Before Departure)</h3>
+                    <p>Previously, reservation charts were prepared just 4 hours before a train's departure, giving waitlisted passengers very little time to plan. From April 2026, charts are prepared <strong>9 to 18 hours in advance</strong>. This is actually good news for travelers â€” it gives you more time to react if your WL doesn't clear, meaning you have a wider window to book an alternative route via Traavo before all buses and connecting trains fill up too.</p>
 
                     <h3>2. No Refund Within 8 Hours of Departure</h3>
-                    <p>The 2026 refund policy is significantly stricter for confirmed tickets. If you cancel within 8 hours of the train's departure, you forfeit the entire fare. This makes it even more critical to decide <strong>early</strong> — the moment your WL number is high, don't wait for the chart. Start your Traavo search immediately so you have backup options booked before the 8-hour no-refund window kicks in.</p>
+                    <p>The 2026 refund policy is significantly stricter for confirmed tickets. If you cancel within 8 hours of the train's departure, you forfeit the entire fare. This makes it even more critical to decide <strong>early</strong> â€” the moment your WL number is high, don't wait for the chart. Start your Traavo search immediately so you have backup options booked before the 8-hour no-refund window kicks in.</p>
 
                     <h3>3. Aadhaar-Linked OTP: Mandatory for All Bookings</h3>
-                    <p>From 2026, all IRCTC bookings require Aadhaar-linked OTP authentication. This eliminates bot-driven bulk bookings which were one of the primary reasons waitlists formed so quickly. While this is a long-term positive, in the short term it means Tatkal tickets sell out more evenly rather than in milliseconds — making your 60-day window slightly more useful.</p>
+                    <p>From 2026, all IRCTC bookings require Aadhaar-linked OTP authentication. This eliminates bot-driven bulk bookings which were one of the primary reasons waitlists formed so quickly. While this is a long-term positive, in the short term it means Tatkal tickets sell out more evenly rather than in milliseconds â€” making your 60-day window slightly more useful.</p>
 
                     <h3>4. Digital "Not Turned Up" (NTA) Seat Reallocation</h3>
                     <p>When a confirmed passenger doesn't board at their station, TTEs can now digitally mark them as "Not Turned Up" on their handheld devices. This triggers <strong>immediate reallocation of that berth</strong> to the highest-priority waitlisted passenger. This increases the chance of WL-1 or WL-2 clearing even after the chart, but WL-10 or above still has very low clearance probability.</p>
 
                     <h2>The Critical 60-Day ARP Change</h2>
-                    <p>One of the biggest yet under-discussed changes of 2025 is the reduction of the Advance Reservation Period (ARP) from 120 days to 60 days. Previously, travelers could book up to 4 months in advance — giving them a significant advantage in securing confirmed seats. Now, the booking window opens only 60 days before departure. This means the competition for seats is even more intense in the immediate booking window, and waitlists form faster. For travelers who fail to book in this narrow window, waitlists are now nearly impossible to clear.</p>
+                    <p>One of the biggest yet under-discussed changes of 2025 is the reduction of the Advance Reservation Period (ARP) from 120 days to 60 days. Previously, travelers could book up to 4 months in advance â€” giving them a significant advantage in securing confirmed seats. Now, the booking window opens only 60 days before departure. This means the competition for seats is even more intense in the immediate booking window, and waitlists form faster. For travelers who fail to book in this narrow window, waitlists are now nearly impossible to clear.</p>
 
                     <h2>The Important Exception: Partially Confirmed PNRs</h2>
                     <p>One critical rule often misunderstood: if you are traveling as a group on a single PNR and <strong>at least one person is confirmed</strong>, all passengers on that PNR are legally allowed to board the reserved coach. The waitlisted members won't be assigned a specific berth but can travel with their group. This is a legitimate, officially confirmed exception applicable to both e-tickets and counter tickets.</p>
@@ -1020,36 +949,32 @@ export const SEO_CONTENT = {
                     </ol>
 
                     <h2>Why Traavo is Your Best Insurance Against 2025-2026 WL Cancellations</h2>
-                    <p>With the ARP reduced to 60 days and enforcement tightened, the stakes for travelers are permanently higher. Traavo was built for exactly this reality — a system where the primary path often fails, and you need a reliable, fast Plan B. Don't wait until your ticket is cancelled. If you see a WL number above 30, open Traavo and start planning your alternative route now.</p>
+                    <p>With the ARP reduced to 60 days and enforcement tightened, the stakes for travelers are permanently higher. Traavo was built for exactly this reality â€” a system where the primary path often fails, and you need a reliable, fast Plan B. Don't wait until your ticket is cancelled. If you see a WL number above 30, open Traavo and start planning your alternative route now.</p>
                 </section>
             </>
         )
     },
     'mumbai-pune-status-2026': {
-        title: "No tickets for Mumbai–Pune? Best Emergency Backup Routes 2026",
+        title: "No tickets for Mumbaiâ€“Pune? Best Emergency Backup Routes 2026",
         subtitle: "How to reach Pune or Mumbai instantly when the Intercity & Deccan Queen are full.",
         description: "Stuck with no train tickets between Mumbai and Pune? Traavo shows you the best Shivneri AC bus timings, shared cab points (Dadar/Thane), and local train hacks to beat the rush.",
         statistics: [
             { label: "Daily Commuters", value: "85,000+" },
             { label: "Train Frequency", value: "Every 45m" },
             { label: "Bus Availability", value: "99% (Shivneri)" },
-            { label: "Cab Fare (Shared)", value: "₹500-800" }
+            { label: "Cab Fare (Shared)", value: "â‚¹500-800" }
         ],
         practicalInfo: [
             { title: "Shivneri AC Hubs", details: "MSRTC Shivneri buses depart every 15-30 minutes from Dadar (Asiad Stand), Thane (Vandana), and Borivali for Pune (Swargate/Station)." },
-            { title: "The Shared Cab Trick", details: "Authorized shared Cool Cabs operate 24/7 from Dadar TT and Thane Teen Haath Naka. Expect to pay ₹500 per seat for a fast 3-hour journey." },
+            { title: "The Shared Cab Trick", details: "Authorized shared Cool Cabs operate 24/7 from Dadar TT and Thane Teen Haath Naka. Expect to pay â‚¹500 per seat for a fast 3-hour journey." },
             { title: "Local Train + Bus Combo", details: "Take a local train to Karjat or Panvel, then hop on a state transport (ST) bus climbing the ghats. It's often faster than a late express train." }
-        ],
-        testimonials: [
-            { text: "The Deccan Queen was housefull. Traavo suggested a Shivneri from Dadar. I was in Pune in 3 hours despite the Lonavala traffic.", author: "Prasad K.", location: "Mumbai" },
-            { text: "As a student, I use the local-to-Panvel hack Traavo suggested. Cheapest and most reliable way when everything else is blocked.", author: "Rohan D.", location: "Pune" }
         ],
         faqSchema: [
             { question: "Is there a local train from Mumbai to Pune?", answer: "Technically no, but you can take a local to Karjat/Khopoli and then a 1.5-hour bus or taxi to Pune." },
             { question: "Where do I get a shared taxi for Pune in Mumbai?", answer: "Dadar TT and Thane Teen Haath Naka are the primary hubs for shared AC cabs to Pune." },
             { question: "What is the fastest way to Pune if trains are full?", answer: "The Shivneri bus via the Mumbai-Pune Expressway is the fastest and most comfortable alternative to trains." },
             { question: "Do buses run at night between Mumbai and Pune?", answer: "Yes, private sleeper buses and MSRTC 'Sheetal' or 'Asiad' buses run 24/7 on this corridor." },
-            { question: "How much is the fine for traveling without a ticket in Mumbai-Pune trains?", answer: "Standard Indian Railways penalty: ₹250 + the fare. It's better to take a confirmed bus found on Traavo!" }
+            { question: "How much is the fine for traveling without a ticket in Mumbai-Pune trains?", answer: "Standard Indian Railways penalty: â‚¹250 + the fare. It's better to take a confirmed bus found on Traavo!" }
         ],
         content: (
             <>
@@ -1125,10 +1050,6 @@ export const SEO_CONTENT = {
             { title: "The Rajdhani Hierarchy", details: "The 12952 Mumbai Rajdhani is the fastest, but the 12954 August Kranti is easier to book. Traavo shows availability for both plus the 2026 Vande Bharat Sleepers." },
             { title: "Booking Window (ARP)", details: "Remember the 2025 rule: The booking window is now 60 days. Set your alarm for 8 AM exactly 60 days before travel." },
             { title: "The Ahmedabad Switch", details: "If direct Delhi-Mumbai is full, Traavo suggests taking a train to Ahmedabad and an overnight Volvo bus to Mumbai. It's the most reliable Plan B." }
-        ],
-        testimonials: [
-            { text: "Tatkal failed, but Traavo found a route via Vadodara. I spent 4 hours on a bus but reached Mumbai just in time for my meeting.", author: "Arjun V.", location: "Delhi" },
-            { text: "Vande Bharat sleeper is an experience! Traavo helped me compare the cost with Rajdhani effortlessly.", author: "Megha S.", location: "Mumbai" }
         ],
         faqSchema: [
             { question: "Which is the fastest train from Delhi to Mumbai?", answer: "The 12952 Mumbai Rajdhani and the newly introduced Vande Bharat Sleeper (2026) are the fastest, taking around 13.5 to 15.5 hours." },
@@ -1212,10 +1133,6 @@ export const SEO_CONTENT = {
             { title: "Lucknow Junction Switch", details: "If direct Delhi-Varanasi is full, book a 'Shatabdi' or 'Tejas' to Lucknow. From Lucknow, hundreds of buses and local trains depart for Varanasi every hour." },
             { title: "Prayagraj Connection", details: "Varanasi and Prayagraj are just 120km apart. If Varanasi trains are full, search for Delhi-Prayagraj (Allahabad) and take a 2.5-hour bus or intercity train for the final leg." }
         ],
-        testimonials: [
-            { text: "No tickets on Shivganga or Vande Bharat. Traavo suggested a bus from Anand Vihar via the expressway. It was smooth and I reached Kashi by 8 AM.", author: "Manish G.", location: "Delhi" },
-            { text: "Lucknow switch was genius! I got a confirmed Shatabdi seat and a comfortable Volvo bus from Lucknow to Varanasi. Total travel time was almost same as a slow express.", author: "Sneha T.", location: "Varanasi" }
-        ],
         faqSchema: [
             { question: "What is the best alternative to Vande Bharat for Varanasi?", answer: "The Shivganga Express is the best alternative, but if rail is full, a luxury AC sleeper bus via the Purvanchal Expressway is the fastest road option." },
             { question: "How far is Varanasi from Delhi by road?", answer: "It is approximately 820 km via the Purvanchal Expressway, taking around 11-13 hours depending on the bus operator." },
@@ -1295,10 +1212,6 @@ export const SEO_CONTENT = {
             { title: "Same-Train Chaining", details: "The most effective trick is booking two different berths on the *same train* for different segments. You might have to move seats once, but you stay on the same train." },
             { title: "Traavo Automation", details: "Traavo automatically scans these 'Linked Seats' by identifying major intermediate junctions where quotas reset, saving you hours of manual PNR searching." }
         ],
-        testimonials: [
-            { text: "I couldn't get a direct ticket to Bangalore. Traavo showed me two tickets on the same train: Mumbai to Hubli and Hubli to Bangalore. It worked perfectly!", author: "Sangeeta P.", location: "Mumbai" },
-            { text: "Seat chaining saved my Diwali trip. I had to change seats at Nagpur, but I had a confirmed berth the whole way.", author: "Vivek R.", location: "Chennai" }
-        ],
         faqSchema: [
             { question: "What is seat chaining in Indian Railways?", answer: "It is the process of booking two or more separate tickets on the same train or different trains to cover a single journey when direct tickets are unavailable." },
             { question: "Is it legal to book two tickets on the same train?", answer: "Yes, it is perfectly legal. You are essentially paying for two different segments of the same journey." },
@@ -1309,7 +1222,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>Every seasoned traveler in India knows the frustration: you search for a ticket from Delhi to Howrah, and it shows **'WL-150'**. But did you know that the same train might have **'Available-10'** seats from Delhi to Mughalsarai and another **'Available-5'** from Mughalsarai to Howrah? This is the power of **Seat Chaining**—a method to exploit the complex quota system of Indian Railways.</p>
+                    <p>Every seasoned traveler in India knows the frustration: you search for a ticket from Delhi to Howrah, and it shows **'WL-150'**. But did you know that the same train might have **'Available-10'** seats from Delhi to Mughalsarai and another **'Available-5'** from Mughalsarai to Howrah? This is the power of **Seat Chaining**â€”a method to exploit the complex quota system of Indian Railways.</p>
 
                     <h2>Understanding the Quota System</h2>
                     <p>Indian Railways doesn't treat a train as a single pool of seats. Instead, it divides seats into 'Quotas' for different station pairs. Major stations like Delhi, Mumbai, and Kolkata have the largest quotas, but intermediate 'Remote Locations' also have their own dedicated seats. If the main quota is exhausted, the intermediate ones might still be vacant. Seat chaining is the art of linking these vacant segments into one continuous journey.</p>
@@ -1351,7 +1264,7 @@ export const SEO_CONTENT = {
                     <p>The most convenient form of seat chaining is booking two tickets on the **very same train**. For example, on the Karnataka Express, if Bangalore to Delhi is full, check Bangalore to Itarsi and Itarsi to Delhi. In 2026, Traavo's algorithm specifically highlights these 'Intra-Train' links. While you might need to move your luggage from one coach to another at a major junction like Nagpur or Itarsi, you avoid the stress of a waitlist and the risk of not cleared PNRs.</p>
 
                     <h2>How Traavo Automates the Search</h2>
-                    <p>Manually searching for every possible station pair on a 2000km route is impossible for a human. Traavo's engine performs this 'Segmental Scanning' in milliseconds. We identify the 'Quota Reset' points—major junctions where the highest probability of available seats exists—and present you with a pre-validated 'Chain'. This is travel intelligence that puts the power back in the hands of the passenger.</p>
+                    <p>Manually searching for every possible station pair on a 2000km route is impossible for a human. Traavo's engine performs this 'Segmental Scanning' in milliseconds. We identify the 'Quota Reset' pointsâ€”major junctions where the highest probability of available seats existsâ€”and present you with a pre-validated 'Chain'. This is travel intelligence that puts the power back in the hands of the passenger.</p>
 
                     <h2>Is it Expensive?</h2>
                     <p>Because each ticket has its own base fare, a 'Chained' journey can sometimes cost 5-15% more than a single direct ticket. However, compared to the cost of a **'Premium Tatkal'** ticket (which can surge to 3x the base fare) or a last-minute flight, seat chaining remains the most cost-effective way to guarantee a confirmed berth on an Indian train.</p>
@@ -1376,15 +1289,11 @@ export const SEO_CONTENT = {
             { title: "Tejas Express Redundancy", details: "Look for privatized Tejas Express trains. They offer similar premium amenities (food, AC, speed) and are the closest direct rivals to the Vande Bharat experience." },
             { title: "The 'Executive' Bus Option", details: "For short Vande Bharat routes (under 500km), luxury 'Executive' AC buses with 2+1 seating are a reliable Plan B that Traavo maps with live timings." }
         ],
-        testimonials: [
-            { text: "VB was full, but Traavo suggested the Tejas Express. The service was actually better and I reached only 20 minutes later than the VB would have.", author: "Kiran L.", location: "Ahmedabad" },
-            { text: "When Vande Bharat to Varanasi was sold out, Traavo found me an overnight AC sleeper bus that was half the price and very comfortable.", author: "Deepak S.", location: "Delhi" }
-        ],
         faqSchema: [
             { question: "Why is Vande Bharat always full?", answer: "Vande Bharat is the most popular train in India due to its speed and premium features, leading to extremely high demand and fast sell-outs." },
             { question: "Is Shatabdi as good as Vande Bharat?", answer: "Shatabdi is slightly older but offers similar speeds and comfort. It remains one of the best alternatives when Vande Bharat is full." },
             { question: "What are 'Executive' buses?", answer: "These are premium 2+1 or 1+1 seater AC buses that offer more legroom and comfort than standard AC buses, rivaling train comfort." },
-            { question: "How does Traavo help find Vande Bharat alternatives?", answer: "Traavo compares all high-speed options—Shatabdi, Tejas, Duronto, and Premium Buses—to find the fastest available seat for your time slot." },
+            { question: "How does Traavo help find Vande Bharat alternatives?", answer: "Traavo compares all high-speed optionsâ€”Shatabdi, Tejas, Duronto, and Premium Busesâ€”to find the fastest available seat for your time slot." },
             { question: "Which is cheaper: Vande Bharat or Tejas?", answer: "Prices are generally similar, but Tejas fares can be dynamic. Traavo provides a side-by-side cost comparison." }
         ],
         content: (
@@ -1413,9 +1322,9 @@ export const SEO_CONTENT = {
                         <tbody>
                             <tr>
                                 <td>Top Speed</td>
-                                <td>130–160 km/h</td>
-                                <td>110–130 km/h</td>
-                                <td>80–100 km/h</td>
+                                <td>130â€“160 km/h</td>
+                                <td>110â€“130 km/h</td>
+                                <td>80â€“100 km/h</td>
                             </tr>
                             <tr>
                                 <td>Food Quality</td>
@@ -1461,10 +1370,6 @@ export const SEO_CONTENT = {
             { title: "Student Quota Hidden Seats", details: "Did you know some trains have a hidden quota for students with valid ID cards? Our guide explains how to approach the station master for 'Emergency Quota' (EQ) allocation." },
             { title: "Shared Transit Networks", details: "When all public transport fails, Traavo connects you with verified student carpool groups and shared shuttle services specialized for exam-center clusters." }
         ],
-        testimonials: [
-            { text: "My NEET center was 400km away and the train was waitlisted. Traavo found a combo of a nocturnal bus and a local transport that got me there 2 hours early.", author: "Anjali M.", location: "Patna" },
-            { text: "The Emergency Quota tip worked! I showed my admit card at the IRCTC counter as Traavo suggested and got a seat on the Shatabdi.", author: "Kartik R.", location: "Jaipur" }
-        ],
         faqSchema: [
             { question: "Do railways give priority to students?", answer: "Yes, during major exam seasons, students with valid admit cards can apply for seat allocation under the Emergency Quota (EQ)." },
             { question: "What is the fastest way to reach an exam center if trains are full?", answer: "A point-to-point AC bus or a shared taxi found via Traavo is usually the most reliable last-minute option." },
@@ -1481,7 +1386,7 @@ export const SEO_CONTENT = {
                     <p>One of the least known secrets of Indian Railways is the **Emergency Quota**. While usually reserved for VIPs and medical cases, it can be extended to students with urgent exam commitments. If your ticket is waitlisted, visit the nearest DRM (Divisional Railway Manager) office or talk to the Station Master with your Admit Card. Traavo provides the exact templates and locations for these applications, giving you a fighting chance at a confirmed seat.</p>
 
                     <h2>The 'No-Sleep' Overnight Bus Strategy</h2>
-                    <p>When the rail network is paralyzed, the road is your savior. In 2026, several private operators run 'Exam Fast-Tracks'—non-stop buses that connect major cities like Kota, Patna, and Delhi during peak exam dates. These services prioritize speed and safety. Traavo monitors these schedules, ensuring that even if you book at 11 PM for an 8 AM exam, you have a seat confirmed.</p>
+                    <p>When the rail network is paralyzed, the road is your savior. In 2026, several private operators run 'Exam Fast-Tracks'â€”non-stop buses that connect major cities like Kota, Patna, and Delhi during peak exam dates. These services prioritize speed and safety. Traavo monitors these schedules, ensuring that even if you book at 11 PM for an 8 AM exam, you have a seat confirmed.</p>
 
                     <h3>Exam Season Transit: Priority Check</h3>
                     <table className="seo-data-table">
@@ -1538,10 +1443,6 @@ export const SEO_CONTENT = {
             { title: "State Transport AC (Volvos)", details: "States like Karnataka, Maharashtra, and Andhra have excellent AC bus connectivity to Tier-3 towns. Traavo integrates these schedules with train arrivals for seamless transfers." },
             { title: "The 'Last-Mile' Reality", details: "In 2026, many smaller towns have improved 'E-Rickshaw' and 'App-Taxi' availability. Traavo suggests the best arrival times to ensure you find safe local transport." }
         ],
-        testimonials: [
-            { text: "I had to reach a village near Jabalpur. Traavo's idea to take a train to Itarsi and then a 'Janrath' bus saved me 10 hours of waiting for a direct train.", author: "Sunil M.", location: "Mumbai" },
-            { text: "Traveling to a Tier-3 town in Punjab was easy because Traavo showed me the exact bus stand distance from the railway station.", author: "Preeti K.", location: "Delhi" }
-        ],
         faqSchema: [
             { question: "How to reach a Tier-3 city if there's no direct train?", answer: "Book a train to the nearest major 'Junction' and take a state-run or private AC bus for the remaining distance." },
             { question: "What is a 'Hub and Spoke' model in travel?", answer: "It involves traveling to a central 'Hub' (major city) and then using local transport to reach the 'Spoke' (smaller town)." },
@@ -1564,7 +1465,7 @@ export const SEO_CONTENT = {
                     <p>Traavo's engine automatically checks these hubs. If a direct train to your town is full, we find a confirmed seat to the nearest hub and map the immediate bus or local train connection for the final leg.</p>
 
                     <h2>State Transport vs. Private Operators</h2>
-                    <p>In 2026, the quality of State Transport (ST) buses has reached parity with private operators in many regions. Categories like **MSRTC Shivshahi**, **UPSRTC Janrath**, and **KSRTC Ambaari Dream Class** provide high-end comfort to the most remote corners of India. Traavo's integration ensures you know exactly which bus stand to go to—often different from the railway station—and what time the last bus departs.</p>
+                    <p>In 2026, the quality of State Transport (ST) buses has reached parity with private operators in many regions. Categories like **MSRTC Shivshahi**, **UPSRTC Janrath**, and **KSRTC Ambaari Dream Class** provide high-end comfort to the most remote corners of India. Traavo's integration ensures you know exactly which bus stand to go toâ€”often different from the railway stationâ€”and what time the last bus departs.</p>
 
                     <h3>Transit Efficiency: Metro to Tier-3</h3>
                     <table className="seo-data-table">
@@ -1621,10 +1522,6 @@ export const SEO_CONTENT = {
             { title: "The 'Opposite Flow' Trick", details: "During Holi, everyone goes from Metros to the North. Traavo suggests 'Hidden Gem' destinations in the South or West where transit is easily available." },
             { title: "Bus Price Protections", details: "Private bus prices soar during long weekends. Traavo compares 'Peak' rates against 'State Transport' fixed fares, saving you thousands on a single trip." }
         ],
-        testimonials: [
-            { text: "Every train to Manali was full for Independence Day. Traavo suggested a route via Chandigarh with a confirmed Volvo bus. We made it without any hassle!", author: "Sahil Z.", location: "Delhi" },
-            { text: "Traavo's early-bird alert for the 60-day booking window saved our family Diwali trip. We got 4 confirmed berths in 2nd AC.", author: "Neha B.", location: "Mumbai" }
-        ],
         faqSchema: [
             { question: "When are the long weekends in 2026?", answer: "Major ones include Republic Day (Mon), Holi (Fri), Independence Day (Sat-Sun-Mon), and Diwali/Bhai Dooj (Thu-Sun)." },
             { question: "How early should I book for a long weekend?", answer: "With the 60-day ARP in 2026, you must book exactly 2 months in advance at 8 AM for trains." },
@@ -1642,7 +1539,7 @@ export const SEO_CONTENT = {
                     <ul>
                         <li><strong>The 60-Day Countdown:</strong> Indian Railways has shortened the ARP to 60 days. Traavo's 'Alerts' ensure you are ready at 7:59 AM on the day bookings open for your chosen holiday.</li>
                         <li><strong>Dynamic Buffer Junctions:</strong> If you're going to Goa and the Mandovi Express is full, Traavo doesn't give up. We search for routes to Belagavi or Sawantwadi with immediate road connections.</li>
-                        <li><strong>Bus-Fare Sanity Check:</strong> During festivals, private bus fares can reach ₹5,000 for a ₹1,000 journey. We help you find the 'Hidden' State Volvo services that maintain fixed government rates.</li>
+                        <li><strong>Bus-Fare Sanity Check:</strong> During festivals, private bus fares can reach â‚¹5,000 for a â‚¹1,000 journey. We help you find the 'Hidden' State Volvo services that maintain fixed government rates.</li>
                     </ul>
 
                     <h3>2026 High-Volume Festivals: Transit Outlook</h3>
@@ -1683,7 +1580,7 @@ export const SEO_CONTENT = {
                     <h2>Road Travel: The 2026 Expressway Advantage</h2>
                     <p>With the completion of several the missing links in the National Expressway network, road travel is often faster than trains for distances under 600km. If you're traveling Delhi-Varanasi or Mumbai-Nagpur, Traavo's road-focused search can find you an AC sleeper bus that arrives faster than a traditional express train, especially during the 'Holiday Special' congestion on the tracks.</p>
 
-                    <p>Don't just plan a holiday—plan your journey. Let Traavo navigate the 2026 rush for you.</p>
+                    <p>Don't just plan a holidayâ€”plan your journey. Let Traavo navigate the 2026 rush for you.</p>
                 </section>
             </>
         )
@@ -1702,10 +1599,6 @@ export const SEO_CONTENT = {
             { title: "GNWL vs. Others", details: "General Waitlist (GNWL) has the highest priority. If you have a GNWL under 50, your chances are high. Remote Location (RLWL) and Pooled Quota (PQWL) rarely clear for long-distance trains." },
             { title: "The 2025 Chart Prep Rule", details: "In 2025, IRCTC updated chart preparation for many trains to 18 hours before departure. Always check your status the evening before your journey to avoid being removed at the station." },
             { title: "Traavo 'Safe' Threshold", details: "Our logic suggests that if your WL is above 100 on a peak route (e.g., Delhi-Patna), you should book an alternative bus on Traavo immediately to avoid getting stranded." }
-        ],
-        testimonials: [
-            { text: "My RLWL-10 didn't clear even after 3 days of waiting. Traavo's guide explained why (Remote Location quota) and helped me find a bus just in time.", author: "Amrit B.", location: "Kanpur" },
-            { text: "I followed Traavo's advice and booked a backup bus when my PQWL-40 didn't move. The train chart prepared and I wasn't confirmed—the bus saved me!", author: "Siddharth J.", location: "Kolkata" }
         ],
         faqSchema: [
             { question: "What is GNWL in Indian Railways?", answer: "GNWL stands for General Waitlist. It is issued when you travel from the originating station or nearby stations, and it has the highest clearing probability." },
@@ -1792,10 +1685,6 @@ export const SEO_CONTENT = {
             { title: "MSRTC Shivneri Hubs", details: "For Mumbai-Pune-Nashik, the MSRTC Shivneri is the gold standard. Traavo tracks live availability and identifies the best time to reach the stand." },
             { title: "Karnataka-Maharashtra Border Hacks", details: "Reaching places like Kolhapur or Belagavi is often easier by bus from major metros. Traavo suggests taking a train to the border and switching to an ST bus for rural transit." }
         ],
-        testimonials: [
-            { text: "Traveling to Hampi was a breeze thanks to the KSRTC-Train combo Traavo suggested. The Ambaari bus from Bangalore was very comfortable.", author: "Arnav K.", location: "Bangalore" },
-            { text: "MSRTC buses are the backbone of Konkan travel. Traavo helped me find a bus from Ratnagiri to my village that wasn't on any other app.", author: "Siddhesh P.", location: "Mumbai" }
-        ],
         faqSchema: [
             { question: "What is the difference between MSRTC and KSRTC?", answer: "MSRTC is the Maharashtra State Road Transport Corporation, while KSRTC is the Karnataka State Road Transport Corporation. Both are leading state-run bus services in India." },
             { question: "Are state-run buses safe for solo female travelers?", answer: "Yes, both MSRTC and KSRTC have dedicated female safety protocols, including CCTV and priority seating." },
@@ -1806,7 +1695,7 @@ export const SEO_CONTENT = {
         content: (
             <>
                 <section>
-                    <p>In South and Western India, the railway network is often complemented (and sometimes beaten) by two massive state-run bus corporations: **MSRTC** (Maharashtra) and **KSRTC** (Karnataka). In 2026, these organizations have upgraded their fleets with European-standard Volvo and Scania buses, making road travel a viable—and often superior—alternative to waitlisted trains.</p>
+                    <p>In South and Western India, the railway network is often complemented (and sometimes beaten) by two massive state-run bus corporations: **MSRTC** (Maharashtra) and **KSRTC** (Karnataka). In 2026, these organizations have upgraded their fleets with European-standard Volvo and Scania buses, making road travel a viableâ€”and often superiorâ€”alternative to waitlisted trains.</p>
 
                     <h2>The KSRTC 'Ambaari' Revolution</h2>
                     <p>Karnataka's KSRTC is widely regarded as one of the best state transport units in India. Their **Ambaari Dream Class** (AC Sleeper) and **Airavat Club Class** (AC Seater) are iconic. For routes like Bangalore to Mysore, Bangalore to Mangalore, or Bangalore to Chennai, these buses run like clockwork. Traavo's algorithm prioritizes these buses over trains for last-minute travelers because they offer higher frequency and comparable comfort.</p>
@@ -1865,17 +1754,13 @@ export const SEO_CONTENT = {
         statistics: [
             { label: "Success Odds", value: "60-70%" },
             { label: "Hidden Quotas", value: "Major Hubs" },
-            { label: "Extra Cost", value: "₹50 - ₹150" },
+            { label: "Extra Cost", value: "â‚¹50 - â‚¹150" },
             { label: "Legality", value: "100% Verified" }
         ],
         practicalInfo: [
             { title: "The 'Origin Shift' Hack", details: "If seats are full from your city, they might be available from the station *before* yours. Book from the earlier station and set your 'Boarding Point' to your actual city." },
-            { title: "The 'Beyond' Hack", details: "Sometimes seats are available to a station *after* yours. Book the extra distance and simply get down at your intended destination—often the extra fare is negligible." },
+            { title: "The 'Beyond' Hack", details: "Sometimes seats are available to a station *after* yours. Book the extra distance and simply get down at your intended destinationâ€”often the extra fare is negligible." },
             { title: "Traavo Automation", details: "Traavo's 'Buffer Bench' logic automatically scans 3 stations before and after your search to see if a 'Confirmed' status exists just a few kilometers away." }
-        ],
-        testimonials: [
-            { text: "I couldn't get a seat from Delhi to Patna. Traavo suggested booking from New Delhi instead of Anand Vihar. It worked like a charm!", author: "Ritesh S.", location: "Patna" },
-            { text: "The trick to book to the next station saved me! I book to Kalyan instead of Thane and now I always get a confirmed berth.", author: "Pooja V.", location: "Mumbai" }
         ],
         faqSchema: [
             { question: "What is the nearby station trick in IRCTC?", answer: "It involves booking a ticket from a station before your origin or to a station after your destination to tap into different seat quotas." },
@@ -1934,7 +1819,7 @@ export const SEO_CONTENT = {
                     <p>We don't just find the seat; we guide you through the protocol. Our system provides a step-by-step checklist on how to change your boarding point online. In 2026, this can be done via the IRCTC app up to 4 hours before the train departs. Traavo ensures you don't forget this critical step, keeping your journey legal and your seat secure.</p>
 
                     <h2>Is it worth the extra cost?</h2>
-                    <p>Often, booking from an earlier station or to a later one adds ₹50 to ₹200 to your fare. Compared to the stress of a waitlisted ticket or the 3x price of **Premium Tatkal**, the 'Nearby Station' trick is the most cost-effective travel hack in the Indian rail ecosystem. It is the 'Expert Mode' of travel, now available to everyone on Traavo.</p>
+                    <p>Often, booking from an earlier station or to a later one adds â‚¹50 to â‚¹200 to your fare. Compared to the stress of a waitlisted ticket or the 3x price of **Premium Tatkal**, the 'Nearby Station' trick is the most cost-effective travel hack in the Indian rail ecosystem. It is the 'Expert Mode' of travel, now available to everyone on Traavo.</p>
 
                     <p>Think beyond your station. Let Traavo show you the seats that IRCTC hides.</p>
                 </section>
@@ -1953,12 +1838,8 @@ export const SEO_CONTENT = {
         ],
         practicalInfo: [
             { title: "The 4-Hour Rule", details: "If your WL ticket doesn't clear 4 hours before departure, it's dead. Traavo's 'Last-Mile' scanner finds you a bus seat within 15 minutes of the final chart preparation." },
-            { title: "The 'Fly-Bus' Hybrid", details: "If direct flights are ₹15k and trains are full, book a cheap flight to a nearby metro and take a luxury AC bus. Traavo calculates the total cost to save you money." },
-            { title: "Premium Tatkal Threshold", details: "In 2026, PT prices can exceed ₹6,000 for a 2nd AC seat. If the price goes above AC Sleeper Bus rates, Traavo alerts you to switch and save." }
-        ],
-        testimonials: [
-            { text: "I was stranded in Hyderabad with no tickets to Vizag. Traavo's guide helped me find a 'Garuda' bus that was actually faster and cheaper than the train.", author: "Kavya L.", location: "Hyderabad" },
-            { text: "Total life saver! The flight-to-Nagpur plus bus trick got me home for Diwali when every direct option was sold out.", author: "Abhishek N.", location: "Pune" }
+            { title: "The 'Fly-Bus' Hybrid", details: "If direct flights are â‚¹15k and trains are full, book a cheap flight to a nearby metro and take a luxury AC bus. Traavo calculates the total cost to save you money." },
+            { title: "Premium Tatkal Threshold", details: "In 2026, PT prices can exceed â‚¹6,000 for a 2nd AC seat. If the price goes above AC Sleeper Bus rates, Traavo alerts you to switch and save." }
         ],
         faqSchema: [
             { question: "What is the best alternative if no train tickets are available?", answer: "A luxury AC sleeper bus (like Shivneri or Airavat) is the most reliable and comfortable alternative for distances up to 800km." },
@@ -2034,10 +1915,6 @@ export const SEO_CONTENT = {
             { title: "The 'One-Tap' Refund", details: "RailOne has replaced the manual TDR with an automated 'One-Tap' refund system. If your train is delayed by >3 hours, the refund is initiated instantly." },
             { title: "Integrated Porter Booking", details: "You can now book 'Coolie' services and battery-operated carts directly from the RailOne home screen 2 hours before arrival." }
         ],
-        testimonials: [
-            { text: "RailOne is so much faster than the old IRCTC app. I booked a Tatkal ticket for Diwali in under a minute!", author: "Suresh M.", location: "Chennai" },
-            { text: "The live tracking on RailOne is precise. It even shows which platform the train is entering in real-time.", author: "Megha D.", location: "Delhi" }
-        ],
         faqSchema: [
             { question: "What is the RailOne app?", answer: "RailOne is the unified digital platform launched in 2025 by Indian Railways to replace several older apps for ticketing, tracking, and catering." },
             { question: "Is IRCTC still working in 2026?", answer: "IRCTC remains the backend service provider, but the user-facing interface for most mobile users has transitioned to RailOne." },
@@ -2112,12 +1989,8 @@ export const SEO_CONTENT = {
         ],
         practicalInfo: [
             { title: "Booking the 'Executive' Cabin", details: "Vande Bharat Sleeper features a 1st AC Executive class with personalized climate control and automated windows. These sell out 60 days in advance." },
-            { title: "The 'Midnight Express' Advantage", details: "Most VB Sleepers follow a 9 PM – 7 AM schedule, connecting metros like Delhi-Mumbai or Bangalore-Chennai overnight without loss of work hours." },
+            { title: "The 'Midnight Express' Advantage", details: "Most VB Sleepers follow a 9 PM â€“ 7 AM schedule, connecting metros like Delhi-Mumbai or Bangalore-Chennai overnight without loss of work hours." },
             { title: "Dynamic Pricing Check", details: "VB Sleeper fares use dynamic pricing. Traavo monitors these rates and suggests a luxury AC bus if the train fare exceeds the cost of a private cabin on the road." }
-        ],
-        testimonials: [
-            { text: "Delhi to Mumbai in just 12 hours on the VB Sleeper. It felt more like a hotel than a train!", author: "Ananya R.", location: "Mumbai" },
-            { text: "No jerks, zero noise, and great food. The Vande Bharat Sleeper is the future of Indian Railways.", author: "Vikram K.", location: "Hyderabad" }
         ],
         faqSchema: [
             { question: "What are Vande Bharat Sleeper trains?", answer: "These are high-speed, self-propelled trainsets designed for overnight journeys, offering superior comfort compared to Rajdhani Express." },
@@ -2186,7 +2059,7 @@ export const SEO_CONTENT = {
         subtitle: "Understanding the 72, 24, and 8-hour windows for maximum refunds.",
         description: "Indian Railways has updated its refund policy for 2026. Learn about the new cancellation windows, TDR filing timeframes, and how to get your money back instantly.",
         statistics: [
-            { label: "Cancellation Fee", value: "₹60 - ₹240" },
+            { label: "Cancellation Fee", value: "â‚¹60 - â‚¹240" },
             { label: "Refund Window", value: "Real-time" },
             { label: "TDR Filing", value: "Up to 48h post" },
             { label: "User Satisfaction", value: "95% (Digital)" }
@@ -2196,15 +2069,11 @@ export const SEO_CONTENT = {
             { title: "Waitlist Auto-Refund", details: "If your online waitlisted ticket doesn't confirm by the second chart preparation, RailOne initiates an **instant refund** to your source account. No action needed." },
             { title: "The 8-Hour 'Half-Refund' Rule", details: "In 2026, cancelling between 24 and 8 hours before departure now yields a 50% refund, an improvement over the older 'Zero Refund' policies for last-minute changes." }
         ],
-        testimonials: [
-            { text: "The new instant refund on RailOne is amazing. I got my money back within 10 minutes of cancelling my trip.", author: "Rahul P.", location: "Pune" },
-            { text: "I missed my train due to traffic, but Traavo's guide helped me file a TDR within 1 hour. I got a partial refund back!", author: "Sania V.", location: "Bangalore" }
-        ],
         faqSchema: [
             { question: "What are the new IRCTC cancellation rules for 2026?", answer: "The rules focus on tiered refunds: Full refund (>72h), 75% refund (72-24h), and 50% refund (24-8h)." },
             { question: "Can I cancel a Tatkal ticket for a refund?", answer: "In 2026, a 25% refund is now allowed for Tatkal tickets if cancelled more than 24 hours in advance." },
             { question: "How many hours before departure can I cancel an e-ticket?", answer: "You can cancel up to 30 minutes before chart preparation (usually 4-8 hours before departure)." },
-            { question: "What is the fee for cancelling a 2nd AC ticket?", answer: "The flat cancellation fee is ₹200 if done well in advance." },
+            { question: "What is the fee for cancelling a 2nd AC ticket?", answer: "The flat cancellation fee is â‚¹200 if done well in advance." },
             { question: "What happens if my train is cancelled by the railways?", answer: "A 100% refund is automatically processed. No TDR filing is required for both e-tickets and counter tickets (if cancelled online)." }
         ],
         content: (
@@ -2215,7 +2084,7 @@ export const SEO_CONTENT = {
                     <h2>The Three Tiers of Refunds</h2>
                     <p>Timing is everything. Your refund percentage depends on when you hit the 'Cancel' button on RailOne:</p>
                     <ul>
-                        <li><strong>Tier 1 (&gt;72 Hours):</strong> Maximum refund. Only the flat cancellation fee (per passenger) is deducted. 3rd AC: ₹180, 2nd AC: ₹200.</li>
+                        <li><strong>Tier 1 (&gt;72 Hours):</strong> Maximum refund. Only the flat cancellation fee (per passenger) is deducted. 3rd AC: â‚¹180, 2nd AC: â‚¹200.</li>
                         <li><strong>Tier 2 (72 - 24 Hours):</strong> 75% of the fare is returned. A 25% penalty applies to encourage early seat release for waitlisted passengers.</li>
                         <li><strong>Tier 3 (24 - 8 Hours):</strong> 50% of the fare is returned. This 'Last-Day' safety net was introduced late in 2025 to reduce total losses for passengers.</li>
                     </ul>
@@ -2233,25 +2102,25 @@ export const SEO_CONTENT = {
                         <tbody>
                             <tr>
                                 <td>AC First / Executive</td>
-                                <td>₹240</td>
+                                <td>â‚¹240</td>
                                 <td>25%</td>
                                 <td>50%</td>
                             </tr>
                             <tr>
                                 <td>AC 2-Tier / 3-Tier</td>
-                                <td>₹200</td>
+                                <td>â‚¹200</td>
                                 <td>25%</td>
                                 <td>50%</td>
                             </tr>
                             <tr>
                                 <td>Sleeper (SL)</td>
-                                <td>₹120</td>
+                                <td>â‚¹120</td>
                                 <td>25%</td>
                                 <td>50%</td>
                             </tr>
                             <tr>
                                 <td>Second Class (2S)</td>
-                                <td>₹60</td>
+                                <td>â‚¹60</td>
                                 <td>25%</td>
                                 <td>50%</td>
                             </tr>
@@ -2267,3 +2136,4 @@ export const SEO_CONTENT = {
         )
     }
 };
+
