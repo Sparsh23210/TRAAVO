@@ -51,11 +51,10 @@ const normalizeTimes = async () => {
 
         // Process BusServices
         console.log("Processing Bus Services...");
-        const buses = await BusService.find({});
-        let busUpdates = 0;
+        const buses = await BusService.find({}).lean();
+        const busBulkOps = [];
         for (let bus of buses) {
             let dt_mins_arr = [];
-            // Parse dt
             if (typeof bus.dt === 'string') {
                 const timings = bus.dt.split(',').map(s => s.trim()).filter(s => s);
                 for (let t of timings) {
@@ -69,29 +68,44 @@ const normalizeTimes = async () => {
                 }
             }
             
-            // Only update if needed
-            bus.dt_mins = dt_mins_arr;
-            await bus.save();
-            busUpdates++;
-            if (busUpdates % 1000 === 0) console.log(`Processed ${busUpdates} buses...`);
+            if (dt_mins_arr.length > 0) {
+                busBulkOps.push({
+                    updateOne: {
+                        filter: { _id: bus._id },
+                        update: { $set: { dt_mins: dt_mins_arr } }
+                    }
+                });
+            }
         }
-        console.log(`Updated ${busUpdates} Bus Services.`);
+        if (busBulkOps.length > 0) {
+            console.log(`Executing ${busBulkOps.length} bus bulk updates...`);
+            await BusService.bulkWrite(busBulkOps);
+        }
+        console.log(`Updated ${busBulkOps.length} Bus Services.`);
 
         // Process TrainStoppages
         console.log("Processing Train Stoppages...");
-        const trains = await TrainStoppage.find({});
-        let trainUpdates = 0;
+        const trains = await TrainStoppage.find({}).lean();
+        const trainBulkOps = [];
         for (let train of trains) {
             let mins = null;
             if (train.dt) {
                 mins = timeToMins(train.dt);
             }
-            train.dt_mins = mins;
-            await train.save();
-            trainUpdates++;
-            if (trainUpdates % 5000 === 0) console.log(`Processed ${trainUpdates} train stops...`);
+            if (mins !== null) {
+                trainBulkOps.push({
+                    updateOne: {
+                        filter: { _id: train._id },
+                        update: { $set: { dt_mins: mins } }
+                    }
+                });
+            }
         }
-        console.log(`Updated ${trainUpdates} Train Stoppages.`);
+        if (trainBulkOps.length > 0) {
+            console.log(`Executing ${trainBulkOps.length} train bulk updates...`);
+            await TrainStoppage.bulkWrite(trainBulkOps);
+        }
+        console.log(`Updated ${trainBulkOps.length} Train Stoppages.`);
 
         console.log("Time normalization completed successfully.");
         process.exit(0);

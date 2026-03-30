@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import RouteCard from '../components/RouteCard';
 import MapComponent from '../components/MapComponent';
+import MetaTags from '../components/MetaTags';
+import SEOContentSections from '../components/SEOContentSections';
+import { SEO_CONTENT } from '../data/seoContent';
 
 const TrainRoutes = () => {
     const location = useLocation();
@@ -39,8 +42,13 @@ const TrainRoutes = () => {
 
     return (
         <div className="container">
+            <MetaTags 
+                title="Train Routes & Rail Connectivity" 
+                description="Find the best train-only routes and rail connectivity options across India with Traavo." 
+                canonical="/train-routes" 
+            />
             <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>← Back</Link>
-            <h2 style={{ color: 'orange' }}>Train Only Routes 🚆</h2>
+            <h1 style={{ color: 'orange', fontSize: '2rem', marginBottom: '1rem' }}>Train Only Routes 🚆</h1>
 
             {loading && <div>Loading...</div>}
 
@@ -72,6 +80,10 @@ const TrainRoutes = () => {
                     ))}
                 </>
             )}
+
+            <div style={{ marginTop: '4rem' }}>
+                <SEOContentSections data={SEO_CONTENT['train-routes']} />
+            </div>
         </div>
     );
 };

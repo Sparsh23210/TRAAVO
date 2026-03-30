@@ -84,12 +84,12 @@ export const groupRoutes = (routes) => {
 
     routes.forEach(r => {
         const isOnlyBus = r.type === 'Bus' && r.steps.length === 1;
-        
+
         if (isOnlyBus) {
             const step = r.steps[0];
             const serviceType = step.serviceType || 'ORDINARY';
             const key = `BUS_GROUP|${step.from}|${step.to}|${step.operator}|${serviceType}`;
-            
+
             if (!busGroups[key]) {
                 busGroups[key] = JSON.parse(JSON.stringify(r)); // deep copy to modify
                 if (!busGroups[key].steps[0].allTimings) {
@@ -103,7 +103,7 @@ export const groupRoutes = (routes) => {
                     ...(step.allTimings || [step.depTime])
                 ]);
                 existingStep.allTimings = [...newTimings].sort();
-                
+
                 // Update to earliest departure representation if needed
                 if (step.depTime < existingStep.depTime) {
                     existingStep.depTime = step.depTime;

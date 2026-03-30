@@ -1,9 +1,20 @@
 import React from 'react';
+import MetaTags from '../components/MetaTags';
+import SEOContentSections from '../components/SEOContentSections';
+import { SEO_CONTENT } from '../data/seoContent';
 import './About.css';
 
 const About = () => {
+    const data = SEO_CONTENT['about'];
+
     return (
         <div className="about-container">
+            <MetaTags 
+                title={data.title}
+                description={data.description}
+                canonical="/about"
+                faqSchema={data.faqSchema}
+            />
             <div className="about-hero">
                 <h1>About Traavo</h1>
                 <p className="hero-subtitle">Redefining Travel in India</p>
@@ -113,6 +124,10 @@ const About = () => {
                         no one is ever stuck without a way to reach their destination when it matters most.
                     </p>
                 </div>
+            </div>
+
+            <div style={{ marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '2rem' }}>
+                <SEOContentSections data={data} />
             </div>
 
             <div className="about-footer">

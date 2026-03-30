@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import BackgroundAnimation from '../components/BackgroundAnimation';
+import MetaTags from '../components/MetaTags';
+import SEOContentSections from '../components/SEOContentSections';
+import { SEO_CONTENT } from '../data/seoContent';
 import './Explore.css';
 
 // Remove hardcoded DESTINATION_TYPES and fetch from API
@@ -124,6 +127,12 @@ const Explore = () => {
 
     return (
         <div className="explore-container">
+            <MetaTags 
+                title={SEO_CONTENT['explore'].title}
+                description={SEO_CONTENT['explore'].description}
+                canonical="/explore"
+                faqSchema={SEO_CONTENT['explore'].faqSchema}
+            />
             <BackgroundAnimation />
             <div className="explore-header">
                 <h1>Explore & Plan</h1>
@@ -227,6 +236,10 @@ const Explore = () => {
             {searchPerformed && results.length === 0 && !loading && (
                 <div className="empty-msg">No places found matching your criteria.</div>
             )}
+
+            <div style={{ marginTop: '4rem', padding: '2rem', background: 'rgba(255,255,255,0.05)', borderRadius: '16px' }}>
+                <SEOContentSections data={SEO_CONTENT['explore']} />
+            </div>
         </div>
     );
 };

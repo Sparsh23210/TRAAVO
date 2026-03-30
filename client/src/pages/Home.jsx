@@ -5,8 +5,11 @@ import SwapButton from '../components/SwapButton';
 import LoginModal from '../components/LoginModal';
 import SubscriptionModal from '../components/SubscriptionModal';
 import { useAuth } from '../context/AuthContext';
+import MetaTags from '../components/MetaTags';
+import SEOContentSections from '../components/SEOContentSections';
+import { SEO_CONTENT } from '../data/seoContent';
 
-// Import images
+
 import img1 from '../1.jpeg';
 import img2 from '../2.jpeg';
 import img3 from '../3.jpeg';
@@ -23,7 +26,7 @@ const Home = () => {
     const [to, setTo] = useState(location.state?.to || '');
     const [fromData, setFromData] = useState(location.state?.fromData || null); // { lat, lon, name }
     const [toData, setToData] = useState(location.state?.toData || null);     // { lat, lon, name }
-    
+
     // New Filters
     const [day, setDay] = useState(location.state?.day || 'ALL');
     const [time, setTime] = useState(location.state?.time || 'All Time');
@@ -128,7 +131,14 @@ const Home = () => {
     };
 
     return (
-        <div className="home-split-container">
+        <>
+            <MetaTags
+                title={SEO_CONTENT['home'].title}
+                description={SEO_CONTENT['home'].description}
+                canonical="/"
+                faqSchema={SEO_CONTENT['home'].faqSchema}
+            />
+            <div className="home-split-container">
             {/* Left Side: Image Carousel */}
             <div className="carousel-side">
                 {images.map((img, index) => (
@@ -147,108 +157,109 @@ const Home = () => {
 
 
             <div className="form-side">
-                <div className="form-container-inner">
-                    <h1 className="home-title">Reach 11000+ places in India</h1>
+                    <div className="form-container-inner">
+                        <h1 className="home-title">Reach 11000+ places in India</h1>
 
-                    <form onSubmit={handleSubmit} className="home-card">
-                        <div className="form-group">
-                            <LocationInput
-                                label="From City / Location"
-                                type="from"
-                                value={from}
-                                onSelect={handleFromSelect}
-                                error={error && error.includes('From') ? error : null}
-                                placeholder="e.g. Kurukshetra"
-                            />
-                        </div>
-
-                        <div className="swap-wrapper">
-                            <SwapButton onSwap={handleSwap} />
-                        </div>
-
-                        <div className="form-group">
-                            <LocationInput
-                                label="To City / Location"
-                                type="to"
-                                value={to}
-                                onSelect={handleToSelect}
-                                error={error ? error : null}
-                                placeholder="e.g. Panipat"
-                            />
-                        </div>
-
-                        <div className="filter-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
-                            <div className="form-group" style={{ marginBottom: 0 }}>
-                                <label>Day</label>
-                                <select value={day} onChange={e => setDay(e.target.value)}>
-                                    <option value="ALL">All Days</option>
-                                    <option value="MON">Monday</option>
-                                    <option value="TUE">Tuesday</option>
-                                    <option value="WED">Wednesday</option>
-                                    <option value="THU">Thursday</option>
-                                    <option value="FRI">Friday</option>
-                                    <option value="SAT">Saturday</option>
-                                    <option value="SUN">Sunday</option>
-                                </select>
+                        <form onSubmit={handleSubmit} className="home-card">
+                            <div className="form-group">
+                                <LocationInput
+                                    label="From City / Location"
+                                    type="from"
+                                    value={from}
+                                    onSelect={handleFromSelect}
+                                    error={error && error.includes('From') ? error : null}
+                                    placeholder="e.g. Kurukshetra"
+                                />
                             </div>
-                            <div className="form-group" style={{ marginBottom: 0 }}>
-                                <label>Departure Time</label>
-                                <select value={time} onChange={e => setTime(e.target.value)}>
-                                    <option value="All Time">All Time</option>
-                                    {Array.from({length: 24}).flatMap((_, i) => {
-                                        const h = i % 12 || 12;
-                                        const ampm = i < 12 ? 'AM' : 'PM';
-                                        return [
-                                            <option key={`${i}-00`} value={`${String(i).padStart(2, '0')}:00`}>{`${String(h).padStart(2, '0')}:00 ${ampm}`}</option>,
-                                            <option key={`${i}-30`} value={`${String(i).padStart(2, '0')}:30`}>{`${String(h).padStart(2, '0')}:30 ${ampm}`}</option>
-                                        ];
-                                    })}
-                                </select>
+
+                            <div className="swap-wrapper">
+                                <SwapButton onSwap={handleSwap} />
                             </div>
-                            <div className="form-group" style={{ marginBottom: 0 }}>
-                                <label>Max Hops</label>
-                                <select value={maxHops} onChange={e => {
-                                    const val = Number(e.target.value);
-                                    if (val === 3 && currentUser?.plan !== 'premium' && currentUser?.plan !== 'pro_premium' && currentUser?.plan !== 'ultra_premium') {
-                                        setIsSubscriptionOpen(true);
-                                    } else {
-                                        setMaxHops(val);
-                                    }
-                                }}>
-                                    <option value={1}>1 Hop</option>
-                                    <option value={2}>2 Hops</option>
-                                    <option value={3} style={{ color: '#b8860b', textShadow: '0px 0px 5px rgba(218, 165, 32, 0.8)', fontWeight: 'bold' }}>3 Hops ⭐ Premium</option>
-                                </select>
+
+                            <div className="form-group">
+                                <LocationInput
+                                    label="To City / Location"
+                                    type="to"
+                                    value={to}
+                                    onSelect={handleToSelect}
+                                    error={error ? error : null}
+                                    placeholder="e.g. Panipat"
+                                />
                             </div>
+
+                            <div className="filter-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
+                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                    <label>Day</label>
+                                    <select value={day} onChange={e => setDay(e.target.value)}>
+                                        <option value="ALL">All Days</option>
+                                        <option value="MON">Monday</option>
+                                        <option value="TUE">Tuesday</option>
+                                        <option value="WED">Wednesday</option>
+                                        <option value="THU">Thursday</option>
+                                        <option value="FRI">Friday</option>
+                                        <option value="SAT">Saturday</option>
+                                        <option value="SUN">Sunday</option>
+                                    </select>
+                                </div>
+                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                    <label>Departure Time</label>
+                                    <select value={time} onChange={e => setTime(e.target.value)}>
+                                        <option value="All Time">All Time</option>
+                                        {Array.from({ length: 24 }).flatMap((_, i) => {
+                                            const h = i % 12 || 12;
+                                            const ampm = i < 12 ? 'AM' : 'PM';
+                                            return [
+                                                <option key={`${i}-00`} value={`${String(i).padStart(2, '0')}:00`}>{`${String(h).padStart(2, '0')}:00 ${ampm}`}</option>,
+                                                <option key={`${i}-30`} value={`${String(i).padStart(2, '0')}:30`}>{`${String(h).padStart(2, '0')}:30 ${ampm}`}</option>
+                                            ];
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                    <label>Max Hops</label>
+                                    <select value={maxHops} onChange={e => {
+                                        const val = Number(e.target.value);
+                                        if (val === 3 && currentUser?.plan !== 'premium' && currentUser?.plan !== 'pro_premium' && currentUser?.plan !== 'ultra_premium') {
+                                            setIsSubscriptionOpen(true);
+                                        } else {
+                                            setMaxHops(val);
+                                        }
+                                    }}>
+                                        <option value={1}>1 Hop</option>
+                                        <option value={2}>2 Hops</option>
+                                        <option value={3} style={{ color: '#b8860b', textShadow: '0px 0px 5px rgba(218, 165, 32, 0.8)', fontWeight: 'bold' }}>3 Hops ⭐ Premium</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="btn-primary-home"
+                                disabled={!!error}
+                                style={{ opacity: error ? 0.7 : 1 }}
+                            >
+                                {currentUser ? 'Search' : 'Login to Search'}
+                            </button>
+                        </form>
+
+                        <div className="home-tagline">
+                            <p>Finding a way when direct options fail.</p>
                         </div>
-
-                        <button
-                            type="submit"
-                            className="btn-primary-home"
-                            disabled={!!error}
-                            style={{ opacity: error ? 0.7 : 1 }}
-                        >
-                            {currentUser ? 'Search' : 'Login to Search'}
-                        </button>
-                    </form>
-
-                    <div className="home-tagline">
-                        <p>Finding a way when direct options fail.</p>
                     </div>
                 </div>
+
+                <LoginModal
+                    isOpen={isLoginOpen}
+                    onClose={() => setIsLoginOpen(false)}
+                    onSuccess={handleLoginSuccess}
+                />
+
+                <SubscriptionModal
+                    isOpen={isSubscriptionOpen}
+                    onClose={() => setIsSubscriptionOpen(false)}
+                />
             </div>
-
-            <LoginModal
-                isOpen={isLoginOpen}
-                onClose={() => setIsLoginOpen(false)}
-                onSuccess={handleLoginSuccess}
-            />
-
-            <SubscriptionModal
-                isOpen={isSubscriptionOpen}
-                onClose={() => setIsSubscriptionOpen(false)}
-            />
-        </div>
+        </>
     );
 };
 

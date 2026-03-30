@@ -105,10 +105,6 @@ app.post('/api/user/deduct-credit', verifyToken, async (req, res) => {
         }
         return res.status(500).json({ error: `Transaction failed: ${error.message}` });
     }
-
-
-    // 3. Return Response
-    res.json({ success: true, routes });
 });
 
 // --- PLACES SEARCH ENDPOINT ---

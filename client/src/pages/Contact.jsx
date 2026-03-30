@@ -1,14 +1,25 @@
 import React from 'react';
+import MetaTags from '../components/MetaTags';
+import SEOContentSections from '../components/SEOContentSections';
+import { SEO_CONTENT } from '../data/seoContent';
 
 const Contact = () => {
+    const data = SEO_CONTENT['contact'];
+
     return (
         <div style={{
             padding: '2rem',
-            maxWidth: '800px',
+            maxWidth: '1200px',
             margin: '0 auto',
             fontFamily: "'Inter', sans-serif",
             color: '#334155'
         }}>
+            <MetaTags 
+                title={data.title}
+                description={data.description}
+                canonical="/contact"
+                faqSchema={data.faqSchema}
+            />
             <h1 style={{
                 fontSize: '2.5rem',
                 fontWeight: '800',

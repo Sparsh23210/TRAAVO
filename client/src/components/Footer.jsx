@@ -40,28 +40,50 @@ const Footer = () => {
                         <h4>Emergency Help</h4>
                         <ul>
                             <li><Link to="/missed-train-what-to-do">Missed Train?</Link></li>
-                            <li><Link to="/backup-routes-cancelled-train-bus">Cancelled Train Guide</Link></li>
+                            <li><Link to="/backup-routes-cancelled-train-bus">Cancelled Train</Link></li>
+                            <li><Link to="/no-train-ticket-guide-2026">No Ticket? (2026)</Link></li>
                             <li><Link to="/urgent-travel-medical-emergencies">Medical Emergencies</Link></li>
-                            <li><Link to="/diwali-holi-emergency-travel">Festival Rush Help</Link></li>
+                            <li><Link to="/irctc-new-cancellation-rules-2026">New Cancellation Rules</Link></li>
+                            <li><Link to="/pnr-waitlist-status-guide">PNR Status Guide</Link></li>
+                            <li><Link to="/waitlisted-ticket-cant-board">Waitlist Rules 2026</Link></li>
                         </ul>
                     </div>
 
                     <div className="footer-link-column">
                         <h4>Smart Routing</h4>
                         <ul>
-                            <li><Link to="/why-indirect-route-is-faster">Why Indirect is Faster</Link></li>
+                            <li><Link to="/seat-chain-booking-trick">Seat Chain Trick</Link></li>
+                            <li><Link to="/nearby-station-availability-trick">Nearby Station Trick</Link></li>
+                            <li><Link to="/vande-bharat-alternatives">VB Alternatives</Link></li>
                             <li><Link to="/best-transit-hubs-switch-train-bus">Top Transit Hubs</Link></li>
                             <li><Link to="/how-to-travel-from-city-a-to-city-b">Smart Pathfinding</Link></li>
-                            <li><Link to="/delhi-to-patna-plan-b-travel-guide">Delhi-Patna Guide</Link></li>
+                            <li><Link to="/railone-app-guide-india">RailOne App Guide</Link></li>
+                            <li><Link to="/tier-2-tier-3-planner">Tier-2/3 Planner</Link></li>
                         </ul>
                     </div>
 
                     <div className="footer-link-column">
-                        <h4>Guides & Adventure</h4>
+                        <h4>Route Guides</h4>
                         <ul>
-                            <li><Link to="/explore-state-under-budget">Budget State Guides</Link></li>
-                            <li><Link to="/hidden-adventure-spots-accessible-by-bus">Hidden Bus Gems</Link></li>
-                            <li><Link to="/weekend-getaways-students-pune">Pune Student Trips</Link></li>
+                            <li><Link to="/mumbai-pune-status-2026">Mumbai-Pune</Link></li>
+                            <li><Link to="/delhi-mumbai-guide-2026">Delhi-Mumbai</Link></li>
+                            <li><Link to="/delhi-varanasi-backup">Delhi-Varanasi</Link></li>
+                            <li><Link to="/delhi-to-patna-plan-b-travel-guide">Delhi-Patna</Link></li>
+                            <li><Link to="/vande-bharat-sleeper-routes-2026">VB Sleeper Routes</Link></li>
+                            <li><Link to="/msrtc-ksrtc-bus-train-combo">MSRTC/KSRTC</Link></li>
+                            <li><Link to="/train-routes">All Rail Routes</Link></li>
+                        </ul>
+                    </div>
+
+                    <div className="footer-link-column">
+                        <h4>Adventure & Planning</h4>
+                        <ul>
+                            <li><Link to="/long-weekend-2026-guide">Long Weekends</Link></li>
+                            <li><Link to="/exam-travel-last-minute">Exam Travel</Link></li>
+                            <li><Link to="/diwali-holi-emergency-travel">Festival Rush</Link></li>
+                            <li><Link to="/explore-state-under-budget">Budget Trips</Link></li>
+                            <li><Link to="/hidden-adventure-spots-accessible-by-bus">Hidden Gems</Link></li>
+                            <li><Link to="/weekend-getaways-students-pune">Pune Specials</Link></li>
                         </ul>
                     </div>
                 </div>
