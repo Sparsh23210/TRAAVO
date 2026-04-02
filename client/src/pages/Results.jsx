@@ -6,6 +6,7 @@ import LeafletRouteMap from '../components/LeafletRouteMap'; // New Component
 import { filterRoutesByHops, sortRoutes, groupRoutes, groupRoutesByVia } from '../utils/ResultUtils';
 import SubscriptionModal from '../components/SubscriptionModal';
 import { useAuth } from '../context/AuthContext';
+import MetaTags from '../components/MetaTags';
 
 const Results = () => {
     const location = useLocation();
@@ -258,6 +259,7 @@ const Results = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f8fafc', overflow: 'hidden' }}>
+            <MetaTags title="Search Results | Traavo" robots="noindex, nofollow" />
 
             {/* HEADER AREA */}
             <div style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', zIndex: 50 }}>

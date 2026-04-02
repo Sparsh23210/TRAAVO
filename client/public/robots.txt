@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /results
+Disallow: /*?*
 
 Sitemap: https://traavo.site/sitemap.xml

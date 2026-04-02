@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 const MetaTags = ({ 
     title, 
@@ -10,8 +11,23 @@ const MetaTags = ({
     twitterCard = "summary_large_image",
     robots = "index, follow"
 }) => {
+    const location = useLocation();
     const siteUrl = "https://traavo.site";
-    const fullCanonical = canonical ? `${siteUrl}${canonical.startsWith('/') ? '' : '/'}${canonical}` : siteUrl;
+    
+    // Use explicitly provided canonical or fallback to current pathname (which inherently drops query params)
+    let cleanCanonical = canonical || location.pathname;
+    
+    // Ensure it starts with /
+    if (!cleanCanonical.startsWith('/')) {
+        cleanCanonical = '/' + cleanCanonical;
+    }
+    
+    // Remove trailing slash if it's not the root path
+    if (cleanCanonical.length > 1 && cleanCanonical.endsWith('/')) {
+        cleanCanonical = cleanCanonical.slice(0, -1);
+    }
+    
+    const fullCanonical = `${siteUrl}${cleanCanonical}`;
     const pageTitle = title ? `${title} | Traavo` : "Traavo | Explore & Plan Your Journey";
 
     return (
