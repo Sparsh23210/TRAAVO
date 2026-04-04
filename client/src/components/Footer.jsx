@@ -25,6 +25,19 @@ const Footer = () => {
                                 <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                             </a>
                         </div>
+                        <div className="footer-tinylaunch" style={{ marginTop: '1rem' }}>
+                            <a href="https://www.tinylaunch.com/launch/12630" target="_blank" rel="noopener noreferrer">
+                                <img 
+                                    src="https://tinylaunch.com/tinylaunch_badge_launching_soon.svg"
+                                    alt="TinyLaunch Badge"
+                                    style={{
+                                        width: 202,
+                                        height: 'auto',
+                                        display: 'block'
+                                    }}
+                                />
+                            </a>
+                        </div>
                         <div className="footer-product-hunt">
                             <a href="https://www.producthunt.com/products/traavo?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-traavo" target="_blank" rel="noopener noreferrer">
                                 <img alt="Traavo - Never get stuck. Smart fallback routes for trains & buses | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1107712&theme=light&t=1774937618023" />

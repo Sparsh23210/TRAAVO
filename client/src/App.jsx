@@ -8,6 +8,8 @@ import TrainRoutes from './pages/TrainRoutes';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Explore from './pages/Explore'; // [NEW]
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import SEOPage from './pages/SEOPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -29,6 +31,8 @@ function App() {
             <Route path="/train-routes" element={<TrainRoutes />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="/missed-train-what-to-do" element={<SEOPage slug="missed-train-what-to-do" />} />
             <Route path="/how-to-travel-from-city-a-to-city-b" element={<SEOPage slug="how-to-travel-from-city-a-to-city-b" />} />
             <Route path="/diwali-holi-emergency-travel" element={<SEOPage slug="diwali-holi-emergency-travel" />} />
