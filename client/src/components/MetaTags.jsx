@@ -58,6 +58,38 @@ const MetaTags = ({
             {description && <meta name="twitter:description" content={description} />}
             <meta name="twitter:image" content={ogImage} />
 
+            {/* Organization & WebSite Identity (Bing Entity Signal) */}
+            {cleanCanonical === '/' && (
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        "name": "Traavo",
+                        "url": siteUrl,
+                        "logo": ogImage,
+                        "description": "Smart route-finding for Indian travelers.",
+                        "sameAs": [
+                            "https://www.facebook.com/share/1H1YSW8YxF/"
+                        ]
+                    })}
+                </script>
+            )}
+            {cleanCanonical === '/' && (
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        "name": "Traavo",
+                        "url": siteUrl,
+                        "potentialAction": {
+                            "@type": "SearchAction",
+                            "target": `${siteUrl}/?search={search_term_string}`,
+                            "query-input": "required name=search_term_string"
+                        }
+                    })}
+                </script>
+            )}
+
             {/* FAQ Schema */}
             {faqSchema && faqSchema.length > 0 && (
                 <script type="application/ld+json">

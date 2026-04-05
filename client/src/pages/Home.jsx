@@ -243,7 +243,7 @@ const Home = () => {
                         </form>
 
                         <div className="home-tagline">
-                            <p>Finding a way when direct options fail.</p>
+                            <h2>Finding a way when direct options fail.</h2>
                         </div>
                     </div>
                 </div>

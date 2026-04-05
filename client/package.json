@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "prerender": "node scripts/prerender.js",
+    "index": "node scripts/ping-bing.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
