@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender.js && node scripts/submitIndexNow.js",
+    "build": "vite build && (node scripts/prerender.js || true) && (node scripts/submitIndexNow.js || true)",
     "prerender": "node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -52,78 +52,93 @@ const extractUrlsFromSitemap = () => {
         res.send(indexTemplate);
     });
 
-    const server = app.listen(0, async () => {
+    const server = app.listen(0, '127.0.0.1', async () => {
         const port = server.address().port;
-        console.log(`Local static server started on port ${port}`);
+        console.log(`Local static server started at http://127.0.0.1:${port}`);
 
         // 2. Discover routes to render
         const routes = extractUrlsFromSitemap();
         console.log(`Found ${routes.length} routes to prerender from sitemap.xml`);
 
-
         const isVercel = process.env.VERCEL === '1';
         let browser;
 
-        if (isVercel) {
-            console.log("Detecting Vercel Environment. Loading Sparticuz Chromium...");
-            const puppeteerCore = (await import('puppeteer-core')).default;
-            const chromium = (await import('@sparticuz/chromium')).default;
-            
-            browser = await puppeteerCore.launch({
-                args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-                defaultViewport: chromium.defaultViewport,
-                executablePath: await chromium.executablePath(),
-                headless: chromium.headless,
-                ignoreHTTPSErrors: true,
-            });
-        } else {
-            console.log("Detecting Local Environment. Loading Standard Puppeteer...");
-            const puppeteer = (await import('puppeteer')).default;
-            
-            browser = await puppeteer.launch({
-                headless: 'new', // Use new headless mode
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
-        }
+        try {
+            if (isVercel) {
+                console.log("--- VERCEL ENVIRONMENT DETECTED ---");
+                console.log("Loading specialized Sparticuz Chromium binary...");
+                const puppeteerCore = (await import('puppeteer-core')).default;
+                const chromium = (await import('@sparticuz/chromium')).default;
+                
+                const executablePath = await chromium.executablePath();
+                console.log(`Using Chromium executable at: ${executablePath}`);
 
-
-        for (const route of routes) {
-            console.log(`Prerendering ${route} ...`);
-            const page = await browser.newPage();
-
-            // We wait for 'networkidle0' which means there are no more than 0 active network connections for at least 500ms
-            // This ensures all React API calls, data fetching, and animations have finished executing.
-            try {
-                await page.goto(`http://localhost:${port}${route}`, {
-                    waitUntil: 'networkidle0',
-                    timeout: 45000
+                browser = await puppeteerCore.launch({
+                    args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+                    defaultViewport: chromium.defaultViewport,
+                    executablePath: executablePath,
+                    headless: chromium.headless,
+                    ignoreHTTPSErrors: true,
                 });
-            } catch (err) {
-                console.error(`Timeout/Error while rendering ${route}. We will still try to save what was captured.`);
+            } else {
+                console.log("--- LOCAL ENVIRONMENT DETECTED ---");
+                const puppeteer = (await import('puppeteer')).default;
+                
+                browser = await puppeteer.launch({
+                    headless: 'new',
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                });
             }
 
-            let html = await page.content();
+            console.log("Browser launched successfully. Starting render loop...");
 
-            // Inject a meta tag so the client knows which route this HTML is for
-            html = html.replace(
-                '</head>',
-                `  <meta name="prerender-path" content="${route}">\n</head>`
-            );
+            for (const route of routes) {
+                console.log(`Prerendering ${route} ...`);
+                const page = await browser.newPage();
 
-            // Structure the output. 
-            // e.g. /about -> dist/about/index.html
-            let routeDir = route === '/' ? distDir : resolve(`dist${route}`);
-            if (!fs.existsSync(routeDir)) {
-                fs.mkdirSync(routeDir, { recursive: true });
+                try {
+                    await page.goto(`http://127.0.0.1:${port}${route}`, {
+                        waitUntil: 'networkidle0',
+                        timeout: 30000
+                    });
+
+                    let html = await page.content();
+
+                    // Inject a meta tag so the client knows which route this HTML is for
+                    html = html.replace(
+                        '</head>',
+                        `  <meta name="prerender-path" content="${route}">\n</head>`
+                    );
+
+                    // Structure the output. 
+                    let routeDir = route === '/' ? distDir : resolve(`dist${route}`);
+                    if (!fs.existsSync(routeDir)) {
+                        fs.mkdirSync(routeDir, { recursive: true });
+                    }
+
+                    fs.writeFileSync(path.join(routeDir, 'index.html'), html);
+                } catch (err) {
+                    console.error(`Skipping ${route} due to error:`, err.message);
+                } finally {
+                    await page.close();
+                }
             }
 
-            fs.writeFileSync(path.join(routeDir, 'index.html'), html);
-            await page.close();
+            console.log('✅ Pre-rendering complete!');
+        } catch (error) {
+            console.error('❌ CRITICAL ERROR during pre-rendering stage:');
+            console.error(error);
+            
+            if (isVercel) {
+                console.warn('⚠️ Building in Vercel. Error ignored to avoid blocking deployment.');
+            } else {
+                process.exit(1);
+            }
+        } finally {
+            if (browser) await browser.close();
+            server.close();
+            console.log('Static server shut down.');
+            process.exit(0);
         }
-
-        await browser.close();
-        server.close();
-        console.log('✅ Pre-rendering complete! Your site is now optimized for Bing/Google crawl bots.');
-        process.exit(0);
     });
 })();
