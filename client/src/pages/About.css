@@ -338,12 +338,22 @@
 }
 
 @media (max-width: 768px) {
+    .about-bg-glow-1,
+    .about-bg-glow-2,
+    .about-bg-glow-3 {
+        display: none;
+    }
+
     .about-title {
         font-size: 3rem;
     }
     .about-content-wrapper {
         padding: 3rem 2rem;
         border-radius: 24px;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
     }
     .feature-grid {
         grid-template-columns: 1fr;
