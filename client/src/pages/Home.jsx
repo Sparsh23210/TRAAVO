@@ -139,24 +139,24 @@ const Home = () => {
                 faqSchema={SEO_CONTENT['home'].faqSchema}
             />
             <div className="home-split-container">
-            {/* Left Side: Image Carousel */}
-            <div className="carousel-side">
-                {images.map((img, index) => (
-                    <div
-                        key={index}
-                        className={`carousel-slide ${index === currentImgIndex ? 'active' : ''}`}
-                        style={{ backgroundImage: `url(${img})` }}
-                    >
-                        <div className="carousel-overlay">
-                            <h2>Safe Travels, Smart Routes</h2>
-                            <p>Connecting you when direct paths are unavailable.</p>
+                {/* Left Side: Image Carousel */}
+                <div className="carousel-side">
+                    {images.map((img, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-slide ${index === currentImgIndex ? 'active' : ''}`}
+                            style={{ backgroundImage: `url(${img})` }}
+                        >
+                            <div className="carousel-overlay">
+                                <h2>Safe Travels, Smart Routes</h2>
+                                <p>Connecting you when direct paths are unavailable.</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
 
 
-            <div className="form-side">
+                <div className="form-side">
                     <div className="form-container-inner">
                         <h1 className="home-title">Reach 11000+ places in India</h1>
 
@@ -168,7 +168,7 @@ const Home = () => {
                                     value={from}
                                     onSelect={handleFromSelect}
                                     error={error && error.includes('From') ? error : null}
-                                    placeholder="e.g. Kurukshetra"
+                                    placeholder="e.g. Delhi"
                                 />
                             </div>
 
@@ -183,7 +183,7 @@ const Home = () => {
                                     value={to}
                                     onSelect={handleToSelect}
                                     error={error ? error : null}
-                                    placeholder="e.g. Panipat"
+                                    placeholder="e.g. Bangalore"
                                 />
                             </div>
 

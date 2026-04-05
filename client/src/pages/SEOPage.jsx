@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import MetaTags from '../components/MetaTags';
 import BackgroundAnimation from '../components/BackgroundAnimation';
 import { SEO_CONTENT } from '../data/seoContent';
 import './SEOPage.css';
 
 const SEOPage = ({ slug }) => {
+    const navigate = useNavigate();
     const data = SEO_CONTENT[slug] || {
         title: "Travel Guide",
         subtitle: "Explore smart ways to travel with Traavo.",
@@ -90,7 +92,7 @@ const SEOPage = ({ slug }) => {
                 <div className="seo-cta">
                     <h2>Ready to find your route?</h2>
                     <p>Use Traavo's Smart Search to discover all possible paths right now across all modes of transport.</p>
-                    <button onClick={() => window.location.href = '/'} className="search-now-btn">
+                    <button onClick={() => navigate('/')} className="search-now-btn">
                         Go to Home & Search 🔎
                     </button>
                     
@@ -100,9 +102,9 @@ const SEOPage = ({ slug }) => {
                             <ul className="related-links-grid">
                                 {relatedSlugs.map(rSlug => (
                                     <li key={rSlug}>
-                                        <a href={`/${rSlug}`}>
+                                        <Link to={`/${rSlug}`}>
                                             {SEO_CONTENT[rSlug]?.title.split(':')[0]}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

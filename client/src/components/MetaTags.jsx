@@ -40,6 +40,10 @@ const MetaTags = ({
             {/* Canonical link */}
             <link rel="canonical" href={fullCanonical} />
 
+            {/* Authority & Trust Signals */}
+            <meta name="author" content="Traavo Technologies" />
+            <meta property="article:publisher" content="https://www.facebook.com/share/1H1YSW8YxF/" />
+
             {/* Open Graph / Facebook */}
             <meta property="og:type" content="website" />
             <meta property="og:url" content={fullCanonical} />
