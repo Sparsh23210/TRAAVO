@@ -60,8 +60,11 @@ const extractUrlsFromSitemap = () => {
         const routes = extractUrlsFromSitemap();
         console.log(`Found ${routes.length} routes to prerender from sitemap.xml`);
 
-        const isVercel = process.env.VERCEL === '1';
+        const isVercel = !!(process.env.VERCEL === '1' || process.env.VERCEL === 'true' || process.env.CI);
         let browser;
+
+        console.log("--- HAMMER FIX APPLIED ---");
+        console.log(`Environment Detection: VERCEL=${process.env.VERCEL}, CI=${process.env.CI}`);
 
         try {
             if (isVercel) {

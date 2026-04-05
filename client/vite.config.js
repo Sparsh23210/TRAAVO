@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// HAMMER_FIX_VERSION: 1.0.4 - Force-silencing chunk warnings and ensuring Vercel awareness.
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
