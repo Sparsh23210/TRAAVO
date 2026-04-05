@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import puppeteer from 'puppeteer';
+
 import express from 'express';
 import serveStatic from 'serve-static';
 
@@ -39,11 +39,11 @@ const extractUrlsFromSitemap = () => {
 
     // 1. Start a local server to serve the React SPA
     const app = express();
-    
+
     // Read the original index.html into memory so we always serve a clean template
     // even if the script eventually overwrites dist/index.html
     const indexTemplate = fs.readFileSync(resolve('dist/index.html'), 'utf-8');
-    
+
     // Serve static files from dist
     app.use(serveStatic(distDir));
 
@@ -60,23 +60,43 @@ const extractUrlsFromSitemap = () => {
         const routes = extractUrlsFromSitemap();
         console.log(`Found ${routes.length} routes to prerender from sitemap.xml`);
 
-        // 3. Launch Puppeteer
-        const browser = await puppeteer.launch({
-            headless: 'new', // Use new headless mode
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
 
-        // 4. Render each route and save
+        const isVercel = process.env.VERCEL === '1';
+        let browser;
+
+        if (isVercel) {
+            console.log("Detecting Vercel Environment. Loading Sparticuz Chromium...");
+            const puppeteerCore = (await import('puppeteer-core')).default;
+            const chromium = (await import('@sparticuz/chromium')).default;
+            
+            browser = await puppeteerCore.launch({
+                args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+                defaultViewport: chromium.defaultViewport,
+                executablePath: await chromium.executablePath(),
+                headless: chromium.headless,
+                ignoreHTTPSErrors: true,
+            });
+        } else {
+            console.log("Detecting Local Environment. Loading Standard Puppeteer...");
+            const puppeteer = (await import('puppeteer')).default;
+            
+            browser = await puppeteer.launch({
+                headless: 'new', // Use new headless mode
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+        }
+
+
         for (const route of routes) {
             console.log(`Prerendering ${route} ...`);
             const page = await browser.newPage();
-            
+
             // We wait for 'networkidle0' which means there are no more than 0 active network connections for at least 500ms
             // This ensures all React API calls, data fetching, and animations have finished executing.
             try {
-                await page.goto(`http://localhost:${port}${route}`, { 
+                await page.goto(`http://localhost:${port}${route}`, {
                     waitUntil: 'networkidle0',
-                    timeout: 45000 
+                    timeout: 45000
                 });
             } catch (err) {
                 console.error(`Timeout/Error while rendering ${route}. We will still try to save what was captured.`);
