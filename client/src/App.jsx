@@ -25,7 +25,7 @@ function App() {
         <ScrollToTop />
         <div className="app-layout">
           <Navbar />
-          <main id="main-content">
+
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/results" element={<Results />} />
@@ -64,7 +64,7 @@ function App() {
               <Route path="/vande-bharat-sleeper-routes-2026" element={<SEOPage slug="vande-bharat-sleeper-routes-2026" />} />
               <Route path="/irctc-new-cancellation-rules-2026" element={<SEOPage slug="irctc-new-cancellation-rules-2026" />} />
             </Routes>
-          </main>
+
           <Footer />
         </div>
       </BrowserRouter>
