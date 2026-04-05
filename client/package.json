@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && (cross-env VERCEL=1 node scripts/prerender.js || echo 'Prerender skipped') && (node scripts/submitIndexNow.js || echo 'IndexNow skipped')",
+    "build": "vite build",
     "prerender": "node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview"
