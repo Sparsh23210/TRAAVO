@@ -17,9 +17,26 @@ const MobileRouteCard = ({ route, onShowMap, onUpgrade }) => {
     // const lastLeg = isGrouped ? null : route.steps[route.steps.length - 1]; // Unused
 
     const representativeRoute = isGrouped ? route.options[0] : route;
-    const totalDist = representativeRoute.totalDistanceKm;
-    const totalTime = representativeRoute.totalTime;
+    
+    // Formatting helper for duration
+    const formatDuration = (mins) => {
+        if (!mins) return null;
+        const d = Math.floor(mins / 1440);
+        const h = Math.floor((mins % 1440) / 60);
+        const m = Math.round(mins % 60);
+        return `${d > 0 ? d + 'd ' : ''}${h > 0 ? h + 'h ' : ''}${m}m`;
+    };
+
+    const totalDist = representativeRoute.live_distance 
+        ? Math.round(representativeRoute.live_distance) 
+        : representativeRoute.totalDistanceKm;
+        
+    const totalTime = representativeRoute.live_duration 
+        ? formatDuration(representativeRoute.live_duration)
+        : representativeRoute.totalTime;
+
     const hops = representativeRoute.hops;
+    const isEnriched = !!representativeRoute.live_distance;
 
     // Grouped Label
     const subOptionCount = isGrouped ? route.options.length : 0;
@@ -172,12 +189,25 @@ const MobileRouteCard = ({ route, onShowMap, onUpgrade }) => {
                             ))}
                         </div>
                         <span style={{ color: '#64748b', fontSize: '0.85rem' }}>• {totalDist} km</span>
+                        {isEnriched && (
+                            <span style={{ 
+                                background: '#f0fdf4', color: '#166534', 
+                                padding: '2px 6px', borderRadius: '4px', 
+                                fontSize: '0.65rem', fontWeight: '800',
+                                border: '1px solid #bbf7d0',
+                                marginLeft: '4px'
+                            }}>
+                                LIVE 🌐
+                            </span>
+                        )}
                     </div>
 
                     <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontWeight: '800', color: '#1e293b', fontSize: '1rem' }}>{totalTime}</div>
+                        <div style={{ fontWeight: '800', color: '#3b82f6', fontSize: '0.9rem' }}>
+                            Depart at: {representativeRoute.steps[0].depTime}
+                        </div>
                         <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '500' }}>
-                            {hops} Hop{hops !== 1 && 's'}
+                           {hops} Hop{hops !== 1 && 's'} {totalTime ? `(${totalTime})` : ''}
                         </div>
                     </div>
                 </div>
@@ -335,7 +365,13 @@ const StepRow = ({ step }) => (
         </div>
         <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#334155' }}>
+                <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#334155', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ 
+                        background: step.mode === 'Bus' ? '#ef4444' : step.mode === 'Train' ? '#3b82f6' : '#64748b',
+                        color: '#fff', padding: '2px 6px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: '800'
+                    }}>
+                        {step.mode?.toUpperCase()}
+                    </span>
                     {step.operator || (step.mode === 'Transfer' ? 'Auto/Taxi Connection' : 'Standard Service')}
                     {step.serviceType && step.mode === 'Bus' && <span style={{fontSize: '0.75rem', fontWeight: '500', color: '#64748b', marginLeft: '6px'}}>• {step.serviceType}</span>}
                 </div>
@@ -345,7 +381,18 @@ const StepRow = ({ step }) => (
             </div>
             <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '2px', display: 'flex', justifyContent: 'space-between' }}>
                 <span>{step.from} to {step.to}</span>
-                {step.distanceKm && <span style={{ fontWeight: '600', color: '#334155' }}>| {Math.round(step.distanceKm)} km</span>}
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    {step.durationMins && (
+                        <span style={{ fontWeight: '500', color: '#94a3b8' }}>
+                            {Math.round(step.durationMins)}m
+                        </span>
+                    )}
+                    {step.distanceKm && (
+                        <span style={{ fontWeight: '600', color: '#334155' }}>
+                            | {Math.round(step.distanceKm)} km
+                        </span>
+                    )}
+                </div>
             </div>
             {step.allTimings && step.allTimings.length > 0 && (
                 <div style={{ marginTop: '8px', padding: '6px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>

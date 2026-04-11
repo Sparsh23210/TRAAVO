@@ -2,6 +2,7 @@ const BusService = require('../models/BusService');
 const TrainStoppage = require('../models/TrainStoppage');
 const { getDuration, estimateDurationOffline } = require('../utils/mapApi');
 const { getStationCode, getTrainsBetweenStations, getTrainSchedule, normalizeAndCacheSchedule } = require('../utils/railwayApi');
+const { validateRouteWithGoogle } = require('../utils/enrichmentUtils');
 
 const getBaseName = (name) => {
     if (!name) return '';
@@ -742,42 +743,52 @@ const findRoutes = async (startLocation, endLocation, startTimeStr = 'All Time',
         only_train: finalize(rawCategories.only_train)
     };
 
-    // Gather all unique locations from the *Top* results to minimize API calls
-    let routesToEnrich = [];
-    Object.values(finalResult).forEach(cat => {
-        routesToEnrich.push(...cat.best);
-        routesToEnrich.push(...cat.all.slice(0, 15)); // Enrich top 15 of each cat to be safe
-    });
+    // --- GOOGLE ENHANCEMENT LAYER (POST-PROCESSING) ---
+    const MAX_API_CALLS = 2;
+    let apiCallsCount = 0;
 
-    // Unique collection
-    const locSet = new Set();
-    routesToEnrich.forEach(r => {
-        r.steps.forEach(step => {
-            locSet.add(step.from);
-            locSet.add(step.to);
-        });
-    });
-
-    if (locSet.size > 0) {
-        try {
-            const locList = [...locSet];
-            // Fetch real coords
-            const coordMap = await fetchCoordinates(locList);
-
-            // Update routes
-            routesToEnrich.forEach(r => {
-                r.steps.forEach(step => {
-                    const fBase = getGeoBase(step.from);
-                    const tBase = getGeoBase(step.to);
-
-                    if (coordMap[fBase]) step.fromCoords = coordMap[fBase];
-                    if (coordMap[tBase]) step.toCoords = coordMap[tBase];
-                });
-            });
-        } catch (err) {
-            console.error("Coordinate Enrichment Failed:", err);
+    const enrichResults = async (categories) => {
+        // Collect top 2 candidates from 'mixed' for enrichment (Priority)
+        const candidates = categories.mixed?.all?.slice(0, MAX_API_CALLS) || [];
+        
+        for (const route of candidates) {
+            if (apiCallsCount >= MAX_API_CALLS) break;
+            
+            try {
+                const enriched = await validateRouteWithGoogle(route);
+                // Update the route in place within the original structure
+                Object.assign(route, enriched);
+                apiCallsCount++;
+            } catch (err) {
+                console.error("Enrichment failed for a route:", err.message);
+            }
         }
-    }
+
+        // --- RANKING REFINEMENT (SAFE) ---
+        // Refine order using: priority 1 → INCREASING TOTAL DISTANCE, priority 2 → total duration, priority 3 → hops
+        const refinedSort = (arr) => {
+            return [...arr].sort((a, b) => {
+                const distA = a.live_distance || a.totalDistanceKm || Infinity;
+                const distB = b.live_distance || b.totalDistanceKm || Infinity;
+                if (Math.abs(distA - distB) > 0.1) return distA - distB;
+
+                const durA = a.live_duration || a.totalDurationMins || Infinity;
+                const durB = b.live_duration || b.totalDurationMins || Infinity;
+                if (durA !== durB) return durA - durB;
+
+                return (a.hops || 0) - (b.hops || 0);
+            });
+        };
+
+        // Apply refinement to all categories
+        Object.keys(categories).forEach(cat => {
+            if (categories[cat].all) {
+                categories[cat].all = refinedSort(categories[cat].all);
+            }
+        });
+    };
+
+    await enrichResults(finalResult);
 
     return finalResult;
 };

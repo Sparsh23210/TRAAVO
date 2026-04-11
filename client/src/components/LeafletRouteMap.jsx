@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { decodePolyline, getGoogleMapsUrl } from '../utils/mapUtils';
 
 // Fix for Leaflet default icon not showing
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -22,7 +23,8 @@ const MapBounds = ({ markers }) => {
     useEffect(() => {
         if (markers && markers.length > 0) {
             const bounds = L.latLngBounds(markers.map(m => [m.lat, m.lon]));
-            map.fitBounds(bounds, { padding: [50, 50] });
+            // Increase padding for mobile [top, right, bottom, left]
+            map.fitBounds(bounds, { padding: [80, 40, 120, 40] });
         }
     }, [markers, map]);
     return null;
@@ -54,24 +56,40 @@ const LeafletRouteMap = ({ fromLocation, toLocation, route }) => {
         markers.push({ lat: parseFloat(toLocation.lat), lon: parseFloat(toLocation.lon), name: "End: " + toLocation.name, type: 'end' });
     }
 
-    // 2. From Route Steps (Intermediate) - If available
+    // 2. From Google Polyline (Road Accurate) - PRIORITY
+    if (route && route.route_polyline) {
+        try {
+            const decodedPoints = decodePolyline(route.route_polyline);
+            if (decodedPoints && decodedPoints.length > 0) {
+                segments.push({
+                    positions: decodedPoints,
+                    mode: 'Live'
+                });
+            }
+        } catch (err) {
+            console.error("Failed to decode route polyline:", err);
+        }
+    }
+
+    // 3. From Route Steps (Intermediate) - Fallback/Markers
     if (route && route.steps) {
         route.steps.forEach((step, index) => {
             // Helper to get coords safely
             const getLat = (c) => c ? parseFloat(c.lat) : null;
-            const getLon = (c) => c ? parseFloat(c.lon || c.lng) : null; // Support both
+            const getLon = (c) => c ? parseFloat(c.lon || c.lng) : null; 
 
             const fromLat = getLat(step.fromCoords);
             const fromLon = getLon(step.fromCoords);
             const toLat = getLat(step.toCoords);
             const toLon = getLon(step.toCoords);
 
-            // Add Markers
+            // Add Markers (Keep pins even if we have polyline)
             if (fromLat && fromLon) {
                 markers.push({
                     lat: fromLat,
                     lon: fromLon,
-                    name: `${step.from} (${step.mode})`,
+                    name: step.from,
+                    mode: step.mode,
                     type: 'step_start'
                 });
             }
@@ -79,13 +97,14 @@ const LeafletRouteMap = ({ fromLocation, toLocation, route }) => {
                 markers.push({
                     lat: toLat,
                     lon: toLon,
-                    name: `${step.to} (${step.mode})`,
+                    name: step.to,
+                    mode: step.mode,
                     type: 'step_end'
                 });
             }
 
-            // Add Segment Line
-            if (fromLat && fromLon && toLat && toLon) {
+            // Only add segment line if we DON'T have a road-accurate polyline already
+            if (fromLat && fromLon && toLat && toLon && (!route.route_polyline)) {
                 segments.push({
                     positions: [[fromLat, fromLon], [toLat, toLon]],
                     color: getStepColor(step.mode),
@@ -127,15 +146,30 @@ const LeafletRouteMap = ({ fromLocation, toLocation, route }) => {
                 <Polyline
                     key={`line-${idx}`}
                     positions={seg.positions}
-                    pathOptions={{ color: seg.color, weight: 4, opacity: 0.8 }}
+                    pathOptions={{ color: seg.color || '#3b82f6', weight: 6, opacity: 0.9 }}
                 />
             ))}
 
             {/* Render Markers */}
             {uniqueMarkers.map((marker, idx) => (
                 <Marker key={`marker-${idx}`} position={[marker.lat, marker.lon]}>
-                    <Popup>
-                        <strong>{marker.name}</strong>
+                    <Popup autoPanPadding={[50, 50]}>
+                        <div style={{ minWidth: '140px', padding: '4px' }}>
+                            <div style={{ fontWeight: '800', marginBottom: '6px', fontSize: '0.95rem', color: '#1e293b' }}>{marker.name}</div>
+                            {marker.mode && (
+                                <div style={{ 
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    background: marker.mode === 'Bus' ? '#ef4444' : marker.mode === 'Train' ? '#3b82f6' : '#64748b',
+                                    color: '#fff', padding: '4px 8px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: '900',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                }}>
+                                    <span>{marker.mode === 'Bus' ? '🚌' : '🚆'}</span>
+                                    {marker.mode.toUpperCase()}
+                                </div>
+                            )}
+                        </div>
                     </Popup>
                 </Marker>
             ))}

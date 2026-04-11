@@ -5,6 +5,7 @@ import MobileRouteCard from '../components/MobileRouteCard';
 import LeafletRouteMap from '../components/LeafletRouteMap'; // New Component
 import { filterRoutesByHops, sortRoutes, groupRoutes, groupRoutesByVia } from '../utils/ResultUtils';
 import SubscriptionModal from '../components/SubscriptionModal';
+import { getGoogleMapsUrl } from '../utils/mapUtils';
 import { useAuth } from '../context/AuthContext';
 import MetaTags from '../components/MetaTags';
 
@@ -344,13 +345,6 @@ const Results = () => {
                 </div>
             </div>
 
-            <div className="results-dev-banner-container">
-                <div className="results-dev-banner">
-                    <span style={{ fontSize: '0.9rem' }}>⚠️</span>
-                    Distance and Map under development!!
-                </div>
-            </div>
-
             {isBackgroundLoading && (
                 <div className="background-search-indicator">
                     <div className="search-pulse-dot"></div>
@@ -399,11 +393,36 @@ const Results = () => {
                     backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 2000,
                     display: 'flex', flexDirection: 'column'
                 }}>
-                    <div style={{ background: '#fff', padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0' }}>
-                        <h3 style={{ margin: 0, fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span>🗺️</span> Route Map
+                    <div style={{ 
+                        background: '#fff', 
+                        padding: '0.75rem 1rem', 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'center', 
+                        borderBottom: '1px solid #e2e8f0',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                    }}>
+                        <h3 style={{ margin: 0, fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '800', color: '#1e293b' }}>
+                            <span style={{ fontSize: '1.4rem' }}>🗺️</span> Route
                         </h3>
-                        <button onClick={() => setIsMapOpen(false)} style={{ background: '#f1f5f9', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&times;</button>
+                        <button 
+                            onClick={() => setIsMapOpen(false)} 
+                            style={{ 
+                                background: '#f1f5f9', 
+                                border: 'none', 
+                                width: '40px', 
+                                height: '40px', 
+                                borderRadius: '50%', 
+                                cursor: 'pointer', 
+                                fontSize: '1.5rem', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center',
+                                color: '#475569'
+                            }}
+                        >
+                            &times;
+                        </button>
                     </div>
                     <div style={{ flex: 1, position: 'relative' }}>
                         <LeafletRouteMap
@@ -411,6 +430,42 @@ const Results = () => {
                             toLocation={{ ...toData, name: to }}
                             route={selectedMapRoute}
                         />
+
+                        {/* Google Maps Button Overlay/Footer */}
+                        <div style={{ 
+                            position: 'absolute', 
+                            bottom: '30px', 
+                            left: '50%', 
+                            transform: 'translateX(-50%)', 
+                            zIndex: 1000, 
+                            width: 'calc(100% - 40px)', 
+                            maxWidth: '320px' 
+                        }}>
+                            <a 
+                                href={getGoogleMapsUrl(selectedMapRoute)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center', 
+                                    gap: '12px',
+                                    background: '#2563eb', 
+                                    color: '#fff', 
+                                    padding: '16px', 
+                                    borderRadius: '16px',
+                                    fontWeight: '800', 
+                                    textDecoration: 'none', 
+                                    boxShadow: '0 8px 24px rgba(37, 99, 235, 0.3)',
+                                    border: 'none',
+                                    fontSize: '1rem',
+                                    transition: 'transform 0.2s active'
+                                }}
+                            >
+                                <span style={{ fontSize: '1.3rem' }}>📍</span>
+                                View in Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             )}
