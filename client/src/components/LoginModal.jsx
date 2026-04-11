@@ -69,8 +69,8 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="modal-content centered-card" onClick={e => e.stopPropagation()}>
                 <h2 className="modal-title">{mode === 'login' ? 'Welcome Back' : 'Join Traavo'}</h2>
                 <p className="subtext">
-                    {mode === 'login' 
-                        ? 'Sign in to access your routes' 
+                    {mode === 'login'
+                        ? 'Sign in to access your routes'
                         : 'Create an account to start exploring'}
                 </p>
 
@@ -79,22 +79,22 @@ const LoginModal = ({ isOpen, onClose, onSuccess }) => {
                 <form className="auth-form" onSubmit={handleEmailAuth}>
                     <div className="input-group">
                         <label>Email Address</label>
-                        <input 
-                            type="email" 
-                            placeholder="name@company.com" 
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required 
+                            required
                         />
                     </div>
                     <div className="input-group">
                         <label>Password</label>
-                        <input 
-                            type="password" 
-                            placeholder="••••••••" 
+                        <input
+                            type="password"
+                            placeholder="Enter your Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required 
+                            required
                         />
                     </div>
                     <button type="submit" className="primary-btn" disabled={loading}>
