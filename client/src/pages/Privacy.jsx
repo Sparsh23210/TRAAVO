@@ -31,11 +31,12 @@ const Privacy = () => {
                     </p>
 
                     <h2>2. Data We Collect</h2>
-                    <p><strong>We do not collect, store, or track any personal data tied to your searches.</strong> When you use Traavo to find emergency travel routes, we only process anonymized operational data:</p>
+                    <p>To provide a personalized and secure experience, we collect certain information when you interact with Traavo:</p>
                     <ul>
-                        <li><strong>Search Data:</strong> Travel origin, destination, and preferred dates are processed temporarily to generate accurate routes, but are never stored or linked to your identity.</li>
-                        <li><strong>Technical Data:</strong> Basic internet protocol (IP) address, browser type and version, and operating system for platform monitoring.</li>
-                        <li><strong>Usage Data:</strong> Anonymous information about how you interact with our application to help us improve our routing algorithms.</li>
+                        <li><strong>Account Information:</strong> When you sign in via Google or Email/Password, we collect your name, email address, and profile picture to manage your credits and preferences.</li>
+                        <li><strong>Payment Information:</strong> For credit purchases, payment processing is handled securely by Razorpay. We do not store your full card numbers or banking passwords on our servers.</li>
+                        <li><strong>Search Data:</strong> Travel origin, destination, and dates are processed to generate routes. This data is linked to your account to allow features like "Saved Routes."</li>
+                        <li><strong>Technical Data:</strong> We collect IP addresses and browser metadata to maintain platform security and monitor for unauthorized access.</li>
                     </ul>
 
                     <h2>3. How We Use Your Data</h2>
@@ -48,8 +49,13 @@ const Privacy = () => {
 
                     <h2>4. Data Sharing and Third Parties</h2>
                     <p>
-                        We do not sell your personal data to third parties. However, in order to provide comprehensive travel alternatives (like connecting buses or nearby trains), we may share anonymized search queries with our transit data partners.
+                        We do not sell your personal data. We share information only with trusted service providers essential to our operations:
                     </p>
+                    <ul>
+                        <li><strong>Firebase (Google Console):</strong> For secure authentication and cloud data storage of your account details and credits.</li>
+                        <li><strong>Razorpay:</strong> To process payments for search credits and premium features.</li>
+                        <li><strong>Transit Partners:</strong> Anonymized search queries may be shared with transit data providers to fetch accurate schedules.</li>
+                    </ul>
 
                     <h2>5. Data Security</h2>
                     <p>

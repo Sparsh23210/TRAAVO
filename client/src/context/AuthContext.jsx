@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
                         // First login: Create document with STRICT schema
                         await setDoc(userRef, {
                             uid: user.uid,
-                            name: user.displayName || 'User',
+                            name: user.displayName || user.email.split('@')[0],
                             email: user.email,
                             photoURL: user.photoURL,
                             plan: "free",
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
                                 canSave: false,
                                 canShare: false
                             },
-                            provider: 'google',
+                            provider: user.providerData?.[0]?.providerId || 'email',
                             createdAt: serverTimestamp(),
                             lastLoginAt: serverTimestamp(),
                         });

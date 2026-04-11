@@ -32,8 +32,14 @@ const Terms = () => {
 
                     <h2>2. Description of Service</h2>
                     <p>
-                        Traavo is an informational utility that provides alternative transit routes, emergency travel suggestions, and smart pathfinding techniques. We do NOT sell tickets directly on the platform, and all route availability or pricing indicated is subject to third-party operators.
+                        Traavo is an AI-powered travel intelligence platform that provides fallback transit routes and optimized pathfinding. We offer:
                     </p>
+                    <ul>
+                        <li>Route discovery using BFS-based algorithms.</li>
+                        <li>Live distance and duration enrichment via Google Maps.</li>
+                        <li>Account-based credit management for unlocking advanced search results.</li>
+                    </ul>
+                    <p>We do NOT sell tickets. All bookings must be completed via official transit operators (e.g., IRCTC, UPSRTC).</p>
 
                     <h2>3. Informational Purposes Only</h2>
                     <p>
