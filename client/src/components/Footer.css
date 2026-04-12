@@ -171,9 +171,15 @@
     display: inline-block;
 }
 
-.footer-link-column a:hover {
+@media (hover: hover) {
+    .footer-link-column a:hover {
+        color: #22c55e;
+        transform: translateX(4px);
+    }
+}
+
+.footer-link-column a:active {
     color: #22c55e;
-    transform: translateX(4px);
 }
 
 .footer-bottom {
