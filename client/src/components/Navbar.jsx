@@ -77,7 +77,7 @@ export const MobileTopNavbar = ({
         <nav className="mobile-top-navbar">
             <div className="navbar-container mobile-top-container">
                 <Link to="/" className="brand-logo mobile-logo">
-                    <img src={logoImage} alt="Traavo" style={{ height: '80px' }} />
+                    <img src={logoImage} alt="Traavo" className="mobile-logo-img" />
                 </Link>
 
                 {currentUser && (
