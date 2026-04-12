@@ -46,7 +46,7 @@
     position: relative;
     z-index: 10;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
-                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 article section {
@@ -108,7 +108,7 @@ article img {
     scrollbar-color: rgba(74, 222, 128, 0.2) transparent;
 }
 
-.seo-data-table th, 
+.seo-data-table th,
 .seo-data-table td {
     padding: 20px;
     text-align: left;
@@ -182,18 +182,19 @@ article img {
     border-color: rgba(59, 130, 246, 0.5);
     background: rgba(15, 23, 42, 0.8);
     box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(59, 130, 246, 0.1);
+        0 0 20px rgba(59, 130, 246, 0.1);
 }
 
 .stat-value {
     display: block;
     font-size: clamp(1.5rem, 5vw, 2.25rem);
     font-weight: 800;
-    color: #3b82f6; /* Neon Blue */
+    color: #3b82f6;
+    /* Neon Blue */
     margin-bottom: 12px;
     line-height: 1.1;
     text-shadow: 0 0 20px rgba(59, 130, 246, 0.6),
-                 0 0 40px rgba(59, 130, 246, 0.2);
+        0 0 40px rgba(59, 130, 246, 0.2);
     letter-spacing: -0.02em;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -338,6 +339,12 @@ article img {
 }
 
 @media (max-width: 768px) {
+    .related-links-grid li a:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
     .seo-page-container {
         padding: 90px 15px 60px;
     }
@@ -377,7 +384,7 @@ article img {
         margin-bottom: 20px;
     }
 
-    .seo-data-table th, 
+    .seo-data-table th,
     .seo-data-table td {
         padding: 12px 10px;
         font-size: 0.85rem;
@@ -562,6 +569,7 @@ article img {
         font-size: 0.9rem;
         padding: 14px 16px;
     }
+
     .collapsible-inner {
         padding: 16px;
     }

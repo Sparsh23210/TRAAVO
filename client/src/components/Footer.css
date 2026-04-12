@@ -43,7 +43,7 @@
         text-align: center;
         margin-bottom: 2rem;
     }
-    
+
     .footer-logo-img {
         height: 60px;
         margin: 0 auto;
@@ -114,7 +114,7 @@
     .footer-social-section {
         align-items: center;
     }
-    
+
     .footer-social-links {
         justify-content: center;
     }
@@ -171,10 +171,14 @@
     display: inline-block;
 }
 
-@media (hover: hover) {
+.footer-link-column a:hover {
+    color: #22c55e;
+    transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
     .footer-link-column a:hover {
-        color: #22c55e;
-        transform: translateX(4px);
+        transform: none;
     }
 }
 
@@ -220,6 +224,7 @@
 /* Ensure fixed bottom navbar doesn't cover footer content on mobile */
 @media (max-width: 768px) {
     .site-footer {
-        padding-bottom: 6rem; /* Space for MobileBottomNavbar */
+        padding-bottom: 6rem;
+        /* Space for MobileBottomNavbar */
     }
 }
