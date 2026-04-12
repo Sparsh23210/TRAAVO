@@ -118,8 +118,8 @@ const About = () => {
 
                     {/* SEO & Extra Content Sections */}
                     {data && (
-                        <div style={{ marginTop: '2rem', marginBottom: '4rem' }}>
-                            <SEOContentSections data={data} />
+                        <div className="about-seo-sections">
+                            <SEOContentSections data={data} hideStats={true} />
                         </div>
                     )}
 

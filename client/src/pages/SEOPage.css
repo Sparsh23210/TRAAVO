@@ -364,3 +364,132 @@ article p {
         padding: 40px 20px;
     }
 }
+
+/* ── Inline Traavo FAQ list ─────────────────────────────── */
+.seo-faq-inline {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.seo-faq-inline li {
+    padding: 18px 20px;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(74, 222, 128, 0.15);
+    border-left: 4px solid #4ade80;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.seo-faq-inline li:hover {
+    background: rgba(74, 222, 128, 0.05);
+    border-left-color: #86efac;
+}
+
+.seo-faq-inline li strong {
+    display: block;
+    color: #f0fdf4;
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+@media (max-width: 768px) {
+    .seo-faq-inline li {
+        font-size: 0.88rem;
+        padding: 14px 16px;
+    }
+}
+
+/* ── Collapsible Component Base Styles (SEOContentSections) ── */
+.collapsible-wrapper {
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.collapsible-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    color: #e2e8f0;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
+
+.collapsible-trigger:hover {
+    background: rgba(59, 130, 246, 0.12);
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+.collapsible-wrapper.is-open .collapsible-trigger {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(96, 165, 250, 0.25);
+    border-radius: 14px 14px 0 0;
+    color: #93c5fd;
+}
+
+.collapsible-trigger .arrow {
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #60a5fa;
+    font-weight: 300;
+    flex-shrink: 0;
+    margin-left: 12px;
+    transition: transform 0.2s ease;
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    background: rgba(2, 6, 23, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+}
+
+.collapsible-wrapper.is-open .collapsible-content {
+    max-height: 9999px;
+}
+
+.collapsible-inner {
+    padding: 24px 24px 28px;
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+/* SEO content sections wrapper */
+.seo-content-sections {
+    margin-top: 0.5rem;
+}
+
+.main-content-collapsible {
+    margin-bottom: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .collapsible-trigger {
+        font-size: 0.9rem;
+        padding: 14px 16px;
+    }
+    .collapsible-inner {
+        padding: 16px;
+    }
+}

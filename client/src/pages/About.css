@@ -389,3 +389,108 @@
         font-size: 2.5rem;
     }
 }
+
+/* ── Light-mode overrides for embedded SEO content ─────── */
+.about-seo-sections {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Collapsible trigger button */
+.about-seo-sections .collapsible-trigger {
+    background: #f1f5f9;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.about-seo-sections .collapsible-trigger:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+}
+
+.about-seo-sections .collapsible-wrapper.is-open .collapsible-trigger {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+    border-radius: 14px 14px 0 0;
+}
+
+/* Collapsible inner content area */
+.about-seo-sections .collapsible-content {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+}
+
+.about-seo-sections .collapsible-inner {
+    color: #334155;
+}
+
+/* Headings inside the content */
+.about-seo-sections article h2 {
+    color: #0f172a;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin-top: 1.75rem;
+}
+
+.about-seo-sections article p {
+    color: #475569;
+    line-height: 1.75;
+}
+
+/* FAQ section heading */
+.about-seo-sections .seo-faq-section {
+    background: transparent;
+}
+
+/* FAQ items */
+.about-seo-sections .faq-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.about-seo-sections .faq-item h3 {
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.about-seo-sections .faq-item p {
+    color: #475569;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Inline Traavo FAQ list override */
+.about-seo-sections .seo-faq-inline li {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #22c55e;
+    color: #334155;
+}
+
+.about-seo-sections .seo-faq-inline li:hover {
+    background: #f0fdf4;
+    border-left-color: #16a34a;
+}
+
+.about-seo-sections .seo-faq-inline li strong {
+    color: #0f172a;
+}
+
+@media (max-width: 768px) {
+    .about-seo-sections .collapsible-trigger {
+        font-size: 0.9rem;
+    }
+}
