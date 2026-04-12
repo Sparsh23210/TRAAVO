@@ -301,9 +301,11 @@ article img {
     box-shadow: 0 10px 20px rgba(34, 197, 94, 0.2);
 }
 
-.search-now-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(34, 197, 94, 0.4);
+@media (hover: hover) {
+    .search-now-btn:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(34, 197, 94, 0.4);
+    }
 }
 
 .seo-internal-links {
@@ -332,15 +334,11 @@ article img {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.related-links-grid li a:hover {
-    background: rgba(96, 165, 250, 0.1);
-    border-color: rgba(96, 165, 250, 0.3);
-    transform: translateX(4px);
-}
-
-@media (max-width: 768px) {
+@media (hover: hover) {
     .related-links-grid li a:hover {
-        transform: none;
+        background: rgba(96, 165, 250, 0.1);
+        border-color: rgba(96, 165, 250, 0.3);
+        transform: translateX(4px);
     }
 }
 
@@ -512,9 +510,11 @@ article img {
     letter-spacing: -0.01em;
 }
 
-.collapsible-trigger:hover {
-    background: rgba(59, 130, 246, 0.12);
-    border-color: rgba(96, 165, 250, 0.3);
+@media (hover: hover) {
+    .collapsible-trigger:hover {
+        background: rgba(59, 130, 246, 0.12);
+        border-color: rgba(96, 165, 250, 0.3);
+    }
 }
 
 .collapsible-wrapper.is-open .collapsible-trigger {

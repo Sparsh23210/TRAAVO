@@ -171,14 +171,10 @@
     display: inline-block;
 }
 
-.footer-link-column a:hover {
-    color: #22c55e;
-    transform: translateX(4px);
-}
-
-@media (max-width: 768px) {
+@media (hover: hover) {
     .footer-link-column a:hover {
-        transform: none;
+        color: #22c55e;
+        transform: translateX(4px);
     }
 }
 
