@@ -41,7 +41,7 @@ const About = () => {
                         <div className="about-section-header">
                             <h2>The Problem</h2>
                             <p className="about-section-intro">
-                                In urgent situations, travel becomes stressful and uncertain. Train tickets are often unavailable, flights are expensive, and popular routes get overcrowded—especially during festivals, holidays, or medical emergencies.
+                                In urgent situations, travel becomes stressful and uncertain. Train tickets are often unavailable, flights (future scope) are expensive, and popular routes get overcrowded—especially during festivals, holidays, or medical emergencies.
                             </p>
                         </div>
 
@@ -81,7 +81,7 @@ const About = () => {
                             <div className="feature-card">
                                 <div className="feature-icon-box color-blue">🛰️</div>
                                 <h3>Discover Alternatives</h3>
-                                <p>Find practical, robust path combinations intelligently connecting trains, buses, and flights when direct tickets are hopelessly Waitlisted.</p>
+                                <p>Find practical, robust path combinations intelligently connecting trains, buses, and flights (future scope) when direct tickets are hopelessly Waitlisted.</p>
                             </div>
                             <div className="feature-card">
                                 <div className="feature-icon-box color-green">📍</div>
