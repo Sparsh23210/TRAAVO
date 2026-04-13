@@ -45,7 +45,7 @@ const BackgroundAnimation = ({ dark = false }) => {
 
         const initPoints = () => {
             particles = [];
-            const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000); // Responsive count
+            const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000); // Restored original density
             for (let i = 0; i < numberOfParticles; i++) {
                 particles.push(new Particle());
             }
@@ -59,7 +59,7 @@ const BackgroundAnimation = ({ dark = false }) => {
                 particles[i].draw();
 
                 // Draw connections
-                for (let j = i; j < particles.length; j++) {
+                for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);

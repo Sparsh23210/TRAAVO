@@ -40,6 +40,7 @@
     margin: 0 auto;
     background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 40px;
     padding: clamp(30px, 5vw, 80px);
@@ -364,6 +365,10 @@ article img {
     .seo-content-card {
         padding: 24px 16px;
         border-radius: 20px;
+        background: rgba(15, 23, 42, 0.7); /* Improved transparency on mobile */
+        backdrop-filter: blur(16px); /* Restored blur with optimized value */
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
     }
 
     article section {

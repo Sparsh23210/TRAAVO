@@ -15,10 +15,8 @@ const SEOPage = ({ slug }) => {
         content: <p>Our guide is being updated with the latest transit secrets. Stay tuned!</p>
     };
 
-    // Scroll to top on slug change
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [slug]);
+    // No longer needed here as App.jsx has ScrollToTop component
+
 
     // Generate Dynamic Related Links (Pick 6 other slugs)
     const allSlugs = Object.keys(SEO_CONTENT);
