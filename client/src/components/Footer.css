@@ -98,16 +98,18 @@
     border-radius: 50%;
 }
 
-.social-link:hover {
-    color: #22c55e;
-}
+@media (hover: hover) {
+    .social-link:hover {
+        color: #22c55e;
+    }
 
-.social-link.instagram:hover {
-    color: #e1306c;
-}
+    .social-link.instagram:hover {
+        color: #e1306c;
+    }
 
-.social-link.facebook:hover {
-    color: #1877f2;
+    .social-link.facebook:hover {
+        color: #1877f2;
+    }
 }
 
 @media (max-width: 768px) {
@@ -213,8 +215,10 @@
     transition: color 0.2s;
 }
 
-.footer-bottom-links a:hover {
-    color: #94a3b8;
+@media (hover: hover) {
+    .footer-bottom-links a:hover {
+        color: #94a3b8;
+    }
 }
 
 /* Ensure fixed bottom navbar doesn't cover footer content on mobile */

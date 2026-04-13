@@ -49,9 +49,11 @@
     border-radius: 8px;
 }
 
-.nav-link:hover {
-    color: #0f172a;
-    background: #f1f5f9;
+@media (hover: hover) {
+    .nav-link:hover {
+        color: #0f172a;
+        background: #f1f5f9;
+    }
 }
 
 /* User Profile Trigger */
@@ -138,8 +140,10 @@
     transition: background 0.2s ease;
 }
 
-.profile-trigger:hover {
-    background: rgba(0, 0, 0, 0.03);
+@media (hover: hover) {
+    .profile-trigger:hover {
+        background: rgba(0, 0, 0, 0.03);
+    }
 }
 
 .profile-avatar {
@@ -310,11 +314,13 @@
     border: 1px solid #f1f5f9;
 }
 
-.about-link-btn:hover {
-    background: #eff6ff;
-    color: #2563eb;
-    border-color: #dbeafe;
-    transform: translateX(4px);
+@media (hover: hover) {
+    .about-link-btn:hover {
+        background: #eff6ff;
+        color: #2563eb;
+        border-color: #dbeafe;
+        transform: translateX(4px);
+    }
 }
 
 .arrow-right {

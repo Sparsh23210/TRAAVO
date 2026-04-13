@@ -110,11 +110,13 @@ select {
   gap: 0.5rem;
 }
 
-.tab-btn:hover {
-  border-color: var(--secondary);
-  color: var(--secondary);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+@media (hover: hover) {
+  .tab-btn:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .tab-btn.active {
@@ -175,8 +177,10 @@ select {
   transition: transform 0.2s;
 }
 
-.best-routes-row>.card:hover {
-  transform: scale(1.02);
+@media (hover: hover) {
+  .best-routes-row>.card:hover {
+    transform: scale(1.02);
+  }
 }
 
 .all-routes-list {
@@ -201,8 +205,10 @@ select {
   transition: all 0.3s ease;
 }
 
-.card:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+@media (hover: hover) {
+  .card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  }
 }
 
 

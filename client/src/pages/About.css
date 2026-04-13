@@ -172,10 +172,12 @@
     z-index: 1;
 }
 
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.1);
-    border-color: #bfdbfe;
+@media (hover: hover) {
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.1);
+        border-color: #bfdbfe;
+    }
 }
 
 .feature-icon-box {
@@ -190,8 +192,10 @@
     transition: transform 0.3s ease;
 }
 
-.feature-card:hover .feature-icon-box {
-    transform: scale(1.1) rotate(5deg);
+@media (hover: hover) {
+    .feature-card:hover .feature-icon-box {
+        transform: scale(1.1) rotate(5deg);
+    }
 }
 
 .color-red { background: #fee2e2; color: #ef4444; }
@@ -406,9 +410,11 @@
     font-size: 1rem;
 }
 
-.about-seo-sections .collapsible-trigger:hover {
-    background: #e2e8f0;
-    border-color: #cbd5e1;
+@media (hover: hover) {
+    .about-seo-sections .collapsible-trigger:hover {
+        background: #e2e8f0;
+        border-color: #cbd5e1;
+    }
 }
 
 .about-seo-sections .collapsible-wrapper.is-open .collapsible-trigger {
@@ -480,9 +486,11 @@
     color: #334155;
 }
 
-.about-seo-sections .seo-faq-inline li:hover {
-    background: #f0fdf4;
-    border-left-color: #16a34a;
+@media (hover: hover) {
+    .about-seo-sections .seo-faq-inline li:hover {
+        background: #f0fdf4;
+        border-left-color: #16a34a;
+    }
 }
 
 .about-seo-sections .seo-faq-inline li strong {

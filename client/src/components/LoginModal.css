@@ -93,8 +93,10 @@
     transition: background 0.2s, transform 0.1s;
 }
 
-.primary-btn:hover {
-    background: #1d4ed8;
+@media (hover: hover) {
+    .primary-btn:hover {
+        background: #1d4ed8;
+    }
 }
 
 .primary-btn:active {
@@ -141,9 +143,11 @@
     transition: background 0.2s, box-shadow 0.2s;
 }
 
-.google-btn:hover {
-    background: #f7f8f8;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+@media (hover: hover) {
+    .google-btn:hover {
+        background: #f7f8f8;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
 }
 
 .toggle-text {
@@ -159,8 +163,10 @@
     text-decoration: underline;
 }
 
-.toggle-text span:hover {
-    color: #1d4ed8;
+@media (hover: hover) {
+    .toggle-text span:hover {
+        color: #1d4ed8;
+    }
 }
 
 /* Success Animation Reused just in case, though handled by modal close mostly */

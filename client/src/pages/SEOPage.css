@@ -177,12 +177,14 @@ article img {
     box-shadow: 0 0 20px rgba(74, 222, 128, 0.05);
 }
 
-.stat-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: rgba(59, 130, 246, 0.5);
-    background: rgba(15, 23, 42, 0.8);
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(59, 130, 246, 0.1);
+@media (hover: hover) {
+    .stat-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(59, 130, 246, 0.5);
+        background: rgba(15, 23, 42, 0.8);
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(59, 130, 246, 0.1);
+    }
 }
 
 .stat-value {
@@ -230,9 +232,11 @@ article img {
     transition: all 0.3s ease;
 }
 
-.practical-item:hover {
-    background: rgba(30, 41, 59, 0.5);
-    transform: scale(1.02);
+@media (hover: hover) {
+    .practical-item:hover {
+        background: rgba(30, 41, 59, 0.5);
+        transform: scale(1.02);
+    }
 }
 
 .practical-item h3 {
@@ -465,9 +469,11 @@ article img {
     transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.seo-faq-inline li:hover {
-    background: rgba(74, 222, 128, 0.05);
-    border-left-color: #86efac;
+@media (hover: hover) {
+    .seo-faq-inline li:hover {
+        background: rgba(74, 222, 128, 0.05);
+        border-left-color: #86efac;
+    }
 }
 
 .seo-faq-inline li strong {
