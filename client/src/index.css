@@ -70,13 +70,19 @@ body {
 }
 
 /* Base Mobile Definitions */
+a,
+button,
+input[type="button"],
+input[type="submit"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
 input,
 button,
 select {
-  min-height: 44px;
-  /* Touch target size */
-  font-size: 16px;
-  /* Prevent iOS zoom */
+  min-height: 44px; /* Touch target size */
+  font-size: 16px; /* Prevent iOS zoom */
 }
 
 /* Premium Tab Navbar */

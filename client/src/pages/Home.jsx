@@ -188,7 +188,7 @@ const Home = () => {
                             </div>
 
                             <div className="filter-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1rem' }}>
-                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                <div className="form-group" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                                     <label>Day</label>
                                     <select value={day} onChange={e => setDay(e.target.value)}>
                                         <option value="ALL">All Days</option>
@@ -201,7 +201,7 @@ const Home = () => {
                                         <option value="SUN">Sunday</option>
                                     </select>
                                 </div>
-                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                <div className="form-group" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                                     <label>Departure Time</label>
                                     <select value={time} onChange={e => setTime(e.target.value)}>
                                         <option value="All Time">All Time</option>
@@ -215,7 +215,7 @@ const Home = () => {
                                         })}
                                     </select>
                                 </div>
-                                <div className="form-group" style={{ marginBottom: 0 }}>
+                                <div className="form-group" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                                     <label>Max Hops</label>
                                     <select value={maxHops} onChange={e => {
                                         const val = Number(e.target.value);

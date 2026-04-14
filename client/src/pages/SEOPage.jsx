@@ -15,10 +15,10 @@ const SEOPage = ({ slug }) => {
         content: <p>Our guide is being updated with the latest transit secrets. Stay tuned!</p>
     };
 
-    // No longer needed here as App.jsx has ScrollToTop component
 
 
-    // Generate Dynamic Related Links (Pick 6 other slugs)
+
+
     const allSlugs = Object.keys(SEO_CONTENT);
     const relatedSlugs = allSlugs
         .filter(s => s !== slug && !['home', 'about', 'contact', 'explore', 'bus-routes', 'train-routes'].includes(s))
@@ -26,7 +26,7 @@ const SEOPage = ({ slug }) => {
 
     return (
         <div className="seo-page-container">
-            <MetaTags 
+            <MetaTags
                 title={data.title}
                 description={data.description}
                 canonical={`/${slug}`}
@@ -41,7 +41,7 @@ const SEOPage = ({ slug }) => {
             <div className="seo-content-card">
                 <article>
                     {data.content}
-                    
+
                     {data.statistics && (
                         <section className="seo-stats-section">
                             <h2>Key Transit Statistics</h2>
@@ -93,7 +93,7 @@ const SEOPage = ({ slug }) => {
                     <button onClick={() => navigate('/')} className="search-now-btn">
                         Go to Home & Search 🔎
                     </button>
-                    
+
                     {relatedSlugs.length > 0 && (
                         <div className="seo-internal-links">
                             <h3>Continue Your Journey: Related Guides</h3>
