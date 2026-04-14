@@ -98,7 +98,7 @@
     border-radius: 50%;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .social-link:hover {
         color: #22c55e;
     }
@@ -173,7 +173,7 @@
     display: inline-block;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .footer-link-column a:hover {
         color: #22c55e;
         transform: translateX(4px);
@@ -215,7 +215,7 @@
     transition: color 0.2s;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .footer-bottom-links a:hover {
         color: #94a3b8;
     }

@@ -110,7 +110,7 @@ select {
   gap: 0.5rem;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .tab-btn:hover {
     border-color: var(--secondary);
     color: var(--secondary);
@@ -177,7 +177,7 @@ select {
   transition: transform 0.2s;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .best-routes-row>.card:hover {
     transform: scale(1.02);
   }
@@ -205,7 +205,7 @@ select {
   transition: all 0.3s ease;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .card:hover {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
   }

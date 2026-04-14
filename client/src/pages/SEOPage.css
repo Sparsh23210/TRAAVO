@@ -178,7 +178,7 @@ article img {
     box-shadow: 0 0 20px rgba(74, 222, 128, 0.05);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .stat-card:hover {
         transform: translateY(-8px) scale(1.02);
         border-color: rgba(59, 130, 246, 0.5);
@@ -233,7 +233,7 @@ article img {
     transition: all 0.3s ease;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .practical-item:hover {
         background: rgba(30, 41, 59, 0.5);
         transform: scale(1.02);
@@ -306,7 +306,7 @@ article img {
     box-shadow: 0 10px 20px rgba(34, 197, 94, 0.2);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .search-now-btn:hover {
         transform: translateY(-4px) scale(1.05);
         box-shadow: 0 20px 40px rgba(34, 197, 94, 0.4);
@@ -339,7 +339,7 @@ article img {
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .related-links-grid li a:hover {
         background: rgba(96, 165, 250, 0.1);
         border-color: rgba(96, 165, 250, 0.3);
@@ -474,7 +474,7 @@ article img {
     transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seo-faq-inline li:hover {
         background: rgba(74, 222, 128, 0.05);
         border-left-color: #86efac;
@@ -521,7 +521,7 @@ article img {
     letter-spacing: -0.01em;
 }
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .collapsible-trigger:hover {
         background: rgba(59, 130, 246, 0.12);
         border-color: rgba(96, 165, 250, 0.3);

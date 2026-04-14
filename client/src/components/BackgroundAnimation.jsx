@@ -96,6 +96,7 @@ const BackgroundAnimation = ({ dark = false }) => {
                 top: 0,
                 left: 0,
                 zIndex: 0, // Behind content
+                pointerEvents: 'none', // Crucial for mobile clicks!
                 background: dark 
                     ? 'radial-gradient(circle at top left, #1e1b4b, #0f172a 50%, #1e1b4b)'
                     : 'linear-gradient(to bottom right, #f8fafc, #e2e8f0)',
