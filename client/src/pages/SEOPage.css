@@ -365,10 +365,11 @@ article img {
     .seo-content-card {
         padding: 24px 16px;
         border-radius: 20px;
-        background: rgba(15, 23, 42, 0.7); /* Improved transparency on mobile */
-        backdrop-filter: blur(16px); /* Restored blur with optimized value */
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        background: rgba(15, 23, 42, 0.95); /* Improved solid background for mobile */
+        backdrop-filter: none; /* Disabled heavy blur on mobile */
+        -webkit-backdrop-filter: none;
+        box-shadow: none; /* Disabled heavy shadow on mobile */
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     article section {

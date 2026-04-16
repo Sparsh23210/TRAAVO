@@ -5,17 +5,11 @@ const BackgroundAnimation = ({ dark = false }) => {
 
     useEffect(() => {
         const canvas = canvasRef.current;
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
         let particles = [];
-
-        const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        let isRunning = true;
 
         class Particle {
             constructor() {
@@ -52,6 +46,9 @@ const BackgroundAnimation = ({ dark = false }) => {
         };
 
         const animate = () => {
+            if (!isRunning) return;
+            if (window.innerWidth < 768) return; // Prevent animation loop on mobile
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < particles.length; i++) {
@@ -79,12 +76,33 @@ const BackgroundAnimation = ({ dark = false }) => {
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        initPoints();
-        animate();
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            if (window.innerWidth < 768) {
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            } else {
+                if (!animationFrameId && isRunning) {
+                    initPoints();
+                    animate();
+                }
+            }
+        };
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
         return () => {
+            isRunning = false;
             window.removeEventListener('resize', resizeCanvas);
-            cancelAnimationFrame(animationFrameId);
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
         };
     }, [dark]);
 
