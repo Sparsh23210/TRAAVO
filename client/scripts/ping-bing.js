@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const HOST = 'traavo.site';
-const KEY = 'bc34d8a571e04130a113a7c617b070ba';
+const KEY = '';
 
 async function submitToIndexNow() {
     console.log(`Starting IndexNow submission for ${HOST}...`);
