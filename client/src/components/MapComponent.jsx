@@ -16,7 +16,7 @@ const center = {
 const MapComponent = ({ steps, mode }) => {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY || "AIzaSyApvMBTVVkFgXtFUFcZ9Qr3zJyeHO4l7bA" // Fallback or Env
+        googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY // Fallback or Env
     });
 
     const [directions, setDirections] = useState(null);
